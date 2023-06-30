@@ -1,45 +1,52 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
-import state from "./redux/state";
-/*import Footer from "./Footer";
-import Header from "./Header";
-import Technologies from "./Technologies";*/
 
 const App = () => {
-  let message = state.profilePage.posts[0].message;
-  let message2 = state.profilePage.posts[1].message;
   return (
-    <BrowserRouter>
-      {/*<div>
-        <Header />
-        <Technologies />
-        <Footer />
-  </div>*/}
-      <div>
-        <Route
-          path={"/hello"}
-          render={() => <HelloMessage message={message} />}
+    <div className={"app-wrapper"}>
+      {/*Которая обернет всю страничку*/}
+      <header className="header">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1224px-NASA_logo.svg.png"
+          alt="icon"
         />
-        <Route
-          path={"/bye"}
-          render={() => <ByeMessage message={message2} />}
-        />
+      </header>
+      <nav className={"nav"}>
+        <div>
+          <a>Profile</a>
+        </div>
+        <div>
+          <a>Messages</a>
+        </div>
+        <div>
+          <a>News</a>
+        </div>
+        <div>
+          <a>Music</a>
+        </div>
+        <div>
+          <a>Settings</a>
+        </div>
+      </nav>
+      <div className={"content"}>
+        <div>
+          <img
+            src="https://img.gazeta.ru/files3/295/12960295/nasa-pic905-895x505-1317.jpg"
+            alt="Nasa"
+          />
+        </div>
+        <div>ava + description</div>
+        <div>
+          My posts
+          <div>New post</div>
+        </div>
+        <div>
+          <div>post 1</div>
+          <div>post 2</div>
+        </div>
       </div>
-    </BrowserRouter>
+    </div>
   );
-};
-
-type MessageType = {
-  message: string;
-};
-
-function HelloMessage(props: MessageType) {
-  return <h1>{props.message}</h1>;
-}
-
-const ByeMessage: React.FC<MessageType> = (props) => {
-  return <h1>{props.message}</h1>;
 };
 
 export default App;

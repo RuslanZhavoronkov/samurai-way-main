@@ -1,3 +1,30 @@
-ul li {
-  list-style-type: georgian;
+.app-wrapper {
+  margin: 0 auto;
+  display: grid; /*Значит все, что сюда вложено будет вести себя как grid элемент*/
+  width: 1200px;
+  grid-template-areas:  /*указываем по какому шаблону выстроены*/
+    "h h" /*двестроки*/
+    "n c"; /*двеколонки*/
+  grid-template-rows: 60px 1fr; /*2-е строки: 60px(по высоте) и 1 фракция*/
+  grid-template-columns: 2fr 10fr; /*2-е строки: 2 фракции и 10 фракций*/
+  /*grid-gap: 10px; расстояние между элементами*/
+}
+
+.header {
+  grid-area: h; /*Псевдоним. Ты будешь называться как h. Для того, чтобы врапперу сказать как спозиционировать вложенные элементы*/
+  background-color: darkgreen;
+}
+
+.header img {
+  width: 40px;
+}
+
+.nav {
+  grid-area: n;
+  background-color: burlywood;
+}
+
+.content {
+  grid-area: c;
+  background-color: cornflowerblue;
 }
