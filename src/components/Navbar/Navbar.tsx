@@ -8,6 +8,8 @@ export const Navbar = () => {
         <a>Profile</a>
       </div>
       <div className={`${s.item} ${s.active}`}>
+        {" "}
+        {/*Применены два класса*/}
         <a>Messages</a>
       </div>
       <div className={s.item}>
