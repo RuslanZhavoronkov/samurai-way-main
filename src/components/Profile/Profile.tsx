@@ -5,7 +5,7 @@ import s from "./Profile.module.css";
 
 export const Profile = () => {
   return (
-    <div className={s.content}>
+    <div>
       <div>
         <img
           src="https://img.gazeta.ru/files3/295/12960295/nasa-pic905-895x505-1317.jpg"
