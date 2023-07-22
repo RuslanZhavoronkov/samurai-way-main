@@ -3,10 +3,10 @@
   background-color: rgb(135, 222, 210);
 }
 
-.item {
+.item a {
   color: white;
 }
 
-.item.active {
+.item a.active {
   color:gold;
 }
