@@ -13,7 +13,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className={"app-wrapper"}>
-        {/*Которая обернет всю страничку*/}
+        {/*Которая обернет страничку*/}
         <Header />
         <Navbar />
         <div className={"app-wrapper-content"}>
