@@ -11,7 +11,9 @@
  color: gold;   
 }
 
-.dialogsItems.dialog {}
+.dialogsItems.dialog {
+    
+}
 
 .messages {
     padding: 10px;
