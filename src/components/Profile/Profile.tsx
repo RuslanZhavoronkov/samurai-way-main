@@ -1,29 +1,22 @@
 import React from "react";
-import { MyPosts } from "./MyPosts/MyPosts";
-
-import s from "./ProfileInfo.module.css";
+import { MyPosts} from "./MyPosts/MyPosts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
+import { PropsPostType } from "../..";
+
+export type PropsProfileComponentsType = {
+  posts: PropsPostType[]
+}
 
 
-
-
-export const Profile = () => {
+export const Profile: React.FC<PropsProfileComponentsType> = (props) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts />
+      <MyPosts posts = {props.posts}/>
 
     </div>
   );
 };
 
 
-//-------------------------------------------------------------------------------------------------------------------
 
-{/* <div>
-        <img
-          src="https://img.gazeta.ru/files3/295/12960295/nasa-pic905-895x505-1317.jpg"
-          alt="Nasa"
-        />
-      </div>
-      <div>ava + description</div> */}
