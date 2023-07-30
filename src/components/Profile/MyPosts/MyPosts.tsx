@@ -12,11 +12,11 @@ type PostType = {
 
 export const MyPosts = () => {
 
-  const [postsData, setPostsData] = useState<PostType[]>([
+  const [posts, setPostsData] = useState<PostType[]>([
     { id: '1', message: 'Hi, how are you ?', likesCount: '12 '},
     { id: '2', message: 'It\s my first post', likesCount:' 11' },
   ])
-
+let postsElements = posts.map(el => <Post id={el.id} message={el.message} likesCount={el.likesCount} />)
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
@@ -25,8 +25,7 @@ export const MyPosts = () => {
         <div><button>Add post</button></div>
       </div>
       <div className={s.posts}>
-        <Post id={postsData[0].id} message={postsData[0].message} likesCount={postsData[0].likesCount} />
-        <Post id={postsData[1].id} message={postsData[1].message} likesCount={postsData[0].likesCount} />
+        {postsElements}
       </div>
     </div>
   );
