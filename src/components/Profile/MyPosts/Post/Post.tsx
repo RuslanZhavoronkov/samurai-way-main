@@ -13,7 +13,7 @@ export const Post = (props: PropsPostType) => {
     <div className={s.item}>
       <img
         src="https://avavatar.ru/images/full/30/pYJBXtXlNkcCZLDa.jpg"
-        alt=" venom "
+        alt="venom"
       />
       {props.message}
       <div>
