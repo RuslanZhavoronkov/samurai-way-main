@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import s from './../Dialogs.module.css'
 import { NavLink } from "react-router-dom";
-import { PropsDialogType } from "../../..";
+
+
+type PropsDialogItemType = {
+    id: string
+    name: string
+}
 
 
 
-
-
-export const DialogItem: React.FC<PropsDialogType> = (props) => {
+export const DialogItem: React.FC<PropsDialogItemType> = (props) => {
 
     return (
         <div className={`${s.dialog} ${s.active}`}>

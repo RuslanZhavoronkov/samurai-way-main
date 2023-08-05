@@ -2,18 +2,18 @@ import React from "react";
 import s from './Dialogs.module.css'
 import { DialogItem} from "./DialogItem/DialogItem";
 import { MessageItem} from "./MessageItem/MessageItem";
-import { PropsDialogType, PropsMessageItemType } from "../..";
+import { DialogType, DialogsPageType, MessageType } from "../../redux/state";
 
 
-type PropsDialogsComponentType = {
-    dialogs: PropsDialogType[],
-    messages: PropsMessageItemType[]
+
+type PropsDialogsType = {
+    state:  DialogsPageType
 }
 
-export const Dialogs:React.FC<PropsDialogsComponentType> = (props) => {
+export const Dialogs:React.FC<PropsDialogsType> = (props) => {
    
-    const dialogsElements = props.dialogs.map(el => <DialogItem id={el.id} name={el.name} />)
-    const messagesElements = props.messages.map(el => <MessageItem id={el.id} message={el.message} />)
+    const dialogsElements = props.state.dialogs.map(el => <DialogItem id={el.id} name={el.name} />)
+    const messagesElements = props.state.messages.map(el => <MessageItem id={el.id} message={el.message} />)
 
     return (
         // Две колонки значит две дивки

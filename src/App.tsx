@@ -8,36 +8,37 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { News } from "./components/News/News";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
-import { PropsDialogType, PropsMessageItemType, PropsPostType } from ".";
+import { StateType } from "./redux/state";
+
+
+
 
 
 
 export type PropsAppType = {
-  dialogs: PropsDialogType[],
-  messages: PropsMessageItemType[]
-  posts: PropsPostType[]
+  state: StateType
 }
 
 
 
 const App: React.FC<PropsAppType> = (props) => {
   return (
-    <BrowserRouter>
+    
       <div className={"app-wrapper"}>
         {/*Которая обернет страничку*/}
         <Header />
-        <Navbar />
+        <Navbar state = {props.state.sideBar}/>
         <div className={"app-wrapper-content"}>
           <Routes>
-            <Route path={'/dialogs/*'} element={<Dialogs dialogs={props.dialogs} messages={props.messages} />} />
-            <Route path={'/profile'} element={<Profile posts = {props.posts}/>} />
+            <Route path={'/dialogs/*'} element={<Dialogs state = {props.state.dialogsPage} />} />
+            <Route path={'/profile'} element={<Profile state = {props.state.profilePage} />} />
             <Route path={'/news'} element={<News />} />
             <Route path={'/music'} element={<Music />} />
             <Route path={'/settings'} element={<Settings />} />
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
+    
   )
 };
 

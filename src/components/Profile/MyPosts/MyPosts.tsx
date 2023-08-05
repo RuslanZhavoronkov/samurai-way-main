@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import s from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { PropsProfileComponentsType } from "../Profile";
+import { PostType } from "../../../redux/state";
 
 
+type PropsMyPostsType = {
+  posts: PostType[]
+}
 
-export const MyPosts: React.FC <PropsProfileComponentsType> = (props) => {
+export const MyPosts: React.FC <PropsMyPostsType> = (props) => {
 
 
   let postsElements = props.posts.map(el => <Post id={el.id} message={el.message} likesCount={el.likesCount} />)

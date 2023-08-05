@@ -1,0 +1,19 @@
+.item {
+    margin-top: 10px;
+    color:black;
+    display: inline-block;
+    text-align: center;
+    
+
+}
+
+.item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    margin: 5px
+}
+
+.name {
+    margin-right: 3px;
+}
