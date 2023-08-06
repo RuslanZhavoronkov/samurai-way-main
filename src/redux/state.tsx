@@ -1,6 +1,5 @@
 
 
-
 export type PostType = {
     id: string,
     message: string
@@ -17,13 +16,10 @@ export type MessageType = {
     message: string
 }
 
-
 export type FriendType = {
     id: string
     name: string
 }
-
-
 
 
 export type ProfilePageType = {
@@ -35,7 +31,6 @@ export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
 }
-
 
 
 export type sideBarType = {
@@ -52,7 +47,7 @@ export type StateType = {
 
 
 
-export const state: StateType = {
+export let state: StateType = {
 
     profilePage: {
         posts: [
@@ -89,4 +84,14 @@ export const state: StateType = {
             {id: '3', name:'Victor'}
         ]
     }
+}
+
+
+export const addPost = (postMessage: string) => {
+
+    console.log(postMessage);
+    const newPost = {id: '5', message: postMessage, likesCount: '0'}
+   // {...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
+
+    state.profilePage.posts.push(newPost)
 }

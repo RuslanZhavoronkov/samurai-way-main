@@ -6,6 +6,7 @@ import { PostType } from "../../../redux/state";
 
 type PropsMyPostsType = {
   posts: PostType[]
+  addPost:(postMessage: string) => void
 }
 
 export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
@@ -14,7 +15,7 @@ export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 
   const addPostButonHandler = () => {
     let text = newPostElement.current as HTMLTextAreaElement
-    alert (text.value)
+    props.addPost(text.value)
   }
 
   const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
