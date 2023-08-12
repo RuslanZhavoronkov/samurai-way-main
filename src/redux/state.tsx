@@ -1,4 +1,7 @@
-import { renderTree } from "../render"
+
+let renderTree = (value: StateType) => {
+    console.log('state changed');
+}
 
 
 export type PostType = {
@@ -80,11 +83,11 @@ export let state: StateType = {
 
     },
 
-    sideBar : {
+    sideBar: {
         friends: [
-            {id: '1', name: 'Dimych'}, 
-            {id: '2', name: 'Igor'},
-            {id: '3', name:'Victor'}
+            { id: '1', name: 'Dimych' },
+            { id: '2', name: 'Igor' },
+            { id: '3', name: 'Victor' }
         ]
     }
 }
@@ -92,9 +95,9 @@ export let state: StateType = {
 
 export const addPost = () => {
 
-   // console.log(postMessage);
-    const newPost: PostType = {id: '5', message:state.profilePage.newPostText, likesCount: '0'}
-   //{...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
+    // console.log(postMessage);
+    const newPost: PostType = { id: '5', message: state.profilePage.newPostText, likesCount: '0' }
+    //{...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
 
     state.profilePage.posts.push(newPost)
     state.profilePage.newPostText = ''
@@ -107,4 +110,8 @@ export const changeNewPostText = (newPostText: string) => {
     state.profilePage.newPostText = newPostText;
     renderTree(state);
     //{...state, profilePage:{...state.profilePage,  newPostText: newPostText}}
-} 
+}
+
+export const subscribe = (callBack: (value: StateType)=> void) => {
+    renderTree = callBack
+}
