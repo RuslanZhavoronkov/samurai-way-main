@@ -1,3 +1,4 @@
+import { renderTree } from "../render"
 
 
 export type PostType = {
@@ -90,8 +91,9 @@ export let state: StateType = {
 export const addPost = (postMessage: string) => {
 
     console.log(postMessage);
-    const newPost = {id: '5', message: postMessage, likesCount: '0'}
-   // {...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
+    const newPost: PostType = {id: '5', message:postMessage, likesCount: '0'}
+   //{...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
 
     state.profilePage.posts.push(newPost)
+    renderTree(state);
 }

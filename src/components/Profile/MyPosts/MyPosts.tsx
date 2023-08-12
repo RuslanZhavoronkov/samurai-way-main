@@ -11,14 +11,18 @@ type PropsMyPostsType = {
 
 export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 
-  let postsElements = props.posts.map(el => <Post id={el.id} message={el.message} likesCount={el.likesCount} />)
+  let postsElements = props.posts.map(el => < div key={el.id}><Post id={el.id} message={el.message} likesCount={el.likesCount} /></div>)
 
   const addPostButonHandler = () => {
-    let text = newPostElement.current as HTMLTextAreaElement
-    props.addPost(text.value)
+    //let text = newPostElement.current as HTMLTextAreaElement
+    if (newPostElement.current) {
+      props.addPost(newPostElement.current.value)
+    }
   }
 
-  const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
+ //const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
+ const newPostElement = React.createRef<HTMLTextAreaElement>()
+ 
 
   return (
     <div className={s.postsBlock}>
