@@ -25,6 +25,7 @@ export type FriendType = {
 
 export type ProfilePageType = {
     posts: PostType[],
+    newPostText: string
 
 }
 
@@ -54,7 +55,8 @@ export let state: StateType = {
         posts: [
             { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
             { id: '2', message: 'It\s my first post', likesCount: ' 11' },
-        ]
+        ],
+        newPostText: 'it-kamasutra.com'
 
     },
 
@@ -88,12 +90,21 @@ export let state: StateType = {
 }
 
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => {
 
-    console.log(postMessage);
-    const newPost: PostType = {id: '5', message:postMessage, likesCount: '0'}
+   // console.log(postMessage);
+    const newPost: PostType = {id: '5', message:state.profilePage.newPostText, likesCount: '0'}
    //{...state, profilePage: {...state.profilePage, post: [...state.profilePage.posts, newPost]}}
 
     state.profilePage.posts.push(newPost)
+    state.profilePage.newPostText = ''
     renderTree(state);
 }
+
+
+export const changeNewPostText = (newPostText: string) => {
+    console.log(newPostText)
+    state.profilePage.newPostText = newPostText;
+    renderTree(state);
+    //{...state, profilePage:{...state.profilePage,  newPostText: newPostText}}
+} 
