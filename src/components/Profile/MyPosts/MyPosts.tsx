@@ -17,6 +17,7 @@ export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
     //let text = newPostElement.current as HTMLTextAreaElement
     if (newPostElement.current) {
       props.addPost(newPostElement.current.value)
+      props.addPost(newPostElement.current.value = "")
     }
   }
 
