@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import { StateType, addPost, changeNewPostText, state, subscribe } from './redux/state';
+import { StateType, store} from './redux/state';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
@@ -8,12 +8,12 @@ import App from './App';
 const renderTree = (state: StateType) => {
   ReactDOM.render(
     <BrowserRouter>
-    <App  state={state} addPost = {addPost} changeNewPostText = {changeNewPostText}/>
+    <App  state={state} addPost = {store.addPost.bind(store)} changeNewPostText = {store.changeNewPostText.bind(store)}/>
     </BrowserRouter>,
   document.getElementById('root')
   );
 }
 
-renderTree(state)
+renderTree(store.getState())
 
-subscribe(renderTree);
+store.subscribe(renderTree);
