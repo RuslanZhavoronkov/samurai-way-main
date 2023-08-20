@@ -50,10 +50,12 @@ type storeType = {
     getState: () => StateType
     _callSubscriber: (value: StateType) => void
     addPost: () => void
-    changeNewPostText:(newPostText: string) => void
-    subscribe:(callBack: (value: StateType)=> void) => void
+    changeNewPostText: (newPostText: string) => void
+    subscribe: (callBack: (value: StateType) => void) => void
+    dispatch: (action:ActionTypeNew) => void
 
 }
+
 
 
 
@@ -98,39 +100,73 @@ export let store: storeType = {
         }
     },
 
-    getState() {
-        return this._state
-    },
-
     _callSubscriber(value: StateType) {
         console.log('state changed');
     },
 
-    addPost() {
-        const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this._callSubscriber(this._state);
-    },
 
-    changeNewPostText(newPostText: string) {
-        this._state.profilePage.newPostText = newPostText;
-        this._callSubscriber(this._state);
+    getState() {
+        return this._state
     },
 
     subscribe(callBack: (value: StateType) => void) {
-        this._callSubscriber = callBack
+        this._callSubscriber = callBack // в index.tsx вызывается store.subscribe(renderTree(функция перерисовки)) и 
+        //присваиваем свойству __callSubscriber функцию renderTree(функция перерисовки)
+    },
+
+
+    addPost() { //1.method change state
+        const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
+        this._state.profilePage.posts.push(newPost)
+        this._state.profilePage.newPostText = ''
+        this._callSubscriber(this._state); //обновление state
+    },
+
+    changeNewPostText(newPostText: string) { //2.method change state
+        this._state.profilePage.newPostText = newPostText;
+        this._callSubscriber(this._state);//обновление state
+    },
+
+    dispatch(action: ActionTypeNew) {         //{type: ''}
+        switch (action.type) {
+            case 'ADD-POST': {
+                const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
+                this._state.profilePage.posts.push(newPost)
+                this._state.profilePage.newPostText = ''
+                this._callSubscriber(this._state);
+                break;
+            }
+
+            case 'UPDATE-POST': {
+                this._state.profilePage.newPostText = action.payload.newPost //action.newPostText;
+                this._callSubscriber(this._state);//обновление state
+                break;
+            }
+        }
     }
 
 }
 
 
 
+const addPostAC = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
+}
 
+const updatePostAC = (newPost: string) => {
+    return {
+        type: 'UPDATE-POST',
+        payload: {
+            newPost,
+        }
+    } as const
+}
 
-
-
-
+type AddPostACType = ReturnType<typeof addPostAC>
+type UpdatePostACType = ReturnType<typeof updatePostAC>
+type ActionTypeNew = AddPostACType | UpdatePostACType
 
 
 

@@ -7,13 +7,13 @@ import App from './App';
 
 const renderTree = (state: StateType) => {
   ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter>  
     <App  state={state} addPost = {store.addPost.bind(store)} changeNewPostText = {store.changeNewPostText.bind(store)}/>
-    </BrowserRouter>,
+    </BrowserRouter>,//для того, чтобы связать метод с владельцем (store) применим метод bind(потому что без него, он вызывался от имени props(props.addPost))
   document.getElementById('root')
   );
 }
 
-renderTree(store.getState())
+renderTree(store.getState()) //запускаем функцию перерисовки дерева(getState() не бандим потому что вызываем от имени store)
 
-store.subscribe(renderTree);
+store.subscribe(renderTree); //1.Сначала импортировали  из state.tsx, затем вызвали и передали функцию перерисовки дерева
