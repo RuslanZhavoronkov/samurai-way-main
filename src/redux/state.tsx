@@ -1,3 +1,5 @@
+import { ActionTypeDialogs, AddMessageACType, UpdateMessageACType, addMessageAC, dialogsReducer, updateMessageAC } from "./dialogsReducer"
+import { ActionTypeProfile, AddPostACType, UpdatePostACType, addPostAC, profileReducer, updatePostAC } from "./profileReducer"
 
 
 
@@ -56,40 +58,12 @@ type storeType = {
 }
 
 
-export const addPostAC = () => {
-    return {
-        type: 'ADD-POST'
-    } as const
-}
 
-export const updatePostAC = (newPost: string) => {
-    return {
-        type: 'UPDATE-POST',
-        payload: {
-            newPost,
-        }
-    } as const
-}
 
-export const addMessageAC = () => {
-    return {
-        type: 'ADD-MESSAGE'
-    } as const
-}
 
-export const updateMessageAC = (newMessageText: string) => {
-    return {
-        type: 'UPDATE-MESSAGE',
-        payload: {
-            newMessageText
-        }
-    } as const
-}
 
-type AddPostACType = ReturnType<typeof addPostAC>
-type UpdatePostACType = ReturnType<typeof updatePostAC>
-type AddMessageACType = ReturnType<typeof addMessageAC>
-type UpdateMessageACType = ReturnType<typeof updateMessageAC>
+
+
 export type ActionTypeNew = AddPostACType | UpdatePostACType |  AddMessageACType | UpdateMessageACType
 
 
@@ -153,39 +127,17 @@ export let store: storeType = {
     },
 
     dispatch(action: ActionTypeNew) {         //{type: ''}
-        switch (action.type) {
-            case 'ADD-POST': {
-                const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
-                this._state.profilePage.posts.push(newPost)
-                this._state.profilePage.newPostText = '' //стираем в поле введенное значение
-                this._callSubscriber(this._state);
-                break;
-            }
+        
+        this._state.profilePage = profileReducer(this._state.profilePage, action as ActionTypeProfile)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action as ActionTypeDialogs)
 
-            case 'UPDATE-POST': {
-                this._state.profilePage.newPostText = action.payload.newPost //action.newPostText;
-                this._callSubscriber(this._state);//обновление state
-                break;
-            }
-
-            case 'ADD-MESSAGE': {
-                const newMessage = {id: '7', message: this._state.dialogsPage.newMessageText}
-                this._state.dialogsPage.messages.push(newMessage)
-                this._state.dialogsPage.newMessageText = '' //стираем в поле введенное значение
-                this._callSubscriber(this._state)
-                break;
-            }
-
-            case "UPDATE-MESSAGE": {
-                this._state.dialogsPage.newMessageText = action.payload.newMessageText
-                this._callSubscriber(this._state) //обновление state
-                break;
-            }
-            
-        }
+        this._callSubscriber(this._state)
     }
 
 }
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -293,4 +245,40 @@ export let store: storeType = {
     //     subscribe: (callBack: (value: StateType) => void) => void
     //     dispatch: (action: ActionTypeNew) => void
     
+    // }
+
+
+    //___________________________________________________________________________________________________________________________
+
+    // dispatch(action: ActionTypeNew) {         //{type: ''}
+    //     switch (action.type) {
+    //         case 'ADD-POST': {
+    //             const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
+    //             this._state.profilePage.posts.push(newPost)
+    //             this._state.profilePage.newPostText = '' //стираем в поле введенное значение
+    //             this._callSubscriber(this._state);
+    //             break;
+    //         }
+
+    //         case 'UPDATE-POST': {
+    //             this._state.profilePage.newPostText = action.payload.newPost //action.newPostText;
+    //             this._callSubscriber(this._state);//обновление state
+    //             break;
+    //         }
+
+    //         case 'ADD-MESSAGE': {
+    //             const newMessage = {id: '7', message: this._state.dialogsPage.newMessageText}
+    //             this._state.dialogsPage.messages.push(newMessage)
+    //             this._state.dialogsPage.newMessageText = '' //стираем в поле введенное значение
+    //             this._callSubscriber(this._state)
+    //             break;
+    //         }
+
+    //         case "UPDATE-MESSAGE": {
+    //             this._state.dialogsPage.newMessageText = action.payload.newMessageText
+    //             this._callSubscriber(this._state) //обновление state
+    //             break;
+    //         }
+            
+    //     }
     // }
