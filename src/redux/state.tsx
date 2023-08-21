@@ -32,6 +32,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
+    newMessageText: string
 }
 
 
@@ -70,9 +71,26 @@ export const updatePostAC = (newPost: string) => {
     } as const
 }
 
+export const addMessageAC = () => {
+    return {
+        type: 'ADD-MESSAGE'
+    } as const
+}
+
+export const updateMessageAC = (newMessageText: string) => {
+    return {
+        type: 'UPDATE-MESSAGE',
+        payload: {
+            newMessageText
+        }
+    } as const
+}
+
 type AddPostACType = ReturnType<typeof addPostAC>
 type UpdatePostACType = ReturnType<typeof updatePostAC>
-export type ActionTypeNew = AddPostACType | UpdatePostACType
+type AddMessageACType = ReturnType<typeof addMessageAC>
+type UpdateMessageACType = ReturnType<typeof updateMessageAC>
+export type ActionTypeNew = AddPostACType | UpdatePostACType |  AddMessageACType | UpdateMessageACType
 
 
 
@@ -105,7 +123,9 @@ export let store: storeType = {
                 { id: '4', message: 'Yo' },
                 { id: '5', message: 'Yo' },
                 { id: '6', message: 'Yo' },
-            ]
+            ],
+
+            newMessageText: 'KAMASUTRAAAAA'
 
         },
 
@@ -137,7 +157,7 @@ export let store: storeType = {
             case 'ADD-POST': {
                 const newPost: PostType = { id: '5', message: this._state.profilePage.newPostText, likesCount: '0' }
                 this._state.profilePage.posts.push(newPost)
-                this._state.profilePage.newPostText = ''
+                this._state.profilePage.newPostText = '' //стираем в поле введенное значение
                 this._callSubscriber(this._state);
                 break;
             }
@@ -147,6 +167,21 @@ export let store: storeType = {
                 this._callSubscriber(this._state);//обновление state
                 break;
             }
+
+            case 'ADD-MESSAGE': {
+                const newMessage = {id: '7', message: this._state.dialogsPage.newMessageText}
+                this._state.dialogsPage.messages.push(newMessage)
+                this._state.dialogsPage.newMessageText = '' //стираем в поле введенное значение
+                this._callSubscriber(this._state)
+                break;
+            }
+
+            case "UPDATE-MESSAGE": {
+                this._state.dialogsPage.newMessageText = action.payload.newMessageText
+                this._callSubscriber(this._state) //обновление state
+                break;
+            }
+            
         }
     }
 
