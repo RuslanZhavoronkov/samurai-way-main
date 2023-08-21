@@ -17,7 +17,7 @@ export const Dialogs: React.FC<PropsDialogsType> = (props) => {
     const dialogsElements = props.state.dialogs.map(el => <DialogItem id={el.id} name={el.name} />)
     const messagesElements = props.state.messages.map(el => <MessageItem id={el.id} message={el.message} />)
 
-    
+
     let addSendChatHandler = () => {
         props.dispatch(addMessageAC())
     }
@@ -37,7 +37,10 @@ export const Dialogs: React.FC<PropsDialogsType> = (props) => {
                 {messagesElements}
             </div>
             <div className={s.chat}>
-                <div><textarea value={props.state.newMessageText} onChange={onChangeHandlerNewMessageText}></textarea></div>
+                <div>
+                    <textarea value={props.state.newMessageText} onChange={onChangeHandlerNewMessageText}
+                        placeholder={'Enter you message'}></textarea>
+                </div>
                 <div><button onClick={addSendChatHandler}>Send</button></div>
             </div>
 

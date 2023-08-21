@@ -125,7 +125,7 @@ export let store: storeType = {
                 { id: '6', message: 'Yo' },
             ],
 
-            newMessageText: 'KAMASUTRAAAAA'
+            newMessageText: ''
 
         },
 
