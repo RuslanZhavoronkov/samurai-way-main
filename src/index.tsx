@@ -8,7 +8,7 @@ import App from './App';
 const renderTree = (state: StateType) => {
   ReactDOM.render(
     <BrowserRouter>  
-    <App  state={state} addPost = {store.addPost.bind(store)} changeNewPostText = {store.changeNewPostText.bind(store)}/>
+    <App  state={state} dispatch = {store.dispatch.bind(store)} />
     </BrowserRouter>,//для того, чтобы связать метод с владельцем (store) применим метод bind(потому что без него, он вызывался от имени props(props.addPost))
   document.getElementById('root')
   );
