@@ -26,7 +26,7 @@ export type ActionTypeProfile = AddPostACType | UpdatePostACType
 
 
 
-export const profileReducer = (state:ProfilePageType, action: ActionTypeProfile): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType, action: ActionTypeProfile): ProfilePageType => {
     switch (action.type) {
         case 'UPDATE-POST': {
             state.newPostText = action.payload.newPost //action.newPostText;
@@ -39,7 +39,7 @@ export const profileReducer = (state:ProfilePageType, action: ActionTypeProfile)
             state.newPostText = '' //стираем в поле введенное значение
             return state
         }
-        
+
         default: {
             return state
         }
