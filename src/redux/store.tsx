@@ -128,7 +128,7 @@ export let store: storeType = {
 
     dispatch(action: ActionTypeNew) {         //{type: ''}
         
-        this._state.profilePage = profileReducer(this._state.profilePage, action as ActionTypeProfile)
+        this._state.profilePage = profileReducer(this._state.profilePage, action as ActionTypeProfile)//вернуть измененный state
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action as ActionTypeDialogs)
 
         this._callSubscriber(this._state)

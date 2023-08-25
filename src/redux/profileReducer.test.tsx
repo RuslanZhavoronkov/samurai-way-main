@@ -1,5 +1,5 @@
 import { addPostAC, profileReducer, updatePostAC } from "./profileReducer"
-import { PostType, ProfilePageType } from "./state"
+import { PostType, ProfilePageType } from "./store"
 
 test('update post', () => {
 

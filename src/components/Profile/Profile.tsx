@@ -1,7 +1,8 @@
 import React from "react";
 import { MyPosts} from "./MyPosts/MyPosts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
-import { ActionTypeNew, PostType, ProfilePageType } from "../../redux/state";
+import { ActionTypeNew, PostType, ProfilePageType } from "../../redux/store";
+import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
 
 
 export type PropsProfileType = {
@@ -11,11 +12,15 @@ export type PropsProfileType = {
 
 
 export const Profile: React.FC<PropsProfileType> = (props) => {
+  
   return (
     <div>
       <ProfileInfo />
-      <MyPosts posts = {props.state.posts} newPostText={props.state.newPostText} dispatch = {props.dispatch}/>
-
+      <MyPostsConteiner 
+      // posts = {props.state.posts} 
+      // newPostText={props.state.newPostText} 
+      // dispatch = {props.dispatch}
+      />
     </div>
   );
 };

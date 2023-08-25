@@ -1,4 +1,4 @@
-import { PostType, ProfilePageType } from "./state"
+import { PostType, ProfilePageType } from "./store"
 
 
 export const updatePostAC = (newPost: string) => {
@@ -25,8 +25,16 @@ export type UpdatePostACType = ReturnType<typeof updatePostAC>
 export type ActionTypeProfile = AddPostACType | UpdatePostACType
 
 
+const initialState = {
+    posts: [
+        { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
+        { id: '2', message: 'It\s my first post', likesCount: ' 11' },
+    ],
+    newPostText: 'it-kamasutra.com'
 
-export const profileReducer = (state: ProfilePageType, action: ActionTypeProfile): ProfilePageType => {
+}
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
     switch (action.type) {
         case 'UPDATE-POST': {
             state.newPostText = action.payload.newPost //action.newPostText;

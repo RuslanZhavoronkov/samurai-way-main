@@ -1,4 +1,4 @@
-import { FriendType, sideBarType } from "../../redux/state"
+import { FriendType, sideBarType } from "../../redux/store"
 import { FriendsAvatar } from "./FriendsAvatar/FriendsAvatar"
 
 type PropsFriendsType = {
