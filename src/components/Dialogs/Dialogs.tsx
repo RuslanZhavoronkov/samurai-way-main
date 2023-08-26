@@ -12,6 +12,7 @@ type PropsDialogsType = {
     state: DialogsPageType
     addMessage:()=>void
     updateMessageText:(newMessageText:string) => void
+    clearMessageText: () => void
 }
 
 
@@ -23,6 +24,7 @@ export const Dialogs: React.FC<PropsDialogsType> = (props) => {
 
     let addSendChatHandler = () => {
       props.addMessage()
+      props.clearMessageText()
     }
 
 

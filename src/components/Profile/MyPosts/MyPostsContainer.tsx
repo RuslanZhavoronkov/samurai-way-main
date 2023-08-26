@@ -1,7 +1,7 @@
 
-import { ActionTypeProfile, addPostAC, updatePostAC } from "../../../redux/profileReducer";
+import { ActionTypeProfile, addPostAC, clearNewPostTextAC, updatePostAC } from "../../../redux/profileReducer";
 import { MyPosts } from "./MyPosts";
-import { AppRootStateType} from "../../../redux/redux-store";
+import { AppRootStateType } from "../../../redux/redux-store";
 import { connect } from "react-redux";
 
 
@@ -14,18 +14,21 @@ const mapStateToProps = (state: AppRootStateType) => {
 }
 
 
-const mapDispatchToProps = (dispatch:(action:ActionTypeProfile)=>void) => {
+const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void) => {
   return {
     changeNewPostText: (valueText: string) => {
       dispatch(updatePostAC(valueText))
     },
-    addPost:() => {
-           dispatch(addPostAC())
-         }
+    addPost: () => {
+      dispatch(addPostAC())
+    },
+    clearNewPost: () => {
+      dispatch(clearNewPostTextAC())
+    }
   }
 }
 
-export const MyPostsConteiner = connect(mapStateToProps,mapDispatchToProps)(MyPosts)//Создадим контейнерную компоненту для MyPost
+export const MyPostsConteiner = connect(mapStateToProps, mapDispatchToProps)(MyPosts)//Создадим контейнерную компоненту для MyPost
 
 //_____________________________________________________________________________________________________________________
 

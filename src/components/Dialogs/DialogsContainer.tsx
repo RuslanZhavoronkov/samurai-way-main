@@ -1,6 +1,6 @@
 
 import { connect } from "react-redux";
-import { ActionTypeDialogs,  addMessageAC, updateMessageAC } from "../../redux/dialogsReducer";
+import { ActionTypeDialogs,  addMessageAC, clearMessageAC, updateMessageAC } from "../../redux/dialogsReducer";
 import { AppRootStateType, store} from "../../redux/redux-store";
 import { Dialogs } from "./Dialogs";
 
@@ -20,6 +20,9 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeDialogs) => void) => { 
         },
         updateMessageText: (newMessageText: string) => {
             dispatch(updateMessageAC(newMessageText))
+        },
+        clearMessageText: () => {
+            dispatch(clearMessageAC())
         }
     }
 }

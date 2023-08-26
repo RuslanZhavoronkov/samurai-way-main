@@ -32,10 +32,17 @@ export const addMessageAC = () => {
 }
 
 
+export const clearMessageAC = ()=>{
+    return {
+        type: 'CLEAR-NEWMESSAGETEXT'
+    } as const
+}
+
 
 export type AddMessageACType = ReturnType<typeof addMessageAC>
 export type UpdateMessageACType = ReturnType<typeof updateMessageAC>
-export type ActionTypeDialogs = AddMessageACType | UpdateMessageACType
+export type clearMessageACType = ReturnType<typeof clearMessageAC>
+export type ActionTypeDialogs = AddMessageACType | UpdateMessageACType | clearMessageACType
 
 
 const initialState = {
@@ -62,18 +69,23 @@ const initialState = {
 
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionTypeDialogs):DialogsPageType => {
+
     switch (action.type) {
 
         case "UPDATE-MESSAGE": {
-            state.newMessageText = action.payload.newMessageText
-            return state
+            //state.newMessageText = action.payload.newMessageText
+            return {...state, newMessageText: action.payload.newMessageText }
         }
 
         case 'ADD-MESSAGE': {
             const newMessage = { id: '7', message: state.newMessageText}
-            state.messages.push(newMessage)
-            state.newMessageText = '' //стираем в поле введенное значение
-            return state;
+            // state.messages.push(newMessage)
+            // state.newMessageText = '' //стираем в поле введенное значение
+            return {...state, messages: [...state.messages, newMessage]};
+        }
+
+        case 'CLEAR-NEWMESSAGETEXT': {
+            return{...state,newMessageText:''}
         }
 
         default: {

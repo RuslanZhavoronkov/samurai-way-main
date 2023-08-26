@@ -15,6 +15,10 @@ export type ProfilePageType = {
 
 }
 
+
+
+//Action Create
+
 export const updatePostAC = (newPost: string) => {
     return {
         type: 'UPDATE-POST',
@@ -24,11 +28,15 @@ export const updatePostAC = (newPost: string) => {
     } as const
 }
 
-
-
 export const addPostAC = () => {
     return {
         type: 'ADD-POST'
+    } as const
+}
+
+export const clearNewPostTextAC = ()=>{
+    return {
+        type: 'CLEAR-NEWPOSTTEXT'
     } as const
 }
 
@@ -36,7 +44,8 @@ export const addPostAC = () => {
 
 export type AddPostACType = ReturnType<typeof addPostAC>
 export type UpdatePostACType = ReturnType<typeof updatePostAC>
-export type ActionTypeProfile = AddPostACType | UpdatePostACType
+export type clearNewPostTextACtype = ReturnType<typeof clearNewPostTextAC>
+export type ActionTypeProfile = AddPostACType | UpdatePostACType | clearNewPostTextACtype
 
 
 const initialState = {
@@ -51,15 +60,19 @@ const initialState = {
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
     switch (action.type) {
         case 'UPDATE-POST': {
-            state.newPostText = action.payload.newPost //action.newPostText;
-            return state
+
+            return { ...state, newPostText: action.payload.newPost }
         }
 
         case 'ADD-POST': {
-            const newPost: PostType = { id: '5', message: state.newPostText, likesCount: '0' }
-            state.posts.push(newPost)
-            state.newPostText = '' //стираем в поле введенное значение
-            return state
+            const newPost: PostType = { id: '3', message: state.newPostText, likesCount: '0' }
+            // state.posts.push(newPost)
+            // state.newPostText = '' //стираем в поле введенное значение
+            return { ...state, posts: [...state.posts, newPost] }
+        }
+
+        case 'CLEAR-NEWPOSTTEXT': {
+            return { ...state, newPostText: '' }
         }
 
         default: {
