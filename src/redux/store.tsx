@@ -1,5 +1,5 @@
-import { ActionTypeDialogs, AddMessageACType, UpdateMessageACType, addMessageAC, dialogsReducer, updateMessageAC } from "./dialogsReducer"
-import { ActionTypeProfile, AddPostACType, UpdatePostACType, addPostAC, profileReducer, updatePostAC } from "./profileReducer"
+import { ActionTypeDialogs, AddMessageACType, UpdateMessageACType, dialogsReducer} from "./dialogsReducer"
+import { ActionTypeProfile, AddPostACType, UpdatePostACType, profileReducer} from "./profileReducer"
 
 
 
@@ -7,6 +7,12 @@ export type PostType = {
     id: string,
     message: string
     likesCount: string
+}
+
+export type ProfilePageType = {
+    posts: PostType[],
+    newPostText: string
+
 }
 
 export type DialogType = {
@@ -25,11 +31,7 @@ export type FriendType = {
 }
 
 
-export type ProfilePageType = {
-    posts: PostType[],
-    newPostText: string
 
-}
 
 export type DialogsPageType = {
     dialogs: DialogType[]

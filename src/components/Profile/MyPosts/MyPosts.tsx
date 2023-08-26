@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent} from "react";
 import s from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
-import { ActionTypeNew, PostType} from "../../../redux/store";
-import { addPostAC, updatePostAC } from "../../../redux/profileReducer";
+import { PostType } from "../../../redux/profileReducer";
+
 
 
 type PropsMyPostsType = {
@@ -23,10 +23,6 @@ export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 const onChangeTextareaHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
 props.changeNewPostText(e.currentTarget.value)
 }
-
-//  const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
- //const newPostElement = React.createRef<HTMLTextAreaElement>()
- 
 
   return (
     <div className={s.postsBlock}>

@@ -5,14 +5,14 @@ import { ActionTypeNew, PostType, ProfilePageType } from "../../redux/store";
 import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
 
 
-export type PropsProfileType = {
-  state: ProfilePageType
-  dispatch: (action: ActionTypeNew) => void
-}
+// export type PropsProfileType = {
+//   state: ProfilePageType
+//   //dispatch: (action: ActionTypeNew) => void
+// }
 
 
-export const Profile: React.FC<PropsProfileType> = (props) => {
-  
+// export const Profile: React.FC<PropsProfileType> = (props) => {
+  export const Profile = () => { 
   return (
     <div>
       <ProfileInfo />

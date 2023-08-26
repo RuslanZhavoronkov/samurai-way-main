@@ -1,5 +1,19 @@
-import { PostType, ProfilePageType } from "./store"
 
+
+
+
+
+export type PostType = {
+    id: string,
+    message: string
+    likesCount: string
+}
+
+export type ProfilePageType = {
+    posts: PostType[],
+    newPostText: string
+
+}
 
 export const updatePostAC = (newPost: string) => {
     return {
@@ -30,7 +44,7 @@ const initialState = {
         { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
         { id: '2', message: 'It\s my first post', likesCount: ' 11' },
     ],
-    newPostText: 'it-kamasutra.com'
+    newPostText: ''
 
 }
 
