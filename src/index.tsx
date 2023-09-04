@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 
 
-const renderTree = (state: AppRootStateType) => {
+//const renderTree = (state: AppRootStateType) => {
   ReactDOM.render(
 
     <BrowserRouter>
@@ -20,14 +20,14 @@ const renderTree = (state: AppRootStateType) => {
     </BrowserRouter>,//для того, чтобы связать метод с владельцем (store) применим метод bind(потому что без него, он вызывался от имени props(props.addPost))
   document.getElementById('root')
   );
-}
+//}
 
-renderTree(store.getState()) //запускаем функцию перерисовки дерева(getState() не бандим потому что вызываем от имени store)
+//renderTree(store.getState()) //запускаем функцию перерисовки дерева(getState() не бандим потому что вызываем от имени store)
 
-store.subscribe(()=> { //1.Сначала импортировали  из state.tsx, затем вызвали и передали функцию перерисовки дерева
-  let state = store.getState()
-    renderTree(state)
-}); 
+// store.subscribe(()=> { //1.Сначала импортировали  из state.tsx, затем вызвали и передали функцию перерисовки дерева
+//   let state = store.getState()
+//     renderTree(state)
+// }); 
 
 
 

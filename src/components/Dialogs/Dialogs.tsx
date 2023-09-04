@@ -12,19 +12,19 @@ type PropsDialogsType = {
     state: DialogsPageType
     addMessage:()=>void
     updateMessageText:(newMessageText:string) => void
-    clearMessageText: () => void
+    //clearMessageText: () => void
 }
 
 
 export const Dialogs: React.FC<PropsDialogsType> = (props) => {
 
-    const dialogsElements = props.state.dialogs.map(el => <DialogItem id={el.id} name={el.name} />)
-    const messagesElements = props.state.messages.map(el => <MessageItem id={el.id} message={el.message} />)
+    const dialogsElements = props.state.dialogs.map(el => <DialogItem id={el.id} name={el.name} key={el.id}/>)
+    const messagesElements = props.state.messages.map(el => <MessageItem id={el.id} message={el.message} key = {el.id}/>)
 
 
     let addSendChatHandler = () => {
       props.addMessage()
-      props.clearMessageText()
+    //  props.clearMessageText()
     }
 
 

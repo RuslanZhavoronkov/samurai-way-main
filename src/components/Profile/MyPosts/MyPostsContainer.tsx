@@ -1,5 +1,5 @@
 
-import { ActionTypeProfile, addPostAC, clearNewPostTextAC, updatePostAC } from "../../../redux/profileReducer";
+import { ActionTypeProfile, addPostAC, updatePostAC } from "../../../redux/profileReducer";
 import { MyPosts } from "./MyPosts";
 import { AppRootStateType } from "../../../redux/redux-store";
 import { connect } from "react-redux";
@@ -21,10 +21,10 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void) => {
     },
     addPost: () => {
       dispatch(addPostAC())
-    },
-    clearNewPost: () => {
-      dispatch(clearNewPostTextAC())
     }
+    // clearNewPost: () => {
+    //   dispatch(clearNewPostTextAC())
+    // }
   }
 }
 

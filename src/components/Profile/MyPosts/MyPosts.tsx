@@ -10,7 +10,7 @@ type PropsMyPostsType = {
   newPostText: string
   changeNewPostText:(valueText: string)=> void
   addPost: ()=> void
-  clearNewPost: () => void
+ // clearNewPost: () => void
 }
 
 export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
@@ -19,7 +19,7 @@ export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 
   const addPostButonHandler = () => {
      props.addPost()
-     props.clearNewPost()
+   //  props.clearNewPost()
   }
 
 const onChangeTextareaHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {

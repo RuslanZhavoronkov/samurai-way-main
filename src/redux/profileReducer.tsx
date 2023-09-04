@@ -34,18 +34,18 @@ export const addPostAC = () => {
     } as const
 }
 
-export const clearNewPostTextAC = ()=>{
-    return {
-        type: 'CLEAR-NEWPOSTTEXT'
-    } as const
-}
+// export const clearNewPostTextAC = ()=>{
+//     return {
+//         type: 'CLEAR-NEWPOSTTEXT'
+//     } as const
+// }
 
 
 
 export type AddPostACType = ReturnType<typeof addPostAC>
 export type UpdatePostACType = ReturnType<typeof updatePostAC>
-export type clearNewPostTextACtype = ReturnType<typeof clearNewPostTextAC>
-export type ActionTypeProfile = AddPostACType | UpdatePostACType | clearNewPostTextACtype
+//export type clearNewPostTextACtype = ReturnType<typeof clearNewPostTextAC>
+export type ActionTypeProfile = AddPostACType | UpdatePostACType //| clearNewPostTextACtype
 
 
 const initialState = {
@@ -68,12 +68,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             const newPost: PostType = { id: '3', message: state.newPostText, likesCount: '0' }
             // state.posts.push(newPost)
             // state.newPostText = '' //стираем в поле введенное значение
-            return { ...state, posts: [...state.posts, newPost] }
+            return { ...state, posts: [...state.posts, newPost], newPostText: '' }
         }
 
-        case 'CLEAR-NEWPOSTTEXT': {
-            return { ...state, newPostText: '' }
-        }
+        // case 'CLEAR-NEWPOSTTEXT': {
+        //     return { ...state, newPostText: '' }
+        // }
 
         default: {
             return state
