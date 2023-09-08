@@ -16,10 +16,10 @@ export type sideBarType = {
     friends: FriendType[]
 }
 
-export const sideBarReduser = (state: sideBarType = initialState, action:addFrendsSideBarACType) => {
-    switch(action.type){
-        case "ADD-FRIENDS":{
-            return {...state, friends:[...state.friends, {id:'4', name: action.payload.name}]}
+export const sideBarReduser = (state: sideBarType = initialState, action: addFrendsSideBarACType) => {
+    switch (action.type) {
+        case "ADD-FRIENDS": {
+            return { ...state, friends: [...state.friends, { id: '4', name: action.payload.name }] }
         }
         default:
             return state
@@ -33,7 +33,7 @@ export const addFrendsSideBarAC = (name: string) => {
         payload: {
             name
         }
-    }as const
+    } as const
 }
 
 type addFrendsSideBarACType = ReturnType<typeof addFrendsSideBarAC>
