@@ -12,6 +12,7 @@ import { ActionTypeNew, StateType } from "./redux/store";
 
 import { NavbarContainer } from "./components/Navbar/NavbarContainer";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
+import { Users } from "./components/Users/Users";
 
 
 
@@ -35,9 +36,9 @@ import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
         <NavbarContainer/>
         <div className={"app-wrapper-content"}>
           <Routes>
-            <Route path={'/dialogs/*'} element={<DialogsContainer/>} />
             <Route path={'/profile'} element={<Profile />} />
-            {/* <Route path={'/profile'} element={<Profile state = {props.state.profilePage}   dispatch = {props.dispatch}/>} /> */}
+            <Route path={'/dialogs/*'} element={<DialogsContainer/>} />
+            <Route path={'/users'} element={<Users/>} />
             <Route path={'/news'} element={<News />} />
             <Route path={'/music'} element={<Music />} />
             <Route path={'/settings'} element={<Settings />} />

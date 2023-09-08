@@ -21,6 +21,11 @@ export const Navbar: React.FC <PropsNavbarType> = (props) => {
         {/*Применены два класса*/}
         <NavLink className={({isActive}) => (isActive ? s.active : s.default)} to='/dialogs'>Messages</NavLink>
       </div>
+
+      <div className={s.item}>
+        <NavLink className={({isActive}) => (isActive ? s.active : s.default)} to='/users'>Users</NavLink>
+      </div>
+
       <div className={s.item}>
         <NavLink className={({isActive}) => (isActive ? s.active : s.default)} to='/news'>News</NavLink>
       </div>
