@@ -9,7 +9,7 @@ import { usersReducer } from "./usersReducer";
 const rootReducer = combineReducers({ //создадим главный Reducer(в который будут приходить все actions, а потом будут передав. в дочерние Reducers)
     profilePage:profileReducer,
     dialogsPage:dialogsReducer,
-    users: usersReducer,
+    usersPage: usersReducer,
     sideBar: sideBarReduser
 }) 
    

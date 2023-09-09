@@ -13,18 +13,25 @@ type PeoplePropsType = {
 
 export const People: React.FC<PeoplePropsType> = (props) => {
 
-    
+    let changefallowed: string
+    if (!props.followed) {
+        changefallowed = "Fallow"
+    } else {
+        changefallowed = "Unfallow"
+    }
+
     const onClickHandler = () => {
-        if (!props.followed){
-           props.fallow(props.id)  
+        if (!props.followed) {
+            props.fallow(props.id)
         } else {
             props.unfallow(props.id)
         }
-       
+
     }
     return (
         <div>
-            <button onClick = {onClickHandler}>{props.followed}</button>  {props.fullName} {props.status}
+            <div><button onClick={onClickHandler}>{changefallowed}</button>  {props.fullName} </div>
+            <div>{props.status}</div>
         </div>
     )
 }
