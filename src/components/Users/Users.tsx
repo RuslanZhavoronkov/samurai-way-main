@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UserType } from '../../redux/usersReducer'
 import s from './users.module.css'
 import { People } from './People'
+import axios from 'axios'
 
 type UsersPropsType = {
     users: UserType[]
@@ -11,7 +12,39 @@ type UsersPropsType = {
 }
 
 export const Users: React.FC<UsersPropsType> = (props) => {
+    // const settings = {
+    //     withCredentials: true
+    // }
+    // useEffect(()=> {
+
+    // },[])
+
+    type usersServer = {
+        items: userType []
+        totalCount: number
+        error: null | string
+    }
+
+
+    type userType = {
+        name: string
+        id: number
+        uniqueUrlName: null | string
+        photos: photoType
+        status: null | string
+        followed: boolean
+    }
+
+    type photoType = {
+        small: string | null | boolean
+        large: string | null | boolean
+    }
+
+
+
     if (props.users.length === 0) {
+        axios.get<usersServer>('https://social-network.samuraijs.com/api/1.0/users')
+            .then((response) => props.setUsers(response.data.items))
         props.setUsers(
             [
                 {
