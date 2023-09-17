@@ -2,14 +2,15 @@ import React from 'react'
 import { Users } from './Users'
 import { connect } from 'react-redux'
 import { AppRootStateType } from '../../redux/redux-store'
-import { ActionTypeUser, UserPageType, UserType, followAC, setUsersAC, unfollowAC } from '../../redux/usersReducer'
+import { ActionTypeUser, UsersServerType, changeCurrentPageAC, followAC, setUsersAC, unfollowAC } from '../../redux/usersReducer'
 
 
 
 
 const mapStateToProps = (state: AppRootStateType) => {
     return {
-        users: state.usersPage
+        users: state.usersPage.users,
+        pagination: state.usersPage.pagination
     }
 }
 
@@ -21,8 +22,11 @@ const mapDispatchToProps = (dispatch:(action:ActionTypeUser)=> void) => {
         unfallow: (userId: number) => {
             dispatch(unfollowAC(userId))
         },
-        setUsers: (users: UserPageType) => {
+        setUsers: (users: UsersServerType) => {
             dispatch(setUsersAC(users))
+        },
+        changeCurrentPage: (numberPage: number) => {
+            dispatch(changeCurrentPageAC(numberPage))
         }
     }
 }

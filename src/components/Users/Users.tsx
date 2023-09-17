@@ -1,14 +1,17 @@
 import React from 'react'
-import { UserPageType, UserType } from '../../redux/usersReducer'
+import { PaginationType, UsersServerType } from '../../redux/usersReducer'
 import s from './users.module.css'
 import axios from 'axios'
 import userPhoto from '../../assets/images/user1.png'
+import {  } from 'antd/lib/transfer/interface'
 
 type UsersPropsType = {
-    users: UserPageType
+    users: UsersServerType
+    pagination: PaginationType
     fallow: (userId: number) => void
     unfallow: (userId: number) => void
-    setUsers: (users: UserPageType) => void
+    setUsers: (users:UsersServerType) => void
+    changeCurrentPage: (numberPage: number) => void
 }
 
 export class Users extends React.Component <UsersPropsType> {
@@ -16,13 +19,48 @@ export class Users extends React.Component <UsersPropsType> {
         super(props)
         
      }
+
+
    componentDidMount(): void {
-    axios.get<UserPageType>('https://social-network.samuraijs.com/api/1.0/users')
+    axios.get<UsersServerType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.pagination.currentPage}&count=${this.props.pagination.pageSize}`)
     .then((response) =>this.props.setUsers(response.data))
    }
+   
+    onPageChanged =  (pageNumber: number) => {
+    this.props.changeCurrentPage(pageNumber);
+    axios.get<UsersServerType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pagination.pageSize}`)
+    .then((response) =>this.props.setUsers(response.data))
+    }
+
+
+
     render  ()  {
+    let pageArray = [] 
+    let pagesCount = Math.ceil(this.props.users.totalCount / this.props.pagination.pageSize)
+
+    for (let i = 1; i <= pagesCount; i++) {
+    pageArray.push(i)
+    }
         return (
-            <div>   
+            <div>
+                <div>  
+
+                {pageArray.map(el => {
+     const boldSpan = this.props.pagination.currentPage === el ? s.selectedPage : ''   
+
+     const onClickSpanHandler = () => {
+        this.onPageChanged(el)
+     }
+
+    return (
+        <span className = {boldSpan} onClick = {onClickSpanHandler}>{el}</span>
+    )
+})}
+
+
+
+                   
+                    </div>   
                 {this.props.users.items.map(el => {
                     let changeFollow: string;
                     !el.followed ? changeFollow = 'Follow' : changeFollow = 'Unfollow'

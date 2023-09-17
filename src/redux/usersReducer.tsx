@@ -1,10 +1,21 @@
 
 
+type changeCurrentPageACType = ReturnType<typeof changeCurrentPageAC>
+type followACType = ReturnType<typeof followAC>
+type unfollowACType = ReturnType<typeof unfollowAC>
+type setUsersACType = ReturnType<typeof setUsersAC>
+export type ActionTypeUser = followACType | unfollowACType | setUsersACType | changeCurrentPageACType
+
+
+export type PaginationType = {
+    pageSize: number
+    currentPage: number
+}
+
 type photoType = {
     small: null
     large: null
 }
-
 
 export type UserType = {
     name: string
@@ -15,42 +26,61 @@ export type UserType = {
     followed: boolean
 }
 
-export type UserPageType = {
-    items: UserType []
-    totalCount: number | undefined
-    error: null | string 
+export type UsersServerType = {
+    items: UserType[]
+    totalCount: number
+    error: null | string,
+}
+
+export type UsersPageType = {
+    users: UsersServerType,
+    pagination: PaginationType
+}
+const initialState: UsersPageType = {
+    users: {
+        items: [],
+        totalCount: 5,
+        error: null,
+    },
+    pagination: {
+        pageSize: 5, //quantity users in page
+        currentPage: 1
+    }
 }
 
 
 
-type followACType = ReturnType<typeof followAC>
-type unfollowACType = ReturnType<typeof unfollowAC>
-type setUsersACType = ReturnType<typeof setUsersAC>
-export type ActionTypeUser = followACType | unfollowACType | setUsersACType
-
-
-
-const initialState: UserPageType = {
-    items: [],
-    totalCount: undefined,
-    error: null
-
-}
-
-export const usersReducer = (state: UserPageType = initialState, action: ActionTypeUser): UserPageType => {
+export const usersReducer = (state: UsersPageType = initialState, action: ActionTypeUser): UsersPageType => {
     switch (action.type) {
         case "FOLLOW": {
-            return {...state, items: state.items
-                .map(el => el.id === action.payload.userId ? {...el, followed: true} : el)}
+            return {
+                ...state, users: {
+                    ...state.users, items: state.users.items
+                        .map(el => el.id === action.payload.userId ? { ...el, followed: true } : el)
+                }
+            }
         }
 
         case "UNFOLLOW": {
-            return {...state, items: state.items
-            .map(el => el.id === action.payload.userId ? {...el, followed: false} : el) }
+
+            return {
+                ...state, users: {
+                    ...state.users, items: state.users.items
+                        .map(el => el.id === action.payload.userId ? { ...el, followed: false } : el)
+                }
+            }
+
         }
 
         case "SET_USERS": {
-            return {...state, items: [...state.items, ...action.payload.users.items]}
+            return { ...state, users: { ...state.users, items: action.payload.users.items, totalCount: action.payload.users.totalCount } }
+
+            // { ...state, items: [...state.items, ...action.payload.users.items] }
+        }
+
+
+        case "CHANGE_NUMBER_CURRENT_PAGE": {
+            return {...state,pagination: {...state.pagination, currentPage: action.payload.numberPage}}
         }
 
         default: {
@@ -83,7 +113,7 @@ export const unfollowAC = (userId: number) => {
 }
 
 //Add users from server
-export const setUsersAC = (users: UserPageType) => {
+export const setUsersAC = (users: UsersServerType) => {
     return {
         type: 'SET_USERS',
         payload: {
@@ -92,6 +122,17 @@ export const setUsersAC = (users: UserPageType) => {
     } as const
 }
 
+
+//Change current page
+
+export const changeCurrentPageAC = (numberPage: number) => {
+    return {
+        type: 'CHANGE_NUMBER_CURRENT_PAGE',
+        payload: {
+            numberPage
+        }
+    } as const
+}
 
 //___________________________________________________________________________________________
 
