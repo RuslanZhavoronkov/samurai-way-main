@@ -44,7 +44,7 @@ const initialState: UsersPageType = {
     },
     pagination: {
         pageSize: 5, //quantity users in page
-        currentPage: 1
+        currentPage: 1 //change number page
     }
 }
 

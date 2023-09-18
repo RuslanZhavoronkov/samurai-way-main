@@ -1,8 +1,15 @@
 import React from 'react'
-import { Users } from './Users'
+import { UsersAPIComponent } from './UsersAPIComponent'
 import { connect } from 'react-redux'
 import { AppRootStateType } from '../../redux/redux-store'
 import { ActionTypeUser, UsersServerType, changeCurrentPageAC, followAC, setUsersAC, unfollowAC } from '../../redux/usersReducer'
+
+
+
+
+
+
+
 
 
 
@@ -32,4 +39,4 @@ const mapDispatchToProps = (dispatch:(action:ActionTypeUser)=> void) => {
 }
 
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
