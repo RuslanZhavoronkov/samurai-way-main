@@ -1,10 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppRootStateType } from '../../redux/redux-store'
-import { ActionTypeUser, PaginationType, UsersServerType, changeCurrentPageAC, followAC, isFetchingChangeAC, setUsersAC, unfollowAC } from '../../redux/usersReducer'
+import {
+    ActionTypeUser,
+    PaginationType,
+    UsersServerType,
+    changeCurrentPageAC,
+    followAC,
+    isFetchingChangeAC,
+    setUsersAC,
+    unfollowAC
+} from '../../redux/usersReducer'
 import axios, { AxiosRequestConfig } from 'axios'
 import { Users } from './Users'
-import preloader from '../../assets/images/Spinner-1s-200px (1).svg'
 import { Preloader } from '../common/Preloader/Preloader'
 
 
@@ -18,6 +26,7 @@ type UsersAPIPropsType = {
     isFatchingChange: (status: boolean) => void
     isFetching: boolean
 }
+
 
 
 // 2. Conteiner Component
@@ -116,5 +125,48 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
     }
 }
 
+export const UsersContainer = connect(mapStateToProps, 
+    {
+    fallow:followAC,
+    unfallow:unfollowAC,
+    setUsers:setUsersAC,
+    changeCurrentPage:changeCurrentPageAC,
+    isFatchingChange:isFetchingChangeAC
+}
+)(UsersAPIComponent)
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+
+//_________________________________________________________________________________________________________
+
+
+
+// const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
+//     return {
+//         fallow: (userId: number) => {
+//             dispatch(followAC(userId))
+//         },
+//         unfallow: (userId: number) => {
+//             dispatch(unfollowAC(userId))
+//         },
+//         setUsers: (users: UsersServerType) => {
+//             dispatch(setUsersAC(users))
+//         },
+//         changeCurrentPage: (numberPage: number) => {
+//             dispatch(changeCurrentPageAC(numberPage))
+//         },
+//         isFatchingChange: (status: boolean) => {
+//             dispatch(isFetchingChangeAC(status))
+//         }
+//     }
+// }
+
+
+// export const UsersContainer = connect(mapStateToProps, 
+//     {
+//     fallow:followAC,
+//     unfallow:unfollowAC,
+//     setUsers:setUsersAC,
+//     changeCurrentPage:changeCurrentPageAC,
+//     isFatchingChange:isFetchingChangeAC
+// }
+// )(UsersAPIComponent)
