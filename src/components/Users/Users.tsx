@@ -6,12 +6,14 @@ import userPhoto from '../../assets/images/user1.png'
 
 
 
+
 type UsersPropsType = {
     users: UsersServerType
     pagination: PaginationType
     onPageChanged: (pageNumber: number) => void
     fallow: (userId: number) => void
     unfallow: (userId: number) => void
+
 }
 
 

@@ -1,10 +1,15 @@
 
 
-type changeCurrentPageACType = ReturnType<typeof changeCurrentPageAC>
-type followACType = ReturnType<typeof followAC>
-type unfollowACType = ReturnType<typeof unfollowAC>
-type setUsersACType = ReturnType<typeof setUsersAC>
-export type ActionTypeUser = followACType | unfollowACType | setUsersACType | changeCurrentPageACType
+type ChangeCurrentPageACType = ReturnType<typeof changeCurrentPageAC>
+type FollowACType = ReturnType<typeof followAC>
+type UnfollowACType = ReturnType<typeof unfollowAC>
+type SetUsersACType = ReturnType<typeof setUsersAC>
+type IsFetchingChangeACType = ReturnType<typeof isFetchingChangeAC>
+export type ActionTypeUser = FollowACType
+ | UnfollowACType 
+ | SetUsersACType 
+ | ChangeCurrentPageACType
+ | IsFetchingChangeACType
 
 
 export type PaginationType = {
@@ -34,8 +39,10 @@ export type UsersServerType = {
 
 export type UsersPageType = {
     users: UsersServerType,
-    pagination: PaginationType
+    pagination: PaginationType,
+    isFetching: boolean
 }
+
 const initialState: UsersPageType = {
     users: {
         items: [],
@@ -45,7 +52,8 @@ const initialState: UsersPageType = {
     pagination: {
         pageSize: 5, //quantity users in page
         currentPage: 1 //change number page
-    }
+    },
+    isFetching: true  //крутилка
 }
 
 
@@ -73,6 +81,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         }
 
         case "SET_USERS": {
+            debugger
             return { ...state, users: { ...state.users, items: action.payload.users.items, totalCount: action.payload.users.totalCount } }
 
             // { ...state, items: [...state.items, ...action.payload.users.items] }
@@ -80,7 +89,11 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
 
 
         case "CHANGE_NUMBER_CURRENT_PAGE": {
-            return {...state,pagination: {...state.pagination, currentPage: action.payload.numberPage}}
+            return { ...state, pagination: { ...state.pagination, currentPage: action.payload.numberPage } }
+        }
+
+        case "IS-FETCHING-CHANGE": {
+            return {...state, isFetching: action.payload.status}
         }
 
         default: {
@@ -133,6 +146,18 @@ export const changeCurrentPageAC = (numberPage: number) => {
         }
     } as const
 }
+
+export const isFetchingChangeAC = (status: boolean) => {
+    return {
+        type: 'IS-FETCHING-CHANGE',
+        payload: {
+            status
+        }
+    } as const
+}
+
+
+
 
 //___________________________________________________________________________________________
 
