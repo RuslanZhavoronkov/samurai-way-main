@@ -1,9 +1,25 @@
 import React from "react";
-import { MyPosts} from "./MyPosts/MyPosts";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
-import { ActionTypeNew, PostType, ProfilePageType } from "../../redux/store";
 import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
+import { type } from "os";
+import { ProfileServerType } from "../../redux/profileReducer";
 
+
+type  ProfilePropsType = {
+  profileFromServer: ProfileServerType
+}
+  export const Profile: React.FC<ProfilePropsType> = (props) => { 
+  return (
+    <div>
+      <ProfileInfo profileFromServer = {props.profileFromServer}/>
+      <MyPostsConteiner />
+      <div>{props.profileFromServer.fullName}</div>
+    </div>
+  );
+};
+
+
+//______________________________________________________________________________________________________________________________
 
 // export type PropsProfileType = {
 //   state: ProfilePageType
@@ -12,23 +28,6 @@ import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
 
 
 // export const Profile: React.FC<PropsProfileType> = (props) => {
-  export const Profile = () => { 
-  return (
-    <div>
-      <ProfileInfo />
-      <MyPostsConteiner 
-      // posts = {props.state.posts} 
-      // newPostText={props.state.newPostText} 
-      // dispatch = {props.dispatch}
-      />
-    </div>
-  );
-};
-
-
-//______________________________________________________________________________________________________________________________
-
-
 // export type PropsProfileType = {
 //   state: ProfilePageType
 //   addPost: () => void

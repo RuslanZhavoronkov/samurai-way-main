@@ -1,10 +1,17 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
+import { ProfileServerType } from "../../../redux/profileReducer";
+import { Preloader } from "../../common/Preloader/Preloader";
+
+type ProfileInfoPropsType = {
+    profileFromServer: ProfileServerType
+}
 
 
-
-
-export const ProfileInfo = () => {
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
+    if (!props.profileFromServer) {
+        return <Preloader />
+    }
     return (
         <div>
             <div>
@@ -13,6 +20,9 @@ export const ProfileInfo = () => {
                     alt="Nasa"
                 />
             </div>
+            <img src = {props.profileFromServer.photos.large}/>
+            <div> {props.profileFromServer.fullName} </div>
+            <div>{props.profileFromServer.contacts.twitter}</div>
             <div className={s.descriptionBlock}>ava + description</div>
 
         </div>

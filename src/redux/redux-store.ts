@@ -17,3 +17,4 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export const store = legacy_createStore(rootReducer)//создание объекта store с помощью Redux
 
+//window.store = store

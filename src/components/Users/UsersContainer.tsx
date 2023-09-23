@@ -125,15 +125,7 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, 
-    {
-    fallow:followAC,
-    unfallow:unfollowAC,
-    setUsers:setUsersAC,
-    changeCurrentPage:changeCurrentPageAC,
-    isFatchingChange:isFetchingChangeAC
-}
-)(UsersAPIComponent)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
 
 
 //_________________________________________________________________________________________________________

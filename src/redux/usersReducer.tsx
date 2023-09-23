@@ -17,16 +17,16 @@ export type PaginationType = {
     currentPage: number
 }
 
-type photoType = {
-    small: null
-    large: null
+export type PhotoType = {
+    small: string | undefined
+    large: string | undefined
 }
 
 export type UserType = {
     name: string
     id: number
     uniqueUrlName: null | string
-    photos: photoType
+    photos: PhotoType
     status: null | string
     followed: boolean
 }

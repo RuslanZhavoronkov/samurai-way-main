@@ -1,5 +1,5 @@
 import { ActionTypeDialogs, AddMessageACType, UpdateMessageACType, dialogsReducer} from "./dialogsReducer"
-import { ActionTypeProfile, AddPostACType, UpdatePostACType, profileReducer} from "./profileReducer"
+import { ActionTypeProfile, AddPostACType, ProfilePageType, UpdatePostACType, profileReducer} from "./profileReducer"
 
 
 
@@ -9,11 +9,7 @@ export type PostType = {
     likesCount: string
 }
 
-export type ProfilePageType = {
-    posts: PostType[],
-    newPostText: string
 
-}
 
 export type DialogType = {
     id: string
@@ -79,7 +75,28 @@ export let store: storeType = {
                 { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
                 { id: '2', message: 'It\s my first post', likesCount: ' 11' },
             ],
-            newPostText: 'it-kamasutra.com'
+            newPostText: 'it-kamasutra.com',
+            profileFromServer: {
+                aboutMe: '',
+                contacts: {
+                facebook: '',
+                website: '',
+                vk: '',
+                twitter: '',
+                instagram: '',
+                youtube: '',
+                github: '',
+                mainLink: ''
+                },
+                lookingForAJob: true,
+                lookingForAJobDescription:'',
+                fullName: '',
+                userId: 1,
+                photos: {
+                small: '',
+                large: ''
+                }
+                }
 
         },
 

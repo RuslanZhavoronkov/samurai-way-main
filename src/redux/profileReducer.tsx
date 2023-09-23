@@ -1,5 +1,4 @@
-
-
+import { PhotoType } from "./usersReducer"
 
 
 
@@ -9,12 +8,99 @@ export type PostType = {
     likesCount: string
 }
 
+
+type ContactsProfileType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+
+
+export type ProfileServerType = {
+    aboutMe: string
+    contacts: ContactsProfileType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotoType
+}
+
+
 export type ProfilePageType = {
-    posts: PostType[],
+    posts: PostType[]
     newPostText: string
+    profileFromServer: ProfileServerType
 
 }
 
+
+
+export type AddPostACType = ReturnType<typeof addPostAC>
+export type UpdatePostACType = ReturnType<typeof updatePostAC>
+export type setServerProfileACType = ReturnType<typeof setServerProfileAC>
+export type ActionTypeProfile = AddPostACType
+| UpdatePostACType //| clearNewPostTextACtype
+| setServerProfileACType
+
+
+
+const initialState = {
+    posts: [
+        { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
+        { id: '2', message: 'It\s my first post', likesCount: ' 11' },
+    ],
+    newPostText: '',
+    profileFromServer: {
+        aboutMe: '',
+        contacts: {
+        facebook: '',
+        website: '',
+        vk: '',
+        twitter: '',
+        instagram: '',
+        youtube: '',
+        github: '',
+        mainLink: ''
+        },
+        lookingForAJob: true,
+        lookingForAJobDescription:'',
+        fullName: '',
+        userId: 1,
+        photos: {
+        small: '',
+        large: ''
+        }
+        }
+
+}
+
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
+    switch (action.type) {
+        case 'UPDATE-POST': {
+
+            return { ...state, newPostText: action.payload.newPost }
+        }
+
+        case 'ADD-POST': {
+            const newPost: PostType = { id: '3', message: state.newPostText, likesCount: '0' }
+            return { ...state, posts: [...state.posts, newPost], newPostText: '' }
+        }
+
+        case 'SET-SERVER-PROFILE': {
+            return {...state, profileFromServer: action.payload.serverProfile}
+        }
+
+        default: {
+            return state
+        }
+    }
+}
 
 
 //Action Create
@@ -34,49 +120,13 @@ export const addPostAC = () => {
     } as const
 }
 
-// export const clearNewPostTextAC = ()=>{
-//     return {
-//         type: 'CLEAR-NEWPOSTTEXT'
-//     } as const
-// }
 
-
-
-export type AddPostACType = ReturnType<typeof addPostAC>
-export type UpdatePostACType = ReturnType<typeof updatePostAC>
-//export type clearNewPostTextACtype = ReturnType<typeof clearNewPostTextAC>
-export type ActionTypeProfile = AddPostACType | UpdatePostACType //| clearNewPostTextACtype
-
-
-const initialState = {
-    posts: [
-        { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
-        { id: '2', message: 'It\s my first post', likesCount: ' 11' },
-    ],
-    newPostText: ''
-
-}
-
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
-    switch (action.type) {
-        case 'UPDATE-POST': {
-
-            return { ...state, newPostText: action.payload.newPost }
-        }
-
-        case 'ADD-POST': {
-            const newPost: PostType = { id: '3', message: state.newPostText, likesCount: '0' }
-            // state.posts.push(newPost)
-            // state.newPostText = '' //стираем в поле введенное значение
-            return { ...state, posts: [...state.posts, newPost], newPostText: '' }
-        }
-
-        // case 'CLEAR-NEWPOSTTEXT': {
-        //     return { ...state, newPostText: '' }
-        // }
-
-        default: {
-            return state
-        }
+export const setServerProfileAC = (serverProfile: ProfileServerType) => {
+return {
+    type: 'SET-SERVER-PROFILE',
+    payload: {
+        serverProfile
     }
+
+} as const
 }

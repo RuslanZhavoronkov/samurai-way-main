@@ -1,5 +1,5 @@
-import { addPostAC, profileReducer, updatePostAC } from "./profileReducer"
-import { PostType, ProfilePageType } from "./store"
+import { ProfilePageType, addPostAC, profileReducer, updatePostAC } from "./profileReducer"
+import { PostType,  } from "./store"
 
 test('update post', () => {
 
@@ -10,7 +10,28 @@ test('update post', () => {
             { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
             { id: '2', message: 'It\s my first post', likesCount: ' 11' },
         ],
-        newPostText: 'it-kamasutra.com'
+        newPostText: 'it-kamasutra.com',
+        profileFromServer: {
+            aboutMe: '',
+            contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
+            },
+            lookingForAJob: true,
+            lookingForAJobDescription:'',
+            fullName: '',
+            userId: 1,
+            photos: {
+            small: '',
+            large: ''
+            }
+            }
     }
 
     // change data
@@ -30,7 +51,28 @@ test('Add post', () => {
             { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
             { id: '2', message: 'It\s my first post', likesCount: ' 11' },
         ],
-        newPostText: 'I love REACT'
+        newPostText: 'I love REACT',
+        profileFromServer: {
+            aboutMe: '',
+            contacts: {
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
+            },
+            lookingForAJob: true,
+            lookingForAJobDescription:'',
+            fullName: '',
+            userId: 1,
+            photos: {
+            small: '',
+            large: ''
+            }
+            }
     }
     
 

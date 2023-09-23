@@ -2,6 +2,7 @@ import React from 'react'
 import { PaginationType, UsersServerType } from "../../redux/usersReducer"
 import s from './users.module.css'
 import userPhoto from '../../assets/images/user1.png'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -29,7 +30,6 @@ export const Users: React.FC<UsersPropsType> = (props) => {
     return (
         <div>
             <div>
-
                 {pageArray.map(el => {
                     const boldSpan = props.pagination.currentPage === el ? s.selectedPage : ''
 
@@ -44,7 +44,6 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
 
 
-
             </div>
             {props.users.items.map(el => {
                 let changeFollow: string;
@@ -56,7 +55,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 return (
                     <div key={el.id}>
                         <span>{/*picture and button(follow/unfollow) */}
-                            <div ><img className={s.userPhoto} src={photoAvatar} /></div>
+                            <div >
+                                <NavLink to={`/profile/${el.id}`}>
+                                    <img className={s.userPhoto} src={photoAvatar} />
+                                </NavLink> </div>
                             <div><button onClick={onClickHandler}>{changeFollow}</button></div>
                         </span>
                         <span>
