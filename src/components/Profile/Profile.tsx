@@ -13,6 +13,7 @@ type  ProfilePropsType = {
     <div>
       <ProfileInfo profileFromServer = {props.profileFromServer}/>
       <MyPostsConteiner />
+      <div>{props.profileFromServer.photos.large}</div>
       <div>{props.profileFromServer.fullName}</div>
     </div>
   );
