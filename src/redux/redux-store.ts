@@ -4,13 +4,15 @@ import { profileReducer } from "./profileReducer";
 import { dialogsReducer } from "./dialogsReducer";
 import { sideBarReduser } from "./sideBarReducer";
 import { usersReducer } from "./usersReducer";
+import { authReducer } from "./authReducer";
 
 
 const rootReducer = combineReducers({ //создадим главный Reducer(в который будут приходить все actions, а потом будут передав. в дочерние Reducers)
     profilePage:profileReducer,
     dialogsPage:dialogsReducer,
     usersPage: usersReducer,
-    sideBar: sideBarReduser
+    sideBar: sideBarReduser,
+    auth: authReducer
 }) 
    
 export type AppRootStateType = ReturnType<typeof rootReducer>

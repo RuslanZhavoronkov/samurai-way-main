@@ -81,7 +81,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         }
 
         case "SET_USERS": {
-            debugger
+           
             return { ...state, users: { ...state.users, items: action.payload.users.items, totalCount: action.payload.users.totalCount } }
 
             // { ...state, items: [...state.items, ...action.payload.users.items] }

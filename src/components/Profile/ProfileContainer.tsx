@@ -24,25 +24,25 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-     setServerProfile: (serverProfile: ProfileServerType) => void
+    setServerProfile: (serverProfile: ProfileServerType) => void
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
 
 
-export class ProfileAPIComponent extends React.Component <ProfileAPIComponentPropsType> {
-    constructor (props:ProfileAPIComponentPropsType) {
+export class ProfileAPIComponent extends React.Component<ProfileAPIComponentPropsType> {
+    constructor(props: ProfileAPIComponentPropsType) {
         super(props)
     }
 
     componentDidMount(): void {
         //let userId = this.props.match.params.userId
-       let userId =  this.props.match.params.userId
-       
-        if(!userId) {
+        let userId = this.props.match.params.userId
+
+        if (!userId) {
             userId = '2'
         }
-        
+
         axios.get<ProfileServerType>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
             .then((response) => {
                 this.props.setServerProfile(response.data)
@@ -50,22 +50,22 @@ export class ProfileAPIComponent extends React.Component <ProfileAPIComponentPro
     }
     render() {
         return (
-            <Profile profileFromServer={this.props.profileFromServer}/>
+            <Profile profileFromServer={this.props.profileFromServer} />
         );
     }
 }
 
 
 
-const mapStateToProps =  (state: AppRootStateType): MapStatePropsType => {
-return {
-    profileFromServer: state.profilePage.profileFromServer
-}
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
+    return {
+        profileFromServer: state.profilePage.profileFromServer
+    }
 }
 
-const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void):  MapDispatchPropsType => {
+const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void): MapDispatchPropsType => {
     return {
-        setServerProfile:(serverProfile: ProfileServerType) => {
+        setServerProfile: (serverProfile: ProfileServerType) => {
             dispatch(setServerProfileAC(serverProfile))
         }
     }
@@ -73,7 +73,7 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void):  Map
 
 const WithUrlDataConteinerComponent = withRouter(ProfileAPIComponent)
 
-export const ProfileContainer = connect (mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
+export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
 
 
 
