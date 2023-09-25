@@ -1,3 +1,13 @@
+//follow/unfollow
+
+export type ResponseTypeFollowUnfollow = {
+    resultCode: number
+    messages: string[]
+    data: {}
+    fieldsErrors: string[]
+}
+
+
 
 
 type ChangeCurrentPageACType = ReturnType<typeof changeCurrentPageAC>
@@ -6,10 +16,10 @@ type UnfollowACType = ReturnType<typeof unfollowAC>
 type SetUsersACType = ReturnType<typeof setUsersAC>
 type IsFetchingChangeACType = ReturnType<typeof isFetchingChangeAC>
 export type ActionTypeUser = FollowACType
- | UnfollowACType 
- | SetUsersACType 
- | ChangeCurrentPageACType
- | IsFetchingChangeACType
+    | UnfollowACType
+    | SetUsersACType
+    | ChangeCurrentPageACType
+    | IsFetchingChangeACType
 
 
 export type PaginationType = {
@@ -81,7 +91,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         }
 
         case "SET_USERS": {
-           
+
             return { ...state, users: { ...state.users, items: action.payload.users.items, totalCount: action.payload.users.totalCount } }
 
             // { ...state, items: [...state.items, ...action.payload.users.items] }
@@ -93,7 +103,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         }
 
         case "IS-FETCHING-CHANGE": {
-            return {...state, isFetching: action.payload.status}
+            return { ...state, isFetching: action.payload.status }
         }
 
         default: {
