@@ -4,6 +4,7 @@ import s from './users.module.css'
 import userPhoto from '../../assets/images/user1.png'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
+import { followAPI } from '../../api/api'
 
 
 
@@ -62,18 +63,17 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 onClickHandler = () => {
 
                     if (!el.followed) {
-                        axios.post<ResponseTypeFollowUnfollow>(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, {}, config)
-                            .then((response) => {
-                                if (response.data.resultCode === 0) {//если сервер подтвердил, что подписка произошла
+                        followAPI.followPost(el.id)
+                            .then((resultCode) => {
+                                if (resultCode === 0) {//если сервер подтвердил, что подписка произошла
                                     props.fallow(el.id)
                                 }
                             })
 
                     } else {
-
-                        axios.delete<ResponseTypeFollowUnfollow>(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`, config)
-                        .then((response)=> {
-                            if(response.data.resultCode === 0) {
+                        followAPI.unfollowDelete(el.id)
+                        .then((resultCode)=> {
+                            if(resultCode === 0) {
                                 props.unfallow(el.id)
                             }
                         })

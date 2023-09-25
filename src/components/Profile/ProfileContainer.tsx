@@ -6,6 +6,7 @@ import { ActionTypeProfile, ProfileServerType, setServerProfileAC } from "../../
 import { Profile } from "./Profile";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import { profileAPI } from "../../api/api";
 
 
 
@@ -42,10 +43,9 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         if (!userId) {
             userId = '2'
         }
-
-        axios.get<ProfileServerType>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then((response) => {
-                this.props.setServerProfile(response.data)
+        profileAPI.getUserProfile(userId)
+            .then((data) => {
+                this.props.setServerProfile(data)
             })
     }
     render() {
