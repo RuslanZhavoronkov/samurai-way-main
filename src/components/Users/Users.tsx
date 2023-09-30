@@ -1,9 +1,8 @@
 import React from 'react'
-import { PaginationType, ResponseTypeFollowUnfollow, UsersServerType } from "../../redux/usersReducer"
+import { PaginationType, UsersServerType, followingInProgressType } from "../../redux/usersReducer"
 import s from './users.module.css'
 import userPhoto from '../../assets/images/user1.png'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
 import { followAPI } from '../../api/api'
 
 
@@ -16,6 +15,8 @@ type UsersPropsType = {
     onPageChanged: (pageNumber: number) => void
     fallow: (userId: number) => void
     unfallow: (userId: number) => void
+    followingInProgress: followingInProgressType
+    followingInProgressChange: (id: number, disable: boolean) => void
 
 }
 
@@ -61,26 +62,28 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
 
                 onClickHandler = () => {
-
+                    props.followingInProgressChange(el.id, true)
                     if (!el.followed) {
                         followAPI.followPost(el.id)
                             .then((resultCode) => {
                                 if (resultCode === 0) {//если сервер подтвердил, что подписка произошла
                                     props.fallow(el.id)
                                 }
+                                props.followingInProgressChange(el.id, false)
                             })
 
                     } else {
                         followAPI.unfollowDelete(el.id)
-                        .then((resultCode)=> {
-                            if(resultCode === 0) {
-                                props.unfallow(el.id)
-                            }
-                        })
-                            
+                            .then((resultCode) => {
+                                if (resultCode === 0) {
+                                    props.unfallow(el.id)
+                                }
+                                props.followingInProgressChange(el.id, false)
+                            })
+
                     }
                 }
-
+                const disabledButton = props.followingInProgress.id.some(id => id === el.id)
 
                 const photoAvatar = el.photos.small !== null ? el.photos.small : userPhoto
                 return (
@@ -90,7 +93,7 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                                 <NavLink to={`/profile/${el.id}`}>
                                     <img className={s.userPhoto} src={photoAvatar} />
                                 </NavLink> </div>
-                            <div><button onClick={onClickHandler}>{changeFollow}</button></div>
+                            <div><button onClick={onClickHandler} disabled={disabledButton}>{changeFollow}</button></div>
                         </span>
                         <span>
                             <span>

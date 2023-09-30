@@ -7,11 +7,12 @@ import {
     UsersServerType,
     changeCurrentPageAC,
     followAC,
+    followingInProgressChangeAC,
+    followingInProgressType,
     isFetchingChangeAC,
     setUsersAC,
     unfollowAC
 } from '../../redux/usersReducer'
-import axios, { AxiosRequestConfig } from 'axios'
 import { Users } from './Users'
 import { Preloader } from '../common/Preloader/Preloader'
 import { userAPI } from '../../api/api'
@@ -27,18 +28,13 @@ type UsersAPIPropsType = {
     changeCurrentPage: (numberPage: number) => void
     isFatchingChange: (status: boolean) => void
     isFetching: boolean
+    followingInProgress: followingInProgressType
+    followingInProgressChange:(id: number, disable: boolean) => void
 }
 
 
 
-// 2. Conteiner Component
-const config: AxiosRequestConfig = {
-    withCredentials: true,
-    headers: {
-        'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
-    }
 
-}
 
 export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
     constructor(props: UsersAPIPropsType) {
@@ -79,6 +75,8 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
                     fallow={this.props.fallow}
                     unfallow={this.props.unfallow}
                     onPageChanged={this.onPageChanged}
+                    followingInProgress={this.props.followingInProgress}
+                    followingInProgressChange={this.props.followingInProgressChange}
 
                 />
             </>
@@ -97,7 +95,8 @@ const mapStateToProps = (state: AppRootStateType) => {
     return {
         users: state.usersPage.users,
         pagination: state.usersPage.pagination,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
@@ -117,6 +116,9 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
         },
         isFatchingChange: (status: boolean) => {
             dispatch(isFetchingChangeAC(status))
+        },
+        followingInProgressChange:(id: number, disable: boolean) => {
+            dispatch(followingInProgressChangeAC(id, disable))
         }
     }
 }

@@ -15,11 +15,13 @@ type FollowACType = ReturnType<typeof followAC>
 type UnfollowACType = ReturnType<typeof unfollowAC>
 type SetUsersACType = ReturnType<typeof setUsersAC>
 type IsFetchingChangeACType = ReturnType<typeof isFetchingChangeAC>
+type followingInProgressChangeACType = ReturnType<typeof followingInProgressChangeAC>
 export type ActionTypeUser = FollowACType
     | UnfollowACType
     | SetUsersACType
     | ChangeCurrentPageACType
     | IsFetchingChangeACType
+    | followingInProgressChangeACType
 
 
 export type PaginationType = {
@@ -47,11 +49,19 @@ export type UsersServerType = {
     error: null | string,
 }
 
+export type followingInProgressType = {
+    id: number[]
+    disable: boolean
+}
+
+
 export type UsersPageType = {
     users: UsersServerType,
     pagination: PaginationType,
     isFetching: boolean
+    followingInProgress: followingInProgressType //disabled button
 }
+
 
 const initialState: UsersPageType = {
     users: {
@@ -63,7 +73,11 @@ const initialState: UsersPageType = {
         pageSize: 5, //quantity users in page
         currentPage: 1 //change number page
     },
-    isFetching: true  //крутилка
+    isFetching: true,  //крутилка
+    followingInProgress: {
+        id: [],
+        disable: false
+    } //disable кнопки во время запроса
 }
 
 
@@ -105,7 +119,14 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         case "IS-FETCHING-CHANGE": {
             return { ...state, isFetching: action.payload.status }
         }
-
+        case "FOLLOWING-PROGRESS-CHANGE": {
+            if (action.payload.disable) {
+                return  { ...state, followingInProgress: {...state.followingInProgress, id: [...state.followingInProgress.id, action.payload.id]}}
+            } else {
+                return {...state, followingInProgress: {...state.followingInProgress, id: state.followingInProgress.id.filter(el => el !== action.payload.id)}}
+            }
+            
+        }
         default: {
             return state
         }
@@ -166,7 +187,15 @@ export const isFetchingChangeAC = (status: boolean) => {
     } as const
 }
 
-
+export const followingInProgressChangeAC = (id: number, disable: boolean) => {
+    return {
+        type: 'FOLLOWING-PROGRESS-CHANGE',
+        payload: {
+            id,
+            disable
+        }
+    } as const
+}
 
 
 //___________________________________________________________________________________________
