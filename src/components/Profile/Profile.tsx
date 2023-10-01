@@ -1,14 +1,16 @@
 import React from "react";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
-import { type } from "os";
 import { ProfileServerType } from "../../redux/profileReducer";
+
 
 
 type  ProfilePropsType = {
   profileFromServer: ProfileServerType
 }
   export const Profile: React.FC<ProfilePropsType> = (props) => { 
+
+ 
   return (
     <div>
       <ProfileInfo profileFromServer = {props.profileFromServer}/>

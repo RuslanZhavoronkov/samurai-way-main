@@ -39,7 +39,7 @@ const initialState = {
         }
     },
     isFetching: false,
-    isAuth: false
+    isAuth: false //авторизован/неавторизован
 }
 
 

@@ -9,7 +9,8 @@ import { Dialogs } from "./Dialogs";
 
 const mapStateToProps = (state:AppRootStateType) => { //Возвращает объект props with state
     return {
-        state: state.dialogsPage
+        state: state.dialogsPage,
+        isAuth:state.auth.isAuth
     }
 }
 

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
 import { ProfileServerType, getUserProfileTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
-import { RouteComponentProps } from "react-router-dom";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 
@@ -21,6 +21,7 @@ type PathParamsType = {
 
 type MapStatePropsType = {
     profileFromServer: ProfileServerType
+    isAuth: boolean
 }
 
 type MapDispatchPropsType = {
@@ -44,7 +45,7 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
             userId = '2'
         }
 
-       this.props.getUserProfile(userId)
+        this.props.getUserProfile(userId)
 
         // profileAPI.getUserProfile(userId)
         //     .then((data) => {
@@ -52,6 +53,9 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         //     })
     }
     render() {
+        if (!this.props.isAuth) {
+            return <Redirect to={'/login'} />
+        }
         return (
             <Profile profileFromServer={this.props.profileFromServer} />
         );
@@ -62,7 +66,8 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        profileFromServer: state.profilePage.profileFromServer
+        profileFromServer: state.profilePage.profileFromServer,
+        isAuth: state.auth.isAuth
     }
 }
 
