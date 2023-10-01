@@ -1,3 +1,5 @@
+import { Dispatch } from "redux"
+import { authAPI } from "../api/api"
 
 
 export type AuthDataResponseServerType = {
@@ -89,3 +91,15 @@ export const changeIsFetchingAC = (status: boolean) => {
 
     } as const 
 }  
+
+export const processAuthorizationTC = () => (dispatch: Dispatch)=> {
+    dispatch(changeIsFetchingAC(true))
+    authAPI.processAuthorization()
+         .then((data) => {
+            dispatch(changeIsFetchingAC(false))
+             if (data.resultCode === 0) {
+                 dispatch(setUserDataAC(data.data))
+             }
+         })
+}
+

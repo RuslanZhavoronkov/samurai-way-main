@@ -38,6 +38,7 @@ import { HeaderContainer } from "./components/Header/HeaderContainer";
             <Route path={'/news'} component={News} />
             <Route path={'/music'} component={Music} />
             <Route path={'/settings'} component={Settings} />
+          {/* //  <Route path={'/login'}> component={} */}
         </div>
       </div>
     

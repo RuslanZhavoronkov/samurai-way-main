@@ -1,4 +1,7 @@
+import { Dispatch } from "redux"
 import { PhotoType } from "./usersReducer"
+import { AppActionsType } from "./redux-store"
+import { profileAPI } from "../api/api"
 
 
 
@@ -129,4 +132,13 @@ return {
     }
 
 } as const
+}
+
+
+//thunk
+export const getUserProfileTC = (userId: string) => (dispatch: Dispatch<AppActionsType>) => {
+    profileAPI.getUserProfile(userId)
+    .then((data) => {
+        dispatch(setServerProfileAC(data))
+    })
 }

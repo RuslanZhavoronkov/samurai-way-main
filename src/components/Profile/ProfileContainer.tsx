@@ -1,12 +1,11 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { AppRootStateType } from "../../redux/redux-store";
-import { ActionTypeProfile, ProfileServerType, setServerProfileAC } from "../../redux/profileReducer";
+import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
+import { ProfileServerType, getUserProfileTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { profileAPI } from "../../api/api";
+
 
 
 
@@ -25,7 +24,8 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    setServerProfile: (serverProfile: ProfileServerType) => void
+    // setServerProfile: (serverProfile: ProfileServerType) => void
+    getUserProfile: (userId: string) => void
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
@@ -43,10 +43,13 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         if (!userId) {
             userId = '2'
         }
-        profileAPI.getUserProfile(userId)
-            .then((data) => {
-                this.props.setServerProfile(data)
-            })
+
+       this.props.getUserProfile(userId)
+
+        // profileAPI.getUserProfile(userId)
+        //     .then((data) => {
+        //         this.props.setServerProfile(data)
+        //     })
     }
     render() {
         return (
@@ -63,10 +66,13 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: (action: ActionTypeProfile) => void): MapDispatchPropsType => {
+const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => {
     return {
-        setServerProfile: (serverProfile: ProfileServerType) => {
-            dispatch(setServerProfileAC(serverProfile))
+        // setServerProfile: (serverProfile: ProfileServerType) => {
+        //     dispatch(setServerProfileAC(serverProfile))
+        // },
+        getUserProfile: (userId: string) => {
+            dispatch(getUserProfileTC(userId))
         }
     }
 }

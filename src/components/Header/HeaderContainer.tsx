@@ -1,10 +1,10 @@
 import React from "react";
 import { Header } from "./Header";
-import axios from "axios";
-import { AppRootStateType } from "../../redux/redux-store";
-import { AuthActionType, AuthDataResponseServerType, ResponseAuthMeServer, changeIsFetchingAC, setUserDataAC } from "../../redux/authReducer";
+import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
+import { processAuthorizationTC } from "../../redux/authReducer";
 import { connect } from "react-redux";
 import { Preloader } from "../common/Preloader/Preloader";
+
 
 
 type PropsHeaderAPIComponentType = mapStateToPropsType & mapDispatchToPropsType
@@ -17,22 +17,7 @@ export class HeaderAPIComponent extends React.Component<PropsHeaderAPIComponentT
     }
 
     componentDidMount(): void {
-
-        //Для того чтобы cookie подтянулись к запросу
-        const config = {
-            withCredentials: true,
-            headers: {
-                'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
-            }
-        }
-        this.props.changeIsFetching(true)
-        axios.get<ResponseAuthMeServer>(`https://social-network.samuraijs.com/api/1.0/auth/me`, config)
-            .then((response) => {
-                this.props.changeIsFetching(false)
-                if (response.data.resultCode === 0) {
-                    this.props.setUserData(response.data.data)
-                }
-            })
+        this.props.processAuthorization()
     }
     render() {
         return (
@@ -55,8 +40,9 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToPropsType = {
-    setUserData: (userData: AuthDataResponseServerType) => void
-    changeIsFetching: (status: boolean) => void
+    // setUserData: (userData: AuthDataResponseServerType) => void
+    // changeIsFetching: (status: boolean) => void
+    processAuthorization:()=> void
 }
 
 const mapStateToProps = (state: AppRootStateType) => {
@@ -67,14 +53,16 @@ const mapStateToProps = (state: AppRootStateType) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: (action: AuthActionType) => void) => {
+const mapDispatchToProps = (dispatch:AppDispatchType) => {
     return {
-        setUserData: (userData: AuthDataResponseServerType) => {
-            dispatch(setUserDataAC(userData))
-        },
-
-        changeIsFetching: (status: boolean) => {
-            dispatch(changeIsFetchingAC(status))
+        // setUserData: (userData: AuthDataResponseServerType) => {
+        //     dispatch(setUserDataAC(userData))
+        // },
+        // changeIsFetching: (status: boolean) => {
+        //     dispatch(changeIsFetchingAC(status))
+        // },
+        processAuthorization:()=>{
+            dispatch(processAuthorizationTC())
         }
 
     }
@@ -82,3 +70,23 @@ const mapDispatchToProps = (dispatch: (action: AuthActionType) => void) => {
 
 
 export const HeaderContainer = connect(mapStateToProps, mapDispatchToProps)(HeaderAPIComponent)
+
+
+
+
+//_______________________________________________________________________________
+//     //Для того чтобы cookie подтянулись к запросу
+    //     const config = {
+    //         withCredentials: true,
+    //         headers: {
+    //             'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
+    //         }
+    //     }
+    //     this.props.changeIsFetching(true)
+    //    headerAPI.processAuthorization()
+    //         .then((data) => {
+    //             this.props.changeIsFetching(false)
+    //             if (data.resultCode === 0) {
+    //                 this.props.setUserData(data.data)
+    //             }
+    //         })

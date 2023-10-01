@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { ResponseTypeFollowUnfollow, UsersServerType } from "../redux/usersReducer";
 import { ProfileServerType } from "../redux/profileReducer";
+import { ResponseAuthMeServer } from "../redux/authReducer";
 
 
 
@@ -32,12 +33,21 @@ export const userAPI = {
 
     unfollowDelete(userId: number) {
         return instance.delete<ResponseTypeFollowUnfollow>(`follow/${userId}`)
-        .then((response) => {
-            return response.data.resultCode
-        })
+            .then((response) => {
+                return response.data.resultCode
+            })
     }
 }
 
+
+export const authAPI = {
+    processAuthorization() {
+      return  instance.get<ResponseAuthMeServer>(`auth/me`) 
+        .then((response)=> {
+            return response.data
+        })
+    }
+}
 
 
 export const profileAPI = {
@@ -48,6 +58,8 @@ export const profileAPI = {
             })
     }
 }
+
+
 
 // export const followAPI = {
 //     followPost(userId: number) {
