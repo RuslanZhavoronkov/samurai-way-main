@@ -21,21 +21,8 @@ export const userAPI = {
             .then((response) => {
                 return response.data
             })
-    }
-}
+    },
 
-
-
-export const profileAPI = {
-    getUserProfile(userId: string) {
-        return instance.get<ProfileServerType>(`profile/${userId}`)
-            .then((response) => {
-                return response.data
-            })
-    }
-}
-
-export const followAPI = {
     followPost(userId: number) {
         return instance.post<ResponseTypeFollowUnfollow>(`follow/${userId}`, {})
             .then((response) => {
@@ -50,6 +37,33 @@ export const followAPI = {
         })
     }
 }
+
+
+
+export const profileAPI = {
+    getUserProfile(userId: string) {
+        return instance.get<ProfileServerType>(`profile/${userId}`)
+            .then((response) => {
+                return response.data
+            })
+    }
+}
+
+// export const followAPI = {
+//     followPost(userId: number) {
+//         return instance.post<ResponseTypeFollowUnfollow>(`follow/${userId}`, {})
+//             .then((response) => {
+//                 return response.data.resultCode
+//             })
+//     },
+
+//     unfollowDelete(userId: number) {
+//         return instance.delete<ResponseTypeFollowUnfollow>(`follow/${userId}`)
+//         .then((response) => {
+//             return response.data.resultCode
+//         })
+//     }
+// }
 
 
 

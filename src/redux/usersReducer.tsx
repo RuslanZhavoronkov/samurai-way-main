@@ -1,5 +1,9 @@
 //follow/unfollow
 
+import { Dispatch } from "redux"
+import { userAPI } from "../api/api"
+import { AppActionsType, AppThunkType } from "./redux-store"
+
 export type ResponseTypeFollowUnfollow = {
     resultCode: number
     messages: string[]
@@ -121,11 +125,11 @@ export const usersReducer = (state: UsersPageType = initialState, action: Action
         }
         case "FOLLOWING-PROGRESS-CHANGE": {
             if (action.payload.disable) {
-                return  { ...state, followingInProgress: {...state.followingInProgress, id: [...state.followingInProgress.id, action.payload.id]}}
+                return { ...state, followingInProgress: { ...state.followingInProgress, id: [...state.followingInProgress.id, action.payload.id] } }
             } else {
-                return {...state, followingInProgress: {...state.followingInProgress, id: state.followingInProgress.id.filter(el => el !== action.payload.id)}}
+                return { ...state, followingInProgress: { ...state.followingInProgress, id: state.followingInProgress.id.filter(el => el !== action.payload.id) } }
             }
-            
+
         }
         default: {
             return state
@@ -198,61 +202,34 @@ export const followingInProgressChangeAC = (id: number, disable: boolean) => {
 }
 
 
-//___________________________________________________________________________________________
+//thunk
+export const getUsersTC = (pageNumber: number, pageSize: number): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(isFetchingChangeAC(true))
+    userAPI.getUsers(pageNumber, pageSize)
+        .then((data) => {
+            dispatch(setUsersAC(data))
+            dispatch(isFetchingChangeAC(false))
+        })
+}
 
-// export type locationType = {
-//     city: string
-//     country: string
-// }
+export const followUserTC = (userId: number) => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(followingInProgressChangeAC(userId, true))
+    userAPI.followPost(userId)
+        .then((resultCode) => {
+            if (resultCode === 0) {//если сервер подтвердил, что подписка произошла
+                dispatch(followAC(userId))
+            }
+            dispatch(followingInProgressChangeAC(userId, false))
+        })
+}
 
-// export type UserType = {
-//     id: string
-//     photoUrl: string
-//     followed: boolean
-//     fullName: string
-//     status: string,
-//     location: locationType
-// }
-
-// export type UserPageType = {
-//     users: UserType[]
-// }
-
-
-// const initialState: UserPageType = {
-//     users: [
-//         // { id: '1', photoUrl:'https://i.pinimg.com/236x/78/2c/2b/782c2b0750d32a9206632ebb04a356f1.jpg', followed: false, fullName: 'Dmitry', status: "I'am a boss", location: { city: 'Minsk', country: 'Belarus' } },
-//         // { id: '2', photoUrl:'https://oir.mobi/uploads/posts/2020-01/1579277159_34-47.jpg', followed: true, fullName: 'Sasha', status: "I'am a boss too", location: { city: 'Moscow', country: 'Russia' } },
-//         // { id: '3', photoUrl:'https://klike.net/uploads/posts/2019-02/medium/1551081365_2.jpg', followed: false, fullName: 'Andrew', status: "I'am a boss too", location: { city: 'Kiev', country: 'Ukraine' } }
-//     ],
-
-// }
-
-
-// export const usersReducer = (state: UserPageType = initialState, action: ActionTypeUser): UserPageType => {
-//     switch (action.type) {
-//         case "FOLLOW": {
-//             return {
-//                 ...state, users: state.users
-//                     .map(el => el.id === action.payload.userId
-//                         ? { ...el, followed: true } : el)
-//             }
-//         }
-
-//         case "UNFOLLOW": {
-//             return {
-//                 ...state, users: state.users
-//                     .map(el => el.id === action.payload.userId
-//                         ? { ...el, followed: false } : el)
-//             }
-//         }
-
-//         case "SET_USERS": {
-//             return { ...state, users: [...state.users, ...action.payload.users] }
-//         }
-
-//         default: {
-//             return state
-//         }
-//     }
-// }
+export const unfollowUserTC = (userId:number) => (dispatch: Dispatch<AppActionsType>) => {
+    dispatch(followingInProgressChangeAC(userId, true))
+    userAPI.unfollowDelete(userId)
+        .then((resultCode) => {
+            if (resultCode === 0) {
+                dispatch(unfollowAC(userId))
+            }
+            dispatch(followingInProgressChangeAC(userId, false))
+        })
+}

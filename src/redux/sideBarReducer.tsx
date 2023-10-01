@@ -36,4 +36,4 @@ export const addFrendsSideBarAC = (name: string) => {
     } as const
 }
 
-type addFrendsSideBarACType = ReturnType<typeof addFrendsSideBarAC>
+export type addFrendsSideBarACType = ReturnType<typeof addFrendsSideBarAC>

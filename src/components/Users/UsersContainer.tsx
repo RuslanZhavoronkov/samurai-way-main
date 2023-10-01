@@ -1,35 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { AppRootStateType } from '../../redux/redux-store'
+import { AppDispatchType, AppRootStateType } from '../../redux/redux-store'
 import {
-    ActionTypeUser,
     PaginationType,
     UsersServerType,
     changeCurrentPageAC,
     followAC,
+    followUserTC,
     followingInProgressChangeAC,
     followingInProgressType,
-    isFetchingChangeAC,
-    setUsersAC,
-    unfollowAC
+    getUsersTC,
+    unfollowAC,
+    unfollowUserTC
 } from '../../redux/usersReducer'
 import { Users } from './Users'
 import { Preloader } from '../common/Preloader/Preloader'
-import { userAPI } from '../../api/api'
+
 
 
 
 type UsersAPIPropsType = {
     users: UsersServerType
     pagination: PaginationType
-    fallow: (userId: number) => void
-    unfallow: (userId: number) => void
-    setUsers: (users: UsersServerType) => void
+    // fallow: (userId: number) => void
+    // unfallow: (userId: number) => void
     changeCurrentPage: (numberPage: number) => void
-    isFatchingChange: (status: boolean) => void
     isFetching: boolean
     followingInProgress: followingInProgressType
-    followingInProgressChange:(id: number, disable: boolean) => void
+    
+    getUsers: (pageNumber: number, pageSize: number) => void
+    followUser: (userId: number) => void
+    unFollowUser:(userId: number)=> void
 }
 
 
@@ -42,25 +43,16 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
     }
 
     componentDidMount(): void {
-        this.props.isFatchingChange(true)
+       
+        this.props.getUsers(this.props.pagination.currentPage, this.props.pagination.pageSize)
 
-        userAPI.getUsers(this.props.pagination.currentPage, this.props.pagination.pageSize)
-            .then((data) => {
-                this.props.setUsers(data)
-                this.props.isFatchingChange(false)
-            }
-            )
+       
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.isFatchingChange(true)
+       
         this.props.changeCurrentPage(pageNumber);
-
-        userAPI.getUsers(pageNumber, this.props.pagination.pageSize)
-            .then((data) => {
-                this.props.setUsers(data)
-                this.props.isFatchingChange(false)
-            })
+        this.props.getUsers(pageNumber, this.props.pagination.pageSize)
     }
 
     render() {
@@ -72,12 +64,12 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
                 <Users
                     users={this.props.users}
                     pagination={this.props.pagination}
-                    fallow={this.props.fallow}
-                    unfallow={this.props.unfallow}
+                    // fallow={this.props.fallow}
+                    // unfallow={this.props.unfallow}
                     onPageChanged={this.onPageChanged}
                     followingInProgress={this.props.followingInProgress}
-                    followingInProgressChange={this.props.followingInProgressChange}
-
+                    followUser = {this.props.followUser}
+                    unFollowUser = {this.props.unFollowUser}
                 />
             </>
 
@@ -99,26 +91,27 @@ const mapStateToProps = (state: AppRootStateType) => {
         followingInProgress: state.usersPage.followingInProgress
     }
 }
-
-const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
+//(action: ActionTypeUser)
+const mapDispatchToProps = (dispatch: AppDispatchType) => {
     return {
-        fallow: (userId: number) => {
-            dispatch(followAC(userId))
-        },
-        unfallow: (userId: number) => {
-            dispatch(unfollowAC(userId))
-        },
-        setUsers: (users: UsersServerType) => {
-            dispatch(setUsersAC(users))
-        },
+        // fallow: (userId: number) => {
+        //     dispatch(followAC(userId))
+        // },
+        // unfallow: (userId: number) => {
+        //     dispatch(unfollowAC(userId))
+        // },
         changeCurrentPage: (numberPage: number) => {
             dispatch(changeCurrentPageAC(numberPage))
         },
-        isFatchingChange: (status: boolean) => {
-            dispatch(isFetchingChangeAC(status))
+        
+        getUsers: (pageNumber: number, pageSize: number) => {
+            dispatch(getUsersTC(pageNumber, pageSize))
         },
-        followingInProgressChange:(id: number, disable: boolean) => {
-            dispatch(followingInProgressChangeAC(id, disable))
+        followUser:(userId: number) => {
+            dispatch(followUserTC(userId))
+        },
+        unFollowUser:(userId: number) => {
+            dispatch(unfollowUserTC(userId))
         }
     }
 }
@@ -126,154 +119,24 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
 export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
 
 
-//_________________________________________________________________________________________________________
 
-
-
-// const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
-//     return {
-//         fallow: (userId: number) => {
-//             dispatch(followAC(userId))
-//         },
-//         unfallow: (userId: number) => {
-//             dispatch(unfollowAC(userId))
-//         },
-//         setUsers: (users: UsersServerType) => {
-//             dispatch(setUsersAC(users))
-//         },
-//         changeCurrentPage: (numberPage: number) => {
-//             dispatch(changeCurrentPageAC(numberPage))
-//         },
-//         isFatchingChange: (status: boolean) => {
-//             dispatch(isFetchingChangeAC(status))
-//         }
-//     }
+//_____________________________________________________________________________________________________________
+// onPageChanged = (pageNumber: number) => {
+       
+//     this.props.changeCurrentPage(pageNumber);
+// this.props.isFatchingChange(true)
+//     userAPI.getUsers(pageNumber, this.props.pagination.pageSize)
+//         .then((data) => {
+//             this.props.setUsers(data)
+//             this.props.isFatchingChange(false)
+//         })
 // }
 
 
-// export const UsersContainer = connect(mapStateToProps, 
-//     {
-//     fallow:followAC,
-//     unfallow:unfollowAC,
-//     setUsers:setUsersAC,
-//     changeCurrentPage:changeCurrentPageAC,
-//     isFatchingChange:isFetchingChangeAC
-// }
-// )(UsersAPIComponent)
-
-
-   // {
-            //     ...config,
-            //     params: {
-            //         page: this.props.pagination.currentPage,
-            //         count: this.props.pagination.pageSize
-            //     }
-            // }
-
-
-
-
-            //25.09.23________________________________________________________________________________
-            // type UsersAPIPropsType = {
-            //     users: UsersServerType
-            //     pagination: PaginationType
-            //     fallow: (userId: number) => void
-            //     unfallow: (userId: number) => void
-            //     setUsers: (users: UsersServerType) => void
-            //     changeCurrentPage: (numberPage: number) => void
-            //     isFatchingChange: (status: boolean) => void
-            //     isFetching: boolean
-            // }
-            
-            
-            
-            // // 2. Conteiner Component
-            // const config: AxiosRequestConfig = {
-            //     withCredentials: true,
-            //     headers: {
-            //         'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
-            //     }
-            
-            // }
-            
-            // export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
-            //     constructor(props: UsersAPIPropsType) {
-            //         super(props)
-            //     }
-            
-            //     componentDidMount(): void {
-            //         this.props.isFatchingChange(true)
-            //         axios.get<UsersServerType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.pagination.currentPage}&count${this.props.pagination.pageSize}`,config)
-            //             .then((response) => {
-            //                 this.props.setUsers(response.data)
-            //                 this.props.isFatchingChange(false)
-            //             }
-            //             )
-            //     }
-            
-            //     onPageChanged = (pageNumber: number) => {
-            //         this.props.isFatchingChange(true)
-            //         this.props.changeCurrentPage(pageNumber);
-            //         axios.get<UsersServerType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pagination.pageSize}`,config)
-            //             .then((response) => {
-            //                 this.props.setUsers(response.data)
-            //                 this.props.isFatchingChange(false)
-            //             })
-            //     }
-            
-            //     render() {
-            //         return (
-            //             <>
-            //                 {this.props.isFetching
-            //                     ? <Preloader />
-            //                     : null}
-            //                 <Users
-            //                     users={this.props.users}
-            //                     pagination={this.props.pagination}
-            //                     fallow={this.props.fallow}
-            //                     unfallow={this.props.unfallow}
-            //                     onPageChanged={this.onPageChanged}
-            
-            //                 />
-            //             </>
-            
-            
-            //         )
-            //     }
-            // }
-            
-            
-            
-            
-            // // 1. Conteiner Component
-            
-            // const mapStateToProps = (state: AppRootStateType) => {
-            //     return {
-            //         users: state.usersPage.users,
-            //         pagination: state.usersPage.pagination,
-            //         isFetching: state.usersPage.isFetching
-            //     }
-            // }
-            
-            // const mapDispatchToProps = (dispatch: (action: ActionTypeUser) => void) => {
-            //     return {
-            //         fallow: (userId: number) => {
-            //             dispatch(followAC(userId))
-            //         },
-            //         unfallow: (userId: number) => {
-            //             dispatch(unfollowAC(userId))
-            //         },
-            //         setUsers: (users: UsersServerType) => {
-            //             dispatch(setUsersAC(users))
-            //         },
-            //         changeCurrentPage: (numberPage: number) => {
-            //             dispatch(changeCurrentPageAC(numberPage))
-            //         },
-            //         isFatchingChange: (status: boolean) => {
-            //             dispatch(isFetchingChangeAC(status))
-            //         }
-            //     }
-            // }
-            
-            // export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
-            
+        // this.props.isFatchingChange(true)
+        // userAPI.getUsers(this.props.pagination.currentPage, this.props.pagination.pageSize)
+        //     .then((data) => {
+        //         this.props.setUsers(data)
+        //         this.props.isFatchingChange(false)
+        //     }
+        //     )

@@ -3,7 +3,7 @@ import { PaginationType, UsersServerType, followingInProgressType } from "../../
 import s from './users.module.css'
 import userPhoto from '../../assets/images/user1.png'
 import { NavLink } from 'react-router-dom'
-import { followAPI } from '../../api/api'
+import { userAPI } from '../../api/api'
 
 
 
@@ -13,22 +13,17 @@ type UsersPropsType = {
     users: UsersServerType
     pagination: PaginationType
     onPageChanged: (pageNumber: number) => void
-    fallow: (userId: number) => void
-    unfallow: (userId: number) => void
+    // fallow: (userId: number) => void
+    // unfallow: (userId: number) => void
     followingInProgress: followingInProgressType
-    followingInProgressChange: (id: number, disable: boolean) => void
-
+    followUser: (userId: number) => void
+    unFollowUser:(userId: number)=> void
 }
 
 
 export const Users: React.FC<UsersPropsType> = (props) => {
 
-    const config = {
-        withCredentials: true,
-        headers: {
-            'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
-        }
-    }
+    
 
     let pageArray = []
     let pagesCount = Math.ceil(props.users.totalCount / props.pagination.pageSize)
@@ -62,25 +57,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
 
 
                 onClickHandler = () => {
-                    props.followingInProgressChange(el.id, true)
                     if (!el.followed) {
-                        followAPI.followPost(el.id)
-                            .then((resultCode) => {
-                                if (resultCode === 0) {//если сервер подтвердил, что подписка произошла
-                                    props.fallow(el.id)
-                                }
-                                props.followingInProgressChange(el.id, false)
-                            })
-
+                     props.followUser(el.id)
                     } else {
-                        followAPI.unfollowDelete(el.id)
-                            .then((resultCode) => {
-                                if (resultCode === 0) {
-                                    props.unfallow(el.id)
-                                }
-                                props.followingInProgressChange(el.id, false)
-                            })
-
+                     props.unFollowUser(el.id)
                     }
                 }
                 const disabledButton = props.followingInProgress.id.some(id => id === el.id)
@@ -114,3 +94,35 @@ export const Users: React.FC<UsersPropsType> = (props) => {
     )
 
 } 
+
+//_________________________________________________________________________________________
+// const config = {
+    //     withCredentials: true,
+    //     headers: {
+    //         'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
+    //     }
+    // }
+    
+    //______________________________________________________________________________
+    // onClickHandler = () => {
+    //     props.followingInProgressChange(el.id, true)
+    //     if (!el.followed) {
+    //         userAPI.followPost(el.id)
+    //             .then((resultCode) => {
+    //                 if (resultCode === 0) {//если сервер подтвердил, что подписка произошла
+    //                     props.fallow(el.id)
+    //                 }
+    //                 props.followingInProgressChange(el.id, false)
+    //             })
+
+    //     } else {
+    //         userAPI.unfollowDelete(el.id)
+    //             .then((resultCode) => {
+    //                 if (resultCode === 0) {
+    //                     props.unfallow(el.id)
+    //                 }
+    //                 props.followingInProgressChange(el.id, false)
+    //             })
+
+    //     }
+    // }
