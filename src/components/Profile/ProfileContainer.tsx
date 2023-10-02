@@ -85,8 +85,8 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
 
 const WithUrlDataConteinerComponent = withRouter(ProfileAPIComponent)
 
-export const ProfileConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
-export const ProfileContainer = withAuthRedirect(ProfileConnectedComponent)
+export const ProfileConnectedContainerComponent = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
+export const ProfileContainer = withAuthRedirect(ProfileConnectedContainerComponent)
 
 //export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
 

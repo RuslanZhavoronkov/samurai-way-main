@@ -117,8 +117,8 @@ const mapDispatchToProps = (dispatch: AppDispatchType) => {
     }
 }
 
-export const UsersConnectContainerComponent = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
-export const UsersContainer = withAuthRedirect(UsersConnectContainerComponent)
+export const UsersConnectedContainerComponent = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+export const UsersContainer = withAuthRedirect(UsersConnectedContainerComponent)
 
 
 //_____________________________________________________________________________________________________________

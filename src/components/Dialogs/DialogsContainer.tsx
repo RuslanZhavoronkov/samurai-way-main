@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeDialogs) => void) => { 
 }
 
 
-export const DialogsConnectComponent = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
-export const DialogsContainer = withAuthRedirect(DialogsConnectComponent)
+export const DialogsConnectedConteinerComponent = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
+export const DialogsContainer = withAuthRedirect(DialogsConnectedConteinerComponent)
 
 
 //_________________________________________________________________________________________________________________________
