@@ -13,7 +13,7 @@ type PropsDialogsType = {
     state: DialogsPageType
     addMessage:()=>void
     updateMessageText:(newMessageText:string) => void
-    isAuth: boolean
+   // isAuth: boolean
 }
 
 
@@ -33,9 +33,9 @@ export const Dialogs: React.FC<PropsDialogsType> = (props) => {
         props.updateMessageText(e.currentTarget.value)
     }
 
-    if (!props.isAuth){
-        return <Redirect to = {'/login'}/>
-    } 
+    // if (!props.isAuth){
+    //     return <Redirect to = {'/login'}/>
+    // } 
 
     return (
         // Две колонки значит две дивки

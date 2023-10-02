@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { ActionTypeDialogs,  addMessageAC, updateMessageAC } from "../../redux/dialogsReducer";
 import { AppRootStateType} from "../../redux/redux-store";
 import { Dialogs } from "./Dialogs";
+import { withAuthRedirect } from "../../hocs/withAuthRedirect";
 
 
 
@@ -10,7 +11,7 @@ import { Dialogs } from "./Dialogs";
 const mapStateToProps = (state:AppRootStateType) => { //Возвращает объект props with state
     return {
         state: state.dialogsPage,
-        isAuth:state.auth.isAuth
+       // isAuth:state.auth.isAuth
     }
 }
 
@@ -29,7 +30,8 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeDialogs) => void) => { 
 }
 
 
-export const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
+export const DialogsConnectComponent = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
+export const DialogsContainer = withAuthRedirect(DialogsConnectComponent)
 
 
 //_________________________________________________________________________________________________________________________
