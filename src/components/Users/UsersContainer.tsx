@@ -16,6 +16,7 @@ import {
 import { Users } from './Users'
 import { Preloader } from '../common/Preloader/Preloader'
 import { withAuthRedirect } from '../../hocs/withAuthRedirect'
+import { compose } from 'redux'
 
 
 
@@ -117,8 +118,14 @@ const mapDispatchToProps = (dispatch: AppDispatchType) => {
     }
 }
 
-export const UsersConnectedContainerComponent = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
-export const UsersContainer = withAuthRedirect(UsersConnectedContainerComponent)
+
+export const UsersContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps)  
+)(UsersAPIComponent)
+
+// export const UsersConnectedContainerComponent = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+// export const UsersContainer = withAuthRedirect(UsersConnectedContainerComponent)
 
 
 //_____________________________________________________________________________________________________________

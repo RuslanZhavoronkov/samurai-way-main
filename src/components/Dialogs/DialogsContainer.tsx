@@ -4,6 +4,7 @@ import { ActionTypeDialogs,  addMessageAC, updateMessageAC } from "../../redux/d
 import { AppRootStateType} from "../../redux/redux-store";
 import { Dialogs } from "./Dialogs";
 import { withAuthRedirect } from "../../hocs/withAuthRedirect";
+import { compose } from "redux";
 
 
 
@@ -30,8 +31,13 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeDialogs) => void) => { 
 }
 
 
-export const DialogsConnectedConteinerComponent = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
-export const DialogsContainer = withAuthRedirect(DialogsConnectedConteinerComponent)
+export const DialogsContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps,mapDispatchToProps)// connect это функция, которая возвращает HOC
+)(Dialogs)
+
+// export const DialogsConnectedConteinerComponent = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
+// export const DialogsContainer = withAuthRedirect(DialogsConnectedConteinerComponent)
 
 
 //_________________________________________________________________________________________________________________________
