@@ -5,54 +5,6 @@ import { profileAPI } from "../api/api"
 
 
 
-export type PostType = {
-    id: string,
-    message: string
-    likesCount: string
-}
-
-
-type ContactsProfileType = {
-    facebook: string | null
-    website: string | null
-    vk: string | null
-    twitter: string | null
-    instagram: string | null
-    youtube: string | null
-    github: string | null
-    mainLink: string | null
-}
-
-
-export type ProfileServerType = {
-    aboutMe: string
-    contacts: ContactsProfileType
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    fullName: string
-    userId: number
-    photos: PhotoType
-}
-
-
-export type ProfilePageType = {
-    posts: PostType[]
-    newPostText: string
-    profileFromServer: ProfileServerType
-
-}
-
-
-
-export type AddPostACType = ReturnType<typeof addPostAC>
-export type UpdatePostACType = ReturnType<typeof updatePostAC>
-export type setServerProfileACType = ReturnType<typeof setServerProfileAC>
-export type ActionTypeProfile = AddPostACType
-| UpdatePostACType //| clearNewPostTextACtype
-| setServerProfileACType
-
-
-
 const initialState = {
     posts: [
         { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
@@ -62,25 +14,25 @@ const initialState = {
     profileFromServer: {
         aboutMe: '',
         contacts: {
-        facebook: '',
-        website: '',
-        vk: '',
-        twitter: '',
-        instagram: '',
-        youtube: '',
-        github: '',
-        mainLink: ''
+            facebook: '',
+            website: '',
+            vk: '',
+            twitter: '',
+            instagram: '',
+            youtube: '',
+            github: '',
+            mainLink: ''
         },
         lookingForAJob: true,
-        lookingForAJobDescription:'',
+        lookingForAJobDescription: '',
         fullName: '',
         userId: 1,
         photos: {
-        small: '',
-        large: ''
+            small: '',
+            large: ''
         }
-        }
-
+    },
+    status: ''
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
@@ -96,7 +48,15 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         }
 
         case 'SET-SERVER-PROFILE': {
-            return {...state, profileFromServer: action.payload.serverProfile}
+            return { ...state, profileFromServer: action.payload.serverProfile }
+        }
+
+        case "GET-PROFILE-STATUS": {
+            return { ...state, status: action.payload.status }
+        }
+
+        case "GET-UPDATE-PROFILE-STATUS": {
+            return { ...state, status: action.payload.status }
         }
 
         default: {
@@ -125,20 +85,111 @@ export const addPostAC = () => {
 
 
 export const setServerProfileAC = (serverProfile: ProfileServerType) => {
-return {
-    type: 'SET-SERVER-PROFILE',
-    payload: {
-        serverProfile
-    }
+    return {
+        type: 'SET-SERVER-PROFILE',
+        payload: {
+            serverProfile
+        }
 
-} as const
+    } as const
+}
+
+export const getProfileStatusAC = (status: string) => {
+    return {
+        type: 'GET-PROFILE-STATUS',
+        payload: {
+            status
+        }
+    } as const
+}
+
+export const updateProfileStatusAC = (status: string) => {
+    return {
+        type: 'GET-UPDATE-PROFILE-STATUS',
+        payload: {
+            status
+        }
+    } as const
 }
 
 
 //thunk
 export const getUserProfileTC = (userId: string) => (dispatch: Dispatch<AppActionsType>) => {
     profileAPI.getUserProfile(userId)
-    .then((data) => {
-        dispatch(setServerProfileAC(data))
-    })
+        .then((data) => {
+            dispatch(setServerProfileAC(data))
+        })
 }
+
+export const getProfileStatusTC = (userId: string) => async (dispatch: Dispatch) => {
+    try {
+        const response = await profileAPI.getStatus(userId)
+        dispatch(getProfileStatusAC(response))
+    }
+    catch (e) {
+        alert('WARNING ERROR')
+    }
+}
+
+export const updateProfileStatusTC = (status: string) => async (dispatch: Dispatch) => {
+    try {
+        const response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(updateProfileStatusAC(status))
+        }
+    }
+    catch (e) {
+        alert('WARNING ERROR')
+    }
+}
+
+
+//type
+export type PostType = {
+    id: string,
+    message: string
+    likesCount: string
+}
+
+type ContactsProfileType = {
+    facebook: string | null
+    website: string | null
+    vk: string | null
+    twitter: string | null
+    instagram: string | null
+    youtube: string | null
+    github: string | null
+    mainLink: string | null
+}
+
+export type ProfileServerType = {
+    aboutMe: string
+    contacts: ContactsProfileType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotoType
+}
+
+
+export type ProfilePageType = {
+    posts: PostType[]
+    newPostText: string
+    profileFromServer: ProfileServerType
+    status: string
+}
+
+
+
+export type AddPostACType = ReturnType<typeof addPostAC>
+export type UpdatePostACType = ReturnType<typeof updatePostAC>
+export type SetServerProfileACType = ReturnType<typeof setServerProfileAC>
+export type GetProfileStatusACType = ReturnType<typeof getProfileStatusAC>
+export type UpdateProfileStatusACType = ReturnType<typeof updateProfileStatusAC>
+export type ActionTypeProfile = AddPostACType
+    | UpdatePostACType //| clearNewPostTextACtype
+    | SetServerProfileACType
+    | GetProfileStatusACType
+    | UpdateProfileStatusACType
+

@@ -96,7 +96,8 @@ export let store: storeType = {
                 small: '',
                 large: ''
                 }
-                }
+                },
+            status: ''   
 
         },
 

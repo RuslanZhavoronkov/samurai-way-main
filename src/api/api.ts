@@ -42,10 +42,10 @@ export const userAPI = {
 
 export const authAPI = {
     processAuthorization() {
-      return  instance.get<ResponseAuthMeServer>(`auth/me`) 
-        .then((response)=> {
-            return response.data
-        })
+        return instance.get<ResponseAuthMeServer>(`auth/me`)
+            .then((response) => {
+                return response.data
+            })
     }
 }
 
@@ -56,10 +56,24 @@ export const profileAPI = {
             .then((response) => {
                 return response.data
             })
+    },
+    getStatus(userId: string) {
+        return instance.get<string>(`profile/status/${userId}`)
+        .then ((response)=> {
+            return response.data
+        })
+    },
+    updateStatus(status: string) {
+        return instance.put<ResponseUpdateStatus>(`profile/status`, {status})
     }
 }
 
-
+//type
+type ResponseUpdateStatus = {
+    resultCode: number
+    messages: string[]
+    data: {}
+}
 
 // export const followAPI = {
 //     followPost(userId: number) {

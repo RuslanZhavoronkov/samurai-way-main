@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
-import { ProfileServerType, getUserProfileTC } from "../../redux/profileReducer";
+import { ProfileServerType, getProfileStatusTC, getUserProfileTC, updateProfileStatusTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
@@ -22,13 +22,16 @@ type PathParamsType = {
 }
 
 type MapStatePropsType = {
-    profileFromServer: ProfileServerType
+    profileFromServer: ProfileServerType,
+    userStatus: string
    // isAuth: boolean
 }
 
 type MapDispatchPropsType = {
     // setServerProfile: (serverProfile: ProfileServerType) => void
     getUserProfile: (userId: string) => void
+    getProfileStatus: (userId: string) => void
+    updateProfileStatus:(status: string) => void
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
@@ -48,6 +51,7 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         }
 
         this.props.getUserProfile(userId)
+        this.props.getProfileStatus(userId)
 
         // profileAPI.getUserProfile(userId)
         //     .then((data) => {
@@ -59,7 +63,10 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         //     return <Redirect to={'/login'} />
         // }
         return (
-            <Profile profileFromServer={this.props.profileFromServer} />
+            <Profile 
+            profileFromServer={this.props.profileFromServer}
+            userStatus={this.props.userStatus}
+            updateProfileStatus = { this.props.updateProfileStatus}/>
         );
     }
 }
@@ -69,6 +76,7 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         profileFromServer: state.profilePage.profileFromServer,
+        userStatus: state.profilePage.status
        // isAuth: state.auth.isAuth
     }
 }
@@ -80,6 +88,12 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
         // },
         getUserProfile: (userId: string) => {
             dispatch(getUserProfileTC(userId))
+        },
+        getProfileStatus: (userId: string) => {
+            dispatch(getProfileStatusTC(userId))
+        },
+        updateProfileStatus:(status: string) => {
+            dispatch(updateProfileStatusTC(status))
         }
     }
 }

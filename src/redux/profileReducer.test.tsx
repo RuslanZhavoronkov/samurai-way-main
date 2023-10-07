@@ -31,7 +31,8 @@ test('update post', () => {
             small: '',
             large: ''
             }
-            }
+            },
+            status: ''   
     }
 
     // change data
@@ -72,7 +73,8 @@ test('Add post', () => {
             small: '',
             large: ''
             }
-            }
+            },
+            status: ''   
     }
     
 

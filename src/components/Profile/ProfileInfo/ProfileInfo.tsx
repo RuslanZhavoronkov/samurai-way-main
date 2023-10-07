@@ -6,6 +6,8 @@ import { ProfileStatus } from "./ProfileStatus";
 
 type ProfileInfoPropsType = {
     profileFromServer: ProfileServerType
+    userStatus: string
+    updateProfileStatus: (status: string) => void
 }
 
 
@@ -21,10 +23,13 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
                     alt="Nasa"
                 />
             </div> */}
-            <img src = {props.profileFromServer.photos.large}/>
+            <img src={props.profileFromServer.photos.large} />
             <div> {props.profileFromServer.fullName} </div>
             <div>{props.profileFromServer.contacts.twitter}</div>
-            <div className={s.descriptionBlock}><ProfileStatus status = {'Hello my friends'}/></div>
+            <div className={s.descriptionBlock}>
+                <ProfileStatus status={props.userStatus}
+                    updateProfileStatus={props.updateProfileStatus} />
+            </div>
 
         </div>
     );
