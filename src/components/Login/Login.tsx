@@ -1,8 +1,17 @@
+import { FormDataType, LoginForm, LoginReduxForm } from "./LoginForm"
 
 
 
 export const Login = () => {
+    const onSubmit = (formData: FormDataType) => {
+console.log(formData)
+    }
     return (
-        <h1>LOGIN</h1>
+        <div>
+            <h1>Login</h1>
+           <LoginReduxForm onSubmit={onSubmit}/>
+        </div>
     )
 }
+
+

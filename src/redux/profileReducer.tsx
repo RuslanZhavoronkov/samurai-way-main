@@ -56,6 +56,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         }
 
         case "GET-UPDATE-PROFILE-STATUS": {
+            debugger
             return { ...state, status: action.payload.status }
         }
 
