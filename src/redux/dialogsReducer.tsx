@@ -1,7 +1,7 @@
 export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
-    newMessageText: string
+    //newMessageText: string
 }
 
 export type DialogType = {
@@ -14,35 +14,30 @@ export type MessageType = {
     message: string
 }
 
-export const updateMessageAC = (newMessageText: string) => {
-    return {
-        type: 'UPDATE-MESSAGE',
-        payload: {
-            newMessageText
-        }
-    } as const
-}
-
-
-
-export const addMessageAC = () => {
-    return {
-        type: 'ADD-MESSAGE'
-    } as const
-}
-
-
-// export const clearMessageAC = ()=>{
+// export const updateMessageAC = (newMessageText: string) => {
 //     return {
-//         type: 'CLEAR-NEWMESSAGETEXT'
+//         type: 'UPDATE-MESSAGE',
+//         payload: {
+//             newMessageText
+//         }
 //     } as const
 // }
 
 
+
+export const addMessageAC = (newMessageText: string) => {
+    return {
+        type: 'ADD-MESSAGE',
+        newMessageText
+    } as const
+}
+
+
+
+
 export type AddMessageACType = ReturnType<typeof addMessageAC>
-export type UpdateMessageACType = ReturnType<typeof updateMessageAC>
-// export type clearMessageACType = ReturnType<typeof clearMessageAC>
-export type ActionTypeDialogs = AddMessageACType | UpdateMessageACType //| clearMessageACType
+// export type UpdateMessageACType = ReturnType<typeof updateMessageAC>
+export type ActionTypeDialogs = AddMessageACType  //| clearMessageACType
 
 
 const initialState = {
@@ -63,7 +58,7 @@ const initialState = {
         { id: '6', message: 'Yo' },
     ],
 
-    newMessageText: ''
+   // newMessageText: ''
 
 }
 
@@ -72,16 +67,13 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
 
     switch (action.type) {
 
-        case "UPDATE-MESSAGE": {
-            //state.newMessageText = action.payload.newMessageText
-            return {...state, newMessageText: action.payload.newMessageText }
-        }
+        // case "UPDATE-MESSAGE": {
+        //     return {...state, newMessageText: action.payload.newMessageText }
+        // }
 
         case 'ADD-MESSAGE': {
-            const newMessage = { id: '7', message: state.newMessageText}
-            // state.messages.push(newMessage)
-            // state.newMessageText = '' //стираем в поле введенное значение
-            return {...state, messages: [...state.messages, newMessage], newMessageText:''};
+            const newMessage = { id: '7', message: action.newMessageText}
+            return {...state, messages: [...state.messages, newMessage], };
         }
 
         // case 'CLEAR-NEWMESSAGETEXT': {

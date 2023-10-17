@@ -1,4 +1,4 @@
-import { ActionTypeDialogs, AddMessageACType, UpdateMessageACType, dialogsReducer} from "./dialogsReducer"
+import { ActionTypeDialogs, AddMessageACType,  dialogsReducer} from "./dialogsReducer"
 import { ActionTypeProfile, AddPostACType, ProfilePageType, UpdatePostACType, profileReducer} from "./profileReducer"
 
 
@@ -32,7 +32,7 @@ export type FriendType = {
 export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
-    newMessageText: string
+    
 }
 
 
@@ -62,7 +62,7 @@ type storeType = {
 
 
 
-export type ActionTypeNew = AddPostACType | UpdatePostACType |  AddMessageACType | UpdateMessageACType
+export type ActionTypeNew = AddPostACType | UpdatePostACType |  AddMessageACType 
 
 
 
@@ -119,7 +119,7 @@ export let store: storeType = {
                 { id: '6', message: 'Yo' },
             ],
 
-            newMessageText: ''
+           
 
         },
 
@@ -149,7 +149,7 @@ export let store: storeType = {
     dispatch(action: ActionTypeNew) {         //{type: ''}
         
         this._state.profilePage = profileReducer(this._state.profilePage, action as ActionTypeProfile)//вернуть измененный state
-        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action as ActionTypeDialogs)
+       
 
         this._callSubscriber(this._state)
     }
