@@ -27,26 +27,4 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
 
 //______________________________________________________________________________________________________________________________
 
-// export type PropsProfileType = {
-//   state: ProfilePageType
-//   //dispatch: (action: ActionTypeNew) => void
-// }
 
-
-// export const Profile: React.FC<PropsProfileType> = (props) => {
-// export type PropsProfileType = {
-//   state: ProfilePageType
-//   addPost: () => void
-//   changeNewPostText:(newPostText: string) => void
-// }
-
-
-// export const Profile: React.FC<PropsProfileType> = (props) => {
-//   return (
-//     <div>
-//       <ProfileInfo />
-//       <MyPosts posts = {props.state.posts} addPost= {props.addPost} newPostText={props.state.newPostText}  changeNewPostText={props.changeNewPostText}/>
-
-//     </div>
-//   );
-// };

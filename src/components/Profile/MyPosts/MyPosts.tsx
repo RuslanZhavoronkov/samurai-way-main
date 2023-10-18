@@ -1,39 +1,36 @@
-import React, { ChangeEvent} from "react";
+import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { PostType } from "../../../redux/profileReducer";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
 
 
 
 type PropsMyPostsType = {
   posts: PostType[]
-  newPostText: string
-  changeNewPostText:(valueText: string)=> void
-  addPost: ()=> void
- // clearNewPost: () => void
+  // newPostText: string
+  // changeNewPostText: (valueText: string) => void
+  addPost: (newPostText: string) => void
 }
 
 export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 
-  let postsElements = props.posts.map(el => < div key={el.id}><Post id={el.id} message={el.message} likesCount={el.likesCount} /></div>)
+  let postsElements = props.posts.map(el =>
+    < div key={el.id}>
+      <Post
+        id={el.id}
+        message={el.message}
+        likesCount={el.likesCount} />
+    </div>)
 
-  const addPostButonHandler = () => {
-     props.addPost()
-   //  props.clearNewPost()
+  const onSubmit = (formData: FormDataPostType) => {
+    props.addPost(formData.newPostText)
   }
-
-const onChangeTextareaHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-props.changeNewPostText(e.currentTarget.value)
-}
 
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
-      <div>
-        <div><textarea  value = {props.newPostText} onChange = {onChangeTextareaHandler} ></textarea></div> 
-        {/* <div><textarea value = {""} onChange = {onChangeTextareaHandler}></textarea></div> */}
-        <div><button onClick={addPostButonHandler}>Add post</button></div>
-      </div>
+      <AddNewPostReduxForm onSubmit={onSubmit} />
       <div className={s.posts}>
         {postsElements}
       </div>
@@ -42,87 +39,36 @@ props.changeNewPostText(e.currentTarget.value)
 };
 
 
+
+type FormDataPostType = {
+  newPostText: string
+}
+
+//create Component for Form
+export const AddNewPostForm: React.FC<InjectedFormProps<FormDataPostType>> = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field component={'textarea'} name={'newPostText'} />
+      <div><button>Add post</button></div>
+    </form>
+  )
+}
+
+export const AddNewPostReduxForm = reduxForm<FormDataPostType>({
+  form: 'ProfileAddNewPostForm'
+})(AddNewPostForm)
+
+
+
+
+
 //_____________________________________________________________________________________________________________________
 
 
-// type PropsMyPostsType = {
-//   posts: PostType[]
-//   newPostText: string
-//   dispatch: (action: ActionTypeNew) => void
-//   // addPost:() => void
-//   // changeNewPostText:(newPostText: string) => void
-// }
+ // const addPostButonHandler = () => {
+  //   props.addPost()
+  // }
 
-// export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
-
-//   let postsElements = props.posts.map(el => < div key={el.id}><Post id={el.id} message={el.message} likesCount={el.likesCount} /></div>)
-
-//   const addPostButonHandler = () => {
-//     // let text = newPostElement.current as HTMLTextAreaElement
-//       props.dispatch(addPostAC())
-     
-//   }
-
-// const onChangeTextareaHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-// props.changeNewPostText(e.currentTarget.value)
-// }
-
-// //  const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
-//  const newPostElement = React.createRef<HTMLTextAreaElement>()
- 
-
-//   return (
-//     <div className={s.postsBlock}>
-//       <h3>My posts</h3>
-//       <div>
-//         <div><textarea ref={newPostElement} value = {props.newPostText} onChange = {onChangeTextareaHandler} ></textarea></div> 
-//         {/* <div><textarea value = {""} onChange = {onChangeTextareaHandler}></textarea></div> */}
-//         <div><button onClick={addPostButonHandler}>Add post</button></div>
-//       </div>
-//       <div className={s.posts}>
-//         {postsElements}
-//       </div>
-//     </div>
-//   );
-// };
-
-//_____________________________________________________________________________________________________________________________
-//with dispatch
-
-// type PropsMyPostsType = {
-//   posts: PostType[]
-//   newPostText: string
-//   dispatch: (action: ActionTypeNew) => void
-// }
-
-// export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
-
-//   let postsElements = props.posts.map(el => < div key={el.id}><Post id={el.id} message={el.message} likesCount={el.likesCount} /></div>)
-
-//   const addPostButonHandler = () => {
-//       props.dispatch(addPostAC())
-     
-//   }
-
-// const onChangeTextareaHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-// props.dispatch(updatePostAC(e.currentTarget.value))
-// }
-
-// //  const newPostElement = useRef<HTMLTextAreaElement>(null) //содержит ссылку на элемент textarea
-//  const newPostElement = React.createRef<HTMLTextAreaElement>()
- 
-
-//   return (
-//     <div className={s.postsBlock}>
-//       <h3>My posts</h3>
-//       <div>
-//         <div><textarea ref={newPostElement} value = {props.newPostText} onChange = {onChangeTextareaHandler} ></textarea></div> 
-//         {/* <div><textarea value = {""} onChange = {onChangeTextareaHandler}></textarea></div> */}
-//         <div><button onClick={addPostButonHandler}>Add post</button></div>
-//       </div>
-//       <div className={s.posts}>
-//         {postsElements}
-//       </div>
-//     </div>
-//   );
-// };
+  // const onChangeTextareaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  //   props.changeNewPostText(e.currentTarget.value)
+  // }

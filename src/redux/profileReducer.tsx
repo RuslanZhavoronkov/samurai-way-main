@@ -10,7 +10,7 @@ const initialState = {
         { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
         { id: '2', message: 'It\s my first post', likesCount: ' 11' },
     ],
-    newPostText: '',
+    // newPostText: '',
     profileFromServer: {
         aboutMe: '',
         contacts: {
@@ -37,14 +37,14 @@ const initialState = {
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionTypeProfile): ProfilePageType => {
     switch (action.type) {
-        case 'UPDATE-POST': {
+        // case 'UPDATE-POST': {
 
-            return { ...state, newPostText: action.payload.newPost }
-        }
+        //     return { ...state, newPostText: action.payload.newPost }
+        // }
 
         case 'ADD-POST': {
-            const newPost: PostType = { id: '3', message: state.newPostText, likesCount: '0' }
-            return { ...state, posts: [...state.posts, newPost], newPostText: '' }
+            const newPost: PostType = { id: '3', message: action.newPostText, likesCount: '0' }
+            return { ...state, posts: [...state.posts, newPost]}
         }
 
         case 'SET-SERVER-PROFILE': {
@@ -69,18 +69,19 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 
 //Action Create
 
-export const updatePostAC = (newPost: string) => {
-    return {
-        type: 'UPDATE-POST',
-        payload: {
-            newPost,
-        }
-    } as const
-}
+// export const updatePostAC = (newPost: string) => {
+//     return {
+//         type: 'UPDATE-POST',
+//         payload: {
+//             newPost,
+//         }
+//     } as const
+// }
 
-export const addPostAC = () => {
+export const addPostAC = (newPostText:string) => {
     return {
-        type: 'ADD-POST'
+        type: 'ADD-POST',
+        newPostText
     } as const
 }
 
@@ -176,7 +177,7 @@ export type ProfileServerType = {
 
 export type ProfilePageType = {
     posts: PostType[]
-    newPostText: string
+    // newPostText: string
     profileFromServer: ProfileServerType
     status: string
 }
@@ -184,12 +185,12 @@ export type ProfilePageType = {
 
 
 export type AddPostACType = ReturnType<typeof addPostAC>
-export type UpdatePostACType = ReturnType<typeof updatePostAC>
+// export type UpdatePostACType = ReturnType<typeof updatePostAC>
 export type SetServerProfileACType = ReturnType<typeof setServerProfileAC>
 export type GetProfileStatusACType = ReturnType<typeof getProfileStatusAC>
 export type UpdateProfileStatusACType = ReturnType<typeof updateProfileStatusAC>
 export type ActionTypeProfile = AddPostACType
-    | UpdatePostACType //| clearNewPostTextACtype
+    // | UpdatePostACType //| clearNewPostTextACtype
     | SetServerProfileACType
     | GetProfileStatusACType
     | UpdateProfileStatusACType

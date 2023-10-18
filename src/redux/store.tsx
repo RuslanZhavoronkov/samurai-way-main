@@ -1,5 +1,5 @@
 import { ActionTypeDialogs, AddMessageACType,  dialogsReducer} from "./dialogsReducer"
-import { ActionTypeProfile, AddPostACType, ProfilePageType, UpdatePostACType, profileReducer} from "./profileReducer"
+import { ActionTypeProfile, AddPostACType, ProfilePageType, profileReducer} from "./profileReducer"
 
 
 
@@ -62,7 +62,7 @@ type storeType = {
 
 
 
-export type ActionTypeNew = AddPostACType | UpdatePostACType |  AddMessageACType 
+export type ActionTypeNew = AddPostACType |   AddMessageACType 
 
 
 
@@ -75,7 +75,7 @@ export let store: storeType = {
                 { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
                 { id: '2', message: 'It\s my first post', likesCount: ' 11' },
             ],
-            newPostText: 'it-kamasutra.com',
+            // newPostText: 'it-kamasutra.com',
             profileFromServer: {
                 aboutMe: '',
                 contacts: {
