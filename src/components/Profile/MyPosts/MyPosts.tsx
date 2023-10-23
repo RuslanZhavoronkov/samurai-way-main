@@ -3,15 +3,17 @@ import s from "./MyPosts.module.css";
 import { Post } from "./Post/Post";
 import { PostType } from "../../../redux/profileReducer";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
+import { required, maxLengthCreator } from "../../../utils/validators/validators";
+import { Textarea } from "../../common/FormsControls/FormsControls";
 
 
 
 type PropsMyPostsType = {
   posts: PostType[]
-  // newPostText: string
-  // changeNewPostText: (valueText: string) => void
   addPost: (newPostText: string) => void
 }
+
+const maxLength10 = maxLengthCreator(10)
 
 export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
 
@@ -48,7 +50,12 @@ type FormDataPostType = {
 export const AddNewPostForm: React.FC<InjectedFormProps<FormDataPostType>> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      <Field component={'textarea'} name={'newPostText'} />
+      <Field 
+      placeholder={'Post message'}
+      component={Textarea} //заменили 'textarea' на кастомную "Textarea"
+      name={'newPostText'} 
+      validate = {[required, maxLength10]}
+      />
       <div><button>Add post</button></div>
     </form>
   )
@@ -64,11 +71,3 @@ export const AddNewPostReduxForm = reduxForm<FormDataPostType>({
 
 //_____________________________________________________________________________________________________________________
 
-
- // const addPostButonHandler = () => {
-  //   props.addPost()
-  // }
-
-  // const onChangeTextareaHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-  //   props.changeNewPostText(e.currentTarget.value)
-  // }
