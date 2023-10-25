@@ -3,7 +3,7 @@ import { Input } from "../common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../../utils/validators/validators";
 
 export type FormDataType = {
-  login: string;
+  email: string;
   password: string;
   rememberMe: boolean;
 };
@@ -15,9 +15,9 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     <form onSubmit={props.handleSubmit}>
       <div>
         <Field
-          placeholder={"Login"}
+          placeholder={"Email"}
           component={Input}
-          name={"login"}
+          name={"email"}
           validate={[required]}
         />
       </div>
@@ -26,6 +26,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
           placeholder={"Password"}
           component={Input}
           name={"password"}
+          type={"password"}
           validate={[required]}
         />
       </div>

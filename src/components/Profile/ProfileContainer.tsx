@@ -53,15 +53,9 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         this.props.getUserProfile(userId)
         this.props.getProfileStatus(userId)
 
-        // profileAPI.getUserProfile(userId)
-        //     .then((data) => {
-        //         this.props.setServerProfile(data)
-        //     })
     }
     render() {
-        // if (!this.props.isAuth) {
-        //     return <Redirect to={'/login'} />
-        // }
+        
         return (
             <Profile 
             profileFromServer={this.props.profileFromServer}
@@ -77,15 +71,11 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         profileFromServer: state.profilePage.profileFromServer,
         userStatus: state.profilePage.status
-       // isAuth: state.auth.isAuth
     }
 }
 
 const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => {
     return {
-        // setServerProfile: (serverProfile: ProfileServerType) => {
-        //     dispatch(setServerProfileAC(serverProfile))
-        // },
         getUserProfile: (userId: string) => {
             dispatch(getUserProfileTC(userId))
         },

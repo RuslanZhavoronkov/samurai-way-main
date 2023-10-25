@@ -9,7 +9,7 @@ import { UsersContainer } from "./components/Users/UsersContainer";
 import { ProfileContainer } from "./components/Profile/ProfileContainer";
 import { Route } from "react-router-dom";
 import { HeaderContainer } from "./components/Header/HeaderContainer";
-import { Login } from "./components/Login/Login";
+import { LoginContainer } from "./components/Login/Login";
 
 
 
@@ -39,7 +39,7 @@ import { Login } from "./components/Login/Login";
             <Route path={'/news'} component={News} />
             <Route path={'/music'} component={Music} />
             <Route path={'/settings'} component={Settings} />
-            <Route path={'/login'} component={Login} />
+            <Route path={'/login'} component={LoginContainer} />
         </div>
       </div>
     

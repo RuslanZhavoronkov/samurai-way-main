@@ -7,12 +7,15 @@ import { AuthDataResponseServerType } from "../../redux/authReducer";
 type HeaderPropsType = {
   isAuth: boolean
   login: string | null
+  logOut: () => void
 }
 
 
 
 export const Header: React.FC <HeaderPropsType> = (props) => {
-  const login  = props.isAuth ? props.login : 'Login' 
+  const logOutHandler = ()=> {
+    props.logOut()
+  }
   return (
     <header className={s.header}>
       <img
@@ -20,7 +23,11 @@ export const Header: React.FC <HeaderPropsType> = (props) => {
         alt="icon"
       />
       <div className={s.loginBlock}>
-        <NavLink to={'/login'}> {login} </NavLink>
+        {props.isAuth ? 
+        <div>{props.login} 
+        <button onClick = {logOutHandler}>Log out</button></div>
+         :
+         <NavLink to={'/login'}> Login </NavLink>}
       </div>
     </header>
   );

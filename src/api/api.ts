@@ -46,6 +46,12 @@ export const authAPI = {
             .then((response) => {
                 return response.data
             })
+    },
+    loginIn (requestPayloadLoginIn:RequestPayloadLoginInType){
+        return instance.post<ResponseUpdateStatus>(`auth/login`, requestPayloadLoginIn)
+    },
+    loginOut() {
+        return instance.delete<ResponseUpdateStatus>(`auth/login`)
     }
 }
 
@@ -73,6 +79,13 @@ type ResponseUpdateStatus = {
     resultCode: number
     messages: string[]
     data: {}
+}
+
+export type RequestPayloadLoginInType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: boolean
 }
 
 // export const followAPI = {
