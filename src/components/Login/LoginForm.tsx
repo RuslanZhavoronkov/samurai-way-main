@@ -1,6 +1,7 @@
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { Input } from "../common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../../utils/validators/validators";
+import s from "../common/FormsControls/FormControls.module.css";
 
 export type FormDataType = {
   email: string;
@@ -39,6 +40,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         />{" "}
         remember me
       </div>
+      {props.error && <div className={s.formSummaryError}>{props.error}</div>}
       <div>
         <button>Login</button>
       </div>

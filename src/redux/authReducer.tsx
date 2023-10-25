@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { RequestPayloadLoginInType, authAPI } from "../api/api";
 import { AppDispatchType } from "./redux-store";
+import { stopSubmit } from "redux-form";
 
 const initialState = {
   AuthInfoForRedux: {
@@ -100,7 +101,10 @@ export const loginInTC =
     authAPI.loginIn(requestPayloadLoginIn).then((response) => {
       if (response.data.resultCode === 0) {
         dispatch(processAuthorizationTC()); //авторизован ли я
-      }
+      } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        dispatch(stopSubmit("login", { _error: message })); // actionCreator(форма которую стопаем,
+      } //{проблемное поле, которое вызвало ошибку(в нашем примере передали объект с ошибками для каждого Филда)}) из ReduxForm
     });
   };
 

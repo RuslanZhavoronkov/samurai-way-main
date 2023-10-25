@@ -24,13 +24,15 @@ type PathParamsType = {
 type MapStatePropsType = {
     profileFromServer: ProfileServerType,
     userStatus: string
+    autorizedUserId: number | null
+    isAuth: boolean
    // isAuth: boolean
 }
 
 type MapDispatchPropsType = {
     // setServerProfile: (serverProfile: ProfileServerType) => void
-    getUserProfile: (userId: string) => void
-    getProfileStatus: (userId: string) => void
+    getUserProfile: (userId: string | undefined) => void
+    getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
 }
 
@@ -47,7 +49,8 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         let userId = this.props.match.params.userId
 
         if (!userId) {
-            userId = '2'
+           userId = `${this.props.autorizedUserId}`
+           //userId=`2`
         }
 
         this.props.getUserProfile(userId)
@@ -70,16 +73,18 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         profileFromServer: state.profilePage.profileFromServer,
-        userStatus: state.profilePage.status
+        userStatus: state.profilePage.status,
+        autorizedUserId: state.auth.AuthInfoForRedux.data.id,
+        isAuth: state.auth.isAuth
     }
 }
 
 const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => {
     return {
-        getUserProfile: (userId: string) => {
+        getUserProfile: (userId: string | undefined) => {
             dispatch(getUserProfileTC(userId))
         },
-        getProfileStatus: (userId: string) => {
+        getProfileStatus: (userId: string | undefined) => {
             dispatch(getProfileStatusTC(userId))
         },
         updateProfileStatus:(status: string) => {

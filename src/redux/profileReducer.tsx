@@ -116,14 +116,14 @@ export const updateProfileStatusAC = (status: string) => {
 
 
 //thunk
-export const getUserProfileTC = (userId: string) => (dispatch: Dispatch<AppActionsType>) => {
+export const getUserProfileTC = (userId: string | undefined) => (dispatch: Dispatch<AppActionsType>) => {
     profileAPI.getUserProfile(userId)
         .then((data) => {
             dispatch(setServerProfileAC(data))
         })
 }
 
-export const getProfileStatusTC = (userId: string) => async (dispatch: Dispatch) => {
+export const getProfileStatusTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
     try {
         const response = await profileAPI.getStatus(userId)
         dispatch(getProfileStatusAC(response))
