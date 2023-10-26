@@ -44,9 +44,7 @@ const mapDispatchToProps = (
 ): MapDispatchPropsType => {
   return {
     loginIn: (requestPayloadLoginIn: RequestPayloadLoginInType) => {
-      debugger;
       dispatch(loginInTC(requestPayloadLoginIn));
-      debugger;
     },
   };
 };

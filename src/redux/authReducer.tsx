@@ -87,7 +87,7 @@ export const clearDataUserAC = () => {
 export const processAuthorizationTC = () => (dispatch: Dispatch) => {
   //авторизован ли я
   dispatch(changeIsFetchingAC(true));
-  authAPI.processAuthorization().then((data) => {
+ return authAPI.processAuthorization().then((data) => {
     dispatch(changeIsFetchingAC(false));
     if (data.resultCode === 0) {
       dispatch(setUserDataAC(data.data));

@@ -7,6 +7,7 @@ import { ActionTypeUser, usersReducer } from "./usersReducer";
 import { AuthActionType, authReducer } from "./authReducer";
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk";
 import {FormAction, reducer as formReducer} from "redux-form"
+import { AppActionType, appReducer } from "./appReduser";
 
 
 const rootReducer = combineReducers({ //создадим главный Reducer(в который будут приходить все actions, а потом будут передав. в дочерние Reducers)
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({ //создадим главный Reducer(
     usersPage: usersReducer,
     sideBar: sideBarReduser,
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    app: appReducer
 }) 
    
 export type AppRootStateType = ReturnType<typeof rootReducer>
@@ -31,6 +33,7 @@ export type AppActionsType = ActionTypeDialogs
 | ActionTypeProfile 
 | addFrendsSideBarACType
 | AuthActionType
+| AppActionType
 //| FormAction
 
 //Create main type dispatch

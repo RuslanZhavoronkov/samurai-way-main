@@ -5,16 +5,11 @@ import { ProfileServerType, getProfileStatusTC, getUserProfileTC, updateProfileS
 import { Profile } from "./Profile";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { withAuthRedirect } from "../../hocs/withAuthRedirect";
 import { compose } from "redux";
+import { withAuthRedirect } from "../../hocs/withAuthRedirect";
 
 
 
-
-// type ProfileAPIComponentPropsType = {
-//     profileFromServer: ProfileServerType
-//     setServerProfile: (serverProfile: ProfileServerType) => void
-// }
 
 
 type PathParamsType = {
@@ -26,11 +21,9 @@ type MapStatePropsType = {
     userStatus: string
     autorizedUserId: number | null
     isAuth: boolean
-   // isAuth: boolean
 }
 
 type MapDispatchPropsType = {
-    // setServerProfile: (serverProfile: ProfileServerType) => void
     getUserProfile: (userId: string | undefined) => void
     getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
@@ -45,12 +38,11 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
     }
 
     componentDidMount(): void {
-        //let userId = this.props.match.params.userId
+    
         let userId = this.props.match.params.userId
 
         if (!userId) {
            userId = `${this.props.autorizedUserId}`
-           //userId=`2`
         }
 
         this.props.getUserProfile(userId)
@@ -94,14 +86,10 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
 }
 
 export const ProfileContainer = compose<React.ComponentType>(
-    // withAuthRedirect,
+    withAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
 )(ProfileAPIComponent)
-
-// const WithUrlDataConteinerComponent = withRouter(ProfileAPIComponent)
-// export const ProfileConnectedContainerComponent = connect(mapStateToProps, mapDispatchToProps)(WithUrlDataConteinerComponent)
-// export const ProfileContainer = withAuthRedirect(ProfileConnectedContainerComponent)
 
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "./Header";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
-import { loginOutTC, processAuthorizationTC } from "../../redux/authReducer";
+import { loginOutTC} from "../../redux/authReducer";
 import { connect } from "react-redux";
 import { Preloader } from "../common/Preloader/Preloader";
 
@@ -12,9 +12,6 @@ export class HeaderAPIComponent extends React.Component<PropsHeaderAPIComponentT
     super(props);
   }
 
-  componentDidMount(): void {
-    this.props.processAuthorization();
-  }
   render() {
     return (
       <>
@@ -37,7 +34,6 @@ type mapStateToPropsType = {
 };
 
 type mapDispatchToPropsType = {
-  processAuthorization: () => void;
   logOut: () => void;
 };
 
@@ -51,9 +47,6 @@ const mapStateToProps = (state: AppRootStateType) => {
 
 const mapDispatchToProps = (dispatch: AppDispatchType) => {
   return {
-    processAuthorization: () => {
-      dispatch(processAuthorizationTC());
-    },
     logOut: () => {
       dispatch(loginOutTC());
     },

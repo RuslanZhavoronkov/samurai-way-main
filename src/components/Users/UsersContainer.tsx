@@ -120,7 +120,7 @@ const mapDispatchToProps = (dispatch: AppDispatchType) => {
 
 
 export const UsersContainer = compose<React.ComponentType>(
-    withAuthRedirect,
+   // withAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps)  
 )(UsersAPIComponent)
 
