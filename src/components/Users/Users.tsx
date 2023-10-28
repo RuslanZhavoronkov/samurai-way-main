@@ -6,25 +6,16 @@ import { NavLink } from 'react-router-dom'
 import { userAPI } from '../../api/api'
 
 
-
-
-
 type UsersPropsType = {
     users: UsersServerType
     pagination: PaginationType
     onPageChanged: (pageNumber: number) => void
-    // fallow: (userId: number) => void
-    // unfallow: (userId: number) => void
     followingInProgress: followingInProgressType
     followUser: (userId: number) => void
     unFollowUser:(userId: number)=> void
 }
 
-
 export const Users: React.FC<UsersPropsType> = (props) => {
-
-    
-
     let pageArray = []
     let pagesCount = Math.ceil(props.users.totalCount / props.pagination.pageSize)
 
@@ -46,15 +37,11 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                     )
                 })}
 
-
-
             </div>
             {props.users.items.map(el => {
                 let changeFollow: string;
                 let onClickHandler;
                 !el.followed ? changeFollow = 'Follow' : changeFollow = 'Unfollow'
-
-
 
                 onClickHandler = () => {
                     if (!el.followed) {
