@@ -17,7 +17,7 @@ import {
     getfollowingInProgressSelector,
   getIsFetchingSelector,
   getPaginationSelector,
-  getUserSelector,
+  getUsersSuperSelector,
 } from "../../redux/users-selectors";
 
 type UsersAPIPropsType = {
@@ -69,7 +69,7 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
 
 const mapStateToProps = (state: AppRootStateType) => {
   return {
-    users: getUserSelector(state),
+    users: getUsersSuperSelector(state),
     pagination: getPaginationSelector(state), //page size
     isFetching: getIsFetchingSelector(state), //load
     followingInProgress: getfollowingInProgressSelector(state)
