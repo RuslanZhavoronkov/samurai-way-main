@@ -3,6 +3,7 @@ import s from "./ProfileInfo.module.css";
 import { ProfileServerType } from "../../../redux/profileReducer";
 import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatus } from "./ProfileStatus";
+import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 
 type ProfileInfoPropsType = {
     profileFromServer: ProfileServerType
@@ -27,8 +28,10 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
             <div> {props.profileFromServer.fullName} </div>
             <div>{props.profileFromServer.contacts.twitter}</div>
             <div className={s.descriptionBlock}>
-                <ProfileStatus status={props.userStatus}
+                <ProfileStatusWithHooks status={props.userStatus}
                     updateProfileStatus={props.updateProfileStatus} />
+                    {/* <ProfileStatus status={props.userStatus}
+                    updateProfileStatus={props.updateProfileStatus} /> */}
             </div>
 
         </div>
