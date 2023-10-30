@@ -53,6 +53,13 @@
       "last 1 safari version"
     ]
   },
+
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ]
+  },
+
   "devDependencies": {
     "@types/node": "16.7.13",
     "@types/react": "17.0.20",
@@ -64,3 +71,4 @@
     "@types/uuid": "8.3.4"
   }
 }
+
