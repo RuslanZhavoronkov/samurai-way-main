@@ -15,8 +15,9 @@ type PropsMyPostsType = {
 
 const maxLength10 = maxLengthCreator(10)
 
-export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
-
+export const MyPosts:React.FC<PropsMyPostsType> =React.memo(
+   (props) => {
+ 
   let postsElements = props.posts.map(el =>
     < div key={el.id}>
       <Post
@@ -38,7 +39,10 @@ export const MyPosts: React.FC<PropsMyPostsType> = (props) => {
       </div>
     </div>
   );
-};
+}
+)
+
+  
 
 
 
@@ -47,7 +51,7 @@ type FormDataPostType = {
 }
 
 //create Component for Form
-export const AddNewPostForm: React.FC<InjectedFormProps<FormDataPostType>> = (props) => {
+export const AddNewPostForm: React.FC<InjectedFormProps<FormDataPostType>> = React.memo((props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <Field 
@@ -59,7 +63,7 @@ export const AddNewPostForm: React.FC<InjectedFormProps<FormDataPostType>> = (pr
       <div><button>Add post</button></div>
     </form>
   )
-}
+})
 
 export const AddNewPostReduxForm = reduxForm<FormDataPostType>({
   form: 'ProfileAddNewPostForm'
