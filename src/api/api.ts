@@ -5,6 +5,7 @@ import { ResponseAuthMeServer } from "../redux/authReducer";
 
 
 
+
 const instance = axios.create({
     withCredentials: true,
     headers: {
@@ -88,29 +89,3 @@ export type RequestPayloadLoginInType = {
     captcha?: boolean
 }
 
-// export const followAPI = {
-//     followPost(userId: number) {
-//         return instance.post<ResponseTypeFollowUnfollow>(`follow/${userId}`, {})
-//             .then((response) => {
-//                 return response.data.resultCode
-//             })
-//     },
-
-//     unfollowDelete(userId: number) {
-//         return instance.delete<ResponseTypeFollowUnfollow>(`follow/${userId}`)
-//         .then((response) => {
-//             return response.data.resultCode
-//         })
-//     }
-// }
-
-
-
-
-//_____________________________________________________________________________
-// const config: AxiosRequestConfig = {
-//     withCredentials: true,
-//     headers: {
-//         'API-KEY': '559562a7-157b-436b-9ddd-885f8624a836'
-//     }
-// }

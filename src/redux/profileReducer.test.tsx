@@ -1,11 +1,7 @@
-import { ProfilePageType, addPostAC, profileReducer } from "./profileReducer"
-import { PostType,  } from "./store"
+import { ProfilePageType, addPostAC, deletePostAC, profileReducer } from "./profileReducer"
 
 
-
-test('Add post', () => {
-
-    //data
+ //data
     let stateProfilePage: ProfilePageType = {
         posts: [
             { id: '1', message: 'Hi, how are you ?', likesCount: '12 ' },
@@ -37,13 +33,22 @@ test('Add post', () => {
     }
     
 
+test('Add post', () => {
     //change data
-
-    let changeStateProfilePage = profileReducer(stateProfilePage, addPostAC('I love REACT'))
-
-    expect(changeStateProfilePage.posts[2].message).toBe('I love REACT')
+    let newStateProfilePage = profileReducer(stateProfilePage, addPostAC('I love REACT'))
+    expect(newStateProfilePage.posts[2].message).toBe('I love REACT')
+    expect (newStateProfilePage.posts.length).toBe(3)
 })
 
+test('Delete', ()=> {
+    let newStateProfilePage = profileReducer(stateProfilePage, deletePostAC('1'))
+    expect(newStateProfilePage.posts.length).toBe(1)
+})
+
+test ('after deleting length should be decrement if id is incorrect', ()=> {
+    let newStateProfilePage = profileReducer(stateProfilePage, deletePostAC('1000'))
+    expect(newStateProfilePage.posts.length).toBe(2)
+})
 
 
 
