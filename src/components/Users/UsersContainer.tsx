@@ -66,7 +66,6 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
 }
 
 //1. Conteiner Component
-
 const mapStateToProps = (state: AppRootStateType) => {
   return {
     users: getUsersSuperSelector(state),
