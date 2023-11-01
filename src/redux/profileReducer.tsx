@@ -3,12 +3,12 @@ import { PhotoType } from "./usersReducer";
 import { AppActionsType } from "./redux-store";
 import { profileAPI } from "../api/api";
 
+//initial state
 const initialState = {
   posts: [
     { id: "1", message: "Hi, how are you ?", likesCount: "12 " },
     { id: "2", message: "Its my first post", likesCount: " 11" },
   ],
-  // newPostText: '',
   profileFromServer: {
     aboutMe: "",
     contacts: {
@@ -33,17 +33,13 @@ const initialState = {
   status: "",
 };
 
+//reducer
 export const profileReducer = (
   state: ProfilePageType = initialState,
   action: ActionTypeProfile
 ): ProfilePageType => {
   switch (action.type) {
-    // case 'UPDATE-POST': {
-
-    //     return { ...state, newPostText: action.payload.newPost }
-    // }
-
-    case "ADD-POST": {
+    case "profile/ADD-POST": {
       const newPost: PostType = {
         id: "3",
         message: action.newPostText,
@@ -52,20 +48,23 @@ export const profileReducer = (
       return { ...state, posts: [...state.posts, newPost] };
     }
 
-    case "SET-SERVER-PROFILE": {
+    case "profile/SET-SERVER-PROFILE": {
       return { ...state, profileFromServer: action.payload.serverProfile };
     }
 
-    case "GET-PROFILE-STATUS": {
+    case "profile/GET-PROFILE-STATUS": {
       return { ...state, status: action.payload.status };
     }
 
-    case "GET-UPDATE-PROFILE-STATUS": {
+    case "profile/GET-UPDATE-PROFILE-STATUS": {
       return { ...state, status: action.payload.status };
     }
 
-    case 'DELETE-POST': {
-        return {... state,posts: state.posts.filter(el => el.id !== action.payload.id)}
+    case "profile/DELETE-POST": {
+      return {
+        ...state,
+        posts: state.posts.filter((el) => el.id !== action.payload.id),
+      };
     }
 
     default: {
@@ -74,27 +73,17 @@ export const profileReducer = (
   }
 };
 
-//Action Create
-
-// export const updatePostAC = (newPost: string) => {
-//     return {
-//         type: 'UPDATE-POST',
-//         payload: {
-//             newPost,
-//         }
-//     } as const
-// }
-
+//action-creator
 export const addPostAC = (newPostText: string) => {
   return {
-    type: "ADD-POST",
+    type: "profile/ADD-POST",
     newPostText,
   } as const;
 };
 
 export const setServerProfileAC = (serverProfile: ProfileServerType) => {
   return {
-    type: "SET-SERVER-PROFILE",
+    type: "profile/SET-SERVER-PROFILE",
     payload: {
       serverProfile,
     },
@@ -103,7 +92,7 @@ export const setServerProfileAC = (serverProfile: ProfileServerType) => {
 
 export const getProfileStatusAC = (status: string) => {
   return {
-    type: "GET-PROFILE-STATUS",
+    type: "profile/GET-PROFILE-STATUS",
     payload: {
       status,
     },
@@ -112,7 +101,7 @@ export const getProfileStatusAC = (status: string) => {
 
 export const updateProfileStatusAC = (status: string) => {
   return {
-    type: "GET-UPDATE-PROFILE-STATUS",
+    type: "profile/GET-UPDATE-PROFILE-STATUS",
     payload: {
       status,
     },
@@ -121,19 +110,23 @@ export const updateProfileStatusAC = (status: string) => {
 
 export const deletePostAC = (id: string) => {
   return {
-    type: "DELETE-POST",
+    type: "profile/DELETE-POST",
     payload: {
-      id
+      id,
     },
-  } as const
+  } as const;
 };
 
 //thunk
 export const getUserProfileTC =
-  (userId: string | undefined) => (dispatch: Dispatch<AppActionsType>) => {
-    profileAPI.getUserProfile(userId).then((data) => {
+  (userId: string | undefined) =>
+  async (dispatch: Dispatch<AppActionsType>) => {
+    try {
+      const data = await profileAPI.getUserProfile(userId);
       dispatch(setServerProfileAC(data));
-    });
+    } catch (e) {
+      alert("WARNING ERROR");
+    }
   };
 
 export const getProfileStatusTC =
@@ -188,21 +181,20 @@ export type ProfileServerType = {
 
 export type ProfilePageType = {
   posts: PostType[];
-  // newPostText: string
   profileFromServer: ProfileServerType;
   status: string;
 };
 
 export type AddPostACType = ReturnType<typeof addPostAC>;
-// export type UpdatePostACType = ReturnType<typeof updatePostAC>
 export type SetServerProfileACType = ReturnType<typeof setServerProfileAC>;
 export type GetProfileStatusACType = ReturnType<typeof getProfileStatusAC>;
-export type UpdateProfileStatusACType = ReturnType<typeof updateProfileStatusAC>;
-export type DeletePostACType = ReturnType<typeof deletePostAC>
+export type UpdateProfileStatusACType = ReturnType<
+  typeof updateProfileStatusAC
+>;
+export type DeletePostACType = ReturnType<typeof deletePostAC>;
 export type ActionTypeProfile =
   | AddPostACType
-  // | UpdatePostACType //| clearNewPostTextACtype
   | SetServerProfileACType
   | GetProfileStatusACType
   | UpdateProfileStatusACType
-  | DeletePostACType
+  | DeletePostACType;
