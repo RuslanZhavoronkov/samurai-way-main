@@ -20,7 +20,7 @@ export const authReducer = (
   action: AuthActionType
 ): AuthStateType => {
   switch (action.type) {
-    case "SET-USER_DATA": {
+    case "samurai-network/auth/SET-USER_DATA": {
       return {
         ...state,
         AuthInfoForRedux: {
@@ -31,11 +31,11 @@ export const authReducer = (
       };
     }
 
-    case "CHANGE-ISFETCHING": {
+    case "samurai-network/auth/CHANGE-ISFETCHING": {
       return { ...state, isFetching: action.payload.status };
     }
 
-    case "CLEAR-DATA-USER": {
+    case "samurai-network/auth/CLEAR-DATA-USER": {
       return {
         ...state,
         AuthInfoForRedux: {
@@ -61,7 +61,7 @@ export const authReducer = (
 
 export const setUserDataAC = (userData: AuthDataResponseServerType) => {
   return {
-    type: "SET-USER_DATA",
+    type: "samurai-network/auth/SET-USER_DATA",
     payload: {
       userData,
     },
@@ -70,7 +70,7 @@ export const setUserDataAC = (userData: AuthDataResponseServerType) => {
 
 export const changeIsFetchingAC = (status: boolean) => {
   return {
-    type: "CHANGE-ISFETCHING",
+    type: "samurai-network/auth/CHANGE-ISFETCHING",
     payload: {
       status,
     },
@@ -79,45 +79,56 @@ export const changeIsFetchingAC = (status: boolean) => {
 
 export const clearDataUserAC = () => {
   return {
-    type: "CLEAR-DATA-USER",
+    type: "samurai-network/auth/CLEAR-DATA-USER",
   } as const;
 };
 
 //thunk
-export const processAuthorizationTC = () => (dispatch: Dispatch) => {
-  //авторизован ли я
-  dispatch(changeIsFetchingAC(true));
- return authAPI.processAuthorization().then((data) => {
+export const processAuthorizationTC = () => async (dispatch: Dispatch) => {
+  dispatch(changeIsFetchingAC(true));//авторизован ли я
+  try {
+    const data = await authAPI.processAuthorization();
     dispatch(changeIsFetchingAC(false));
     if (data.resultCode === 0) {
       dispatch(setUserDataAC(data.data));
     }
-  });
+  } catch (e) {
+    alert(e);
+  }
 };
 
 export const loginInTC =
   (requestPayloadLoginIn: RequestPayloadLoginInType) =>
-  (dispatch: AppDispatchType) => {
-    authAPI.loginIn(requestPayloadLoginIn).then((response) => {
+  async (dispatch: AppDispatchType) => {
+    try {
+      const response = await authAPI.loginIn(requestPayloadLoginIn);
       if (response.data.resultCode === 0) {
         dispatch(processAuthorizationTC()); //авторизован ли я
       } else {
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+        let message =
+          response.data.messages.length > 0
+            ? response.data.messages[0]
+            : "Some error";
         dispatch(stopSubmit("login", { _error: message })); // actionCreator(форма которую стопаем,
       } //{проблемное поле, которое вызвало ошибку(в нашем примере передали объект с ошибками для каждого Филда)}) из ReduxForm
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-export const loginOutTC = () => (dispatch: Dispatch) => {
-  authAPI.loginOut().then((response) => {
+export const loginOutTC = () => async (dispatch: Dispatch) => {
+  try {
+    const response = await authAPI.loginOut()
     if (response.data.resultCode === 0) {
       dispatch(clearDataUserAC());
     }
-  });
+  }
+  catch(e) {
+    console.log(e)
+  }
 };
 
 //type
-
 export type AuthDataResponseServerType = {
   id: number | null;
   login: string | null;
@@ -150,3 +161,37 @@ export type AuthActionType =
   | changeIsFetchingACType
   | ClearDataUserACType;
 //| LoginInACType
+
+//___________________________________________________________________________________________________________________________
+// //thunk
+// export const processAuthorizationTC = () => (dispatch: Dispatch) => {
+//   //авторизован ли я
+//   dispatch(changeIsFetchingAC(true));
+//  return authAPI.processAuthorization().then((data) => {
+//     dispatch(changeIsFetchingAC(false));
+//     if (data.resultCode === 0) {
+//       dispatch(setUserDataAC(data.data));
+//     }
+//   });
+// };
+
+// export const loginInTC =
+//   (requestPayloadLoginIn: RequestPayloadLoginInType) =>
+//   (dispatch: AppDispatchType) => {
+//     authAPI.loginIn(requestPayloadLoginIn).then((response) => {
+//       if (response.data.resultCode === 0) {
+//         dispatch(processAuthorizationTC()); //авторизован ли я
+//       } else {
+//         let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+//         dispatch(stopSubmit("login", { _error: message })); // actionCreator(форма которую стопаем,
+//       } //{проблемное поле, которое вызвало ошибку(в нашем примере передали объект с ошибками для каждого Филда)}) из ReduxForm
+//     });
+//   };
+
+// export const loginOutTC = () => (dispatch: Dispatch) => {
+//   authAPI.loginOut().then((response) => {
+//     if (response.data.resultCode === 0) {
+//       dispatch(clearDataUserAC());
+//     }
+//   });
+// };

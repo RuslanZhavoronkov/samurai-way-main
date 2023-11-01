@@ -1,28 +1,3 @@
-export type DialogsPageType = {
-    dialogs: DialogType[]
-    messages: MessageType[]
-    //newMessageText: string
-}
-
-export type DialogType = {
-    id: string
-    name: string
-}
-
-export type MessageType = {
-    id: string
-    message: string
-}
-
-// export const updateMessageAC = (newMessageText: string) => {
-//     return {
-//         type: 'UPDATE-MESSAGE',
-//         payload: {
-//             newMessageText
-//         }
-//     } as const
-// }
-
 
 
 export const addMessageAC = (newMessageText: string) => {
@@ -84,4 +59,22 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
             return state
         }
     }
+}
+
+
+//type
+export type DialogsPageType = {
+    dialogs: DialogType[]
+    messages: MessageType[]
+    //newMessageText: string
+}
+
+export type DialogType = {
+    id: string
+    name: string
+}
+
+export type MessageType = {
+    id: string
+    message: string
 }
