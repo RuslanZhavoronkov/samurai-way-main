@@ -1,8 +1,18 @@
-export const updateObjectInArray = () => {
-    // {
-    //     ...state.users,
-    //     items: state.users.items.map((el) =>
-    //       el.id === action.payload.userId ? { ...el, followed: true } : el
-    //     ),
-    //   }
+import { UsersServerType } from "../../redux/usersReducer"
+
+//for userReducer(update follow/unfollow)
+export const updateObjectInArray = (
+    users:UsersServerType,
+    actionUserId: number,
+    followed: boolean
+    ) => {
+  return  {
+        ...users,
+        items: users.items.map((el) =>
+          el.id === actionUserId ? { ...el, followed: followed } : el
+        ),
+      }
 }
+
+//const users = state.users
+//const actionUserId = action.payload.userId

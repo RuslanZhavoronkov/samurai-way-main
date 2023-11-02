@@ -1,6 +1,9 @@
 import { Dispatch } from "redux";
 import { userAPI } from "../api/api";
 import { AppActionsType, AppThunkType } from "./redux-store";
+import { updateObjectInArray } from "../utils/validators/object-helpers-user";
+import { followUnfollow } from "../utils/followUnfollowUser";
+
 
 //initial state
 const initialState: UsersPageType = {
@@ -29,23 +32,13 @@ export const usersReducer = (
     case "users/FOLLOW": {
       return {
         ...state,
-        users: {
-          ...state.users,
-          items: state.users.items.map((el) =>
-            el.id === action.payload.userId ? { ...el, followed: true } : el
-          ),
-        },
+        users: updateObjectInArray(state.users,action.payload.userId,true)
       };
     }
     case "users/UNFOLLOW": {
       return {
         ...state,
-        users: {
-          ...state.users,
-          items: state.users.items.map((el) =>
-            el.id === action.payload.userId ? { ...el, followed: false } : el
-          ),
-        },
+        users: updateObjectInArray(state.users,action.payload.userId,false)
       };
     }
     case "users/SET_USERS": {
@@ -171,22 +164,6 @@ export const getUsersTC =
     }
   };
 
-const followUnfollow = async (
-    dispatch:Dispatch<AppActionsType>,
-    userId: number,
-    apiMethod:(userId:number) => Promise<number>,
-    actionCreator: (userId: number) => AppActionsType
-    ) => {
-    dispatch(followingInProgressChangeAC(userId, true));
-    const resultCode = await apiMethod(userId);
-    if (resultCode === 0) {
-      //если сервер подтвердил, что подписка произошла
-      dispatch(actionCreator(userId));
-    }
-    dispatch(followingInProgressChangeAC(userId, false));
-}
- 
-
 
 export const followUserTC =
   (userId: number) => async (dispatch: Dispatch<AppActionsType>) => {
@@ -194,14 +171,6 @@ export const followUserTC =
       let apiMethod = userAPI.followPost.bind(userAPI);
       let actionCreator = followAC;
       followUnfollow(dispatch,userId,apiMethod,actionCreator)
-      
-    //   dispatch(followingInProgressChangeAC(userId, true));
-    //   const resultCode = await apiMethod(userId);
-    //   if (resultCode === 0) {
-    //     //если сервер подтвердил, что подписка произошла
-    //     dispatch(actionCreator(userId));
-    //   }
-    //   dispatch(followingInProgressChangeAC(userId, false));
     } catch (e) {
       console.log("Users-Reducer(followUserTC) error");
     }
@@ -213,14 +182,6 @@ export const unfollowUserTC =
       let apiMethod = userAPI.unfollowDelete.bind(userAPI);
       let actionCreator = unfollowAC
       followUnfollow(dispatch,userId,apiMethod,actionCreator)
-
-    //   dispatch(followingInProgressChangeAC(userId, true));
-    //   const resultCode = await apiMethod(userId);
-    //   if (resultCode === 0) {
-    //     dispatch(actionCreator(userId));
-    //   }
-    //   dispatch(followingInProgressChangeAC(userId, false));
-
     } catch (e) {
       console.log("Users-Reducer(followUserTC) error");
     }
@@ -281,55 +242,3 @@ export type UsersPageType = {
   followingInProgress: followingInProgressType; //disabled button
 };
 
-//case "users/FOLLOW": {
-// return {
-//     ...state,
-//     users: {
-//       ...state.users,
-//       items: state.users.items.map((el) =>
-//         el.id === action.payload.userId ? { ...el, followed: true } : el
-//       ),
-//     },
-//   };
-// }
-// case "users/UNFOLLOW": {
-//   return {
-//     ...state,
-//     users: {
-//       ...state.users,
-//       items: state.users.items.map((el) =>
-//         el.id === action.payload.userId ? { ...el, followed: false } : el
-//       ),
-//     },
-//   };
-// }
-
-//     export const followUserTC =
-//   (userId: number) => async (dispatch: Dispatch<AppActionsType>) => {
-//     try {
-//       dispatch(followingInProgressChangeAC(userId, true));
-//       const resultCode = await userAPI.followPost(userId);
-//       if (resultCode === 0) {
-//         //если сервер подтвердил, что подписка произошла
-//         dispatch(followAC(userId));
-//       }
-//       dispatch(followingInProgressChangeAC(userId, false));
-//     } catch (e) {
-//         console.log("Users-Reducer(followUserTC) error")
-//     }
-//   };
-
-// export const unfollowUserTC =
-//   (userId: number) => async (dispatch: Dispatch<AppActionsType>) => {
-//     try{
-//     dispatch(followingInProgressChangeAC(userId, true));
-//     const resultCode = await userAPI.unfollowDelete(userId)
-//       if (resultCode === 0) {
-//         dispatch(unfollowAC(userId));
-//       }
-//       dispatch(followingInProgressChangeAC(userId, false));
-//     }
-// catch(e){
-//     console.log("Users-Reducer(followUserTC) error")
-// }
-//   };
