@@ -162,36 +162,3 @@ export type AuthActionType =
   | ClearDataUserACType;
 //| LoginInACType
 
-//___________________________________________________________________________________________________________________________
-// //thunk
-// export const processAuthorizationTC = () => (dispatch: Dispatch) => {
-//   //авторизован ли я
-//   dispatch(changeIsFetchingAC(true));
-//  return authAPI.processAuthorization().then((data) => {
-//     dispatch(changeIsFetchingAC(false));
-//     if (data.resultCode === 0) {
-//       dispatch(setUserDataAC(data.data));
-//     }
-//   });
-// };
-
-// export const loginInTC =
-//   (requestPayloadLoginIn: RequestPayloadLoginInType) =>
-//   (dispatch: AppDispatchType) => {
-//     authAPI.loginIn(requestPayloadLoginIn).then((response) => {
-//       if (response.data.resultCode === 0) {
-//         dispatch(processAuthorizationTC()); //авторизован ли я
-//       } else {
-//         let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
-//         dispatch(stopSubmit("login", { _error: message })); // actionCreator(форма которую стопаем,
-//       } //{проблемное поле, которое вызвало ошибку(в нашем примере передали объект с ошибками для каждого Филда)}) из ReduxForm
-//     });
-//   };
-
-// export const loginOutTC = () => (dispatch: Dispatch) => {
-//   authAPI.loginOut().then((response) => {
-//     if (response.data.resultCode === 0) {
-//       dispatch(clearDataUserAC());
-//     }
-//   });
-// };

@@ -30,7 +30,6 @@ class App extends React.Component<AppPropsType> {
 if (!this.props.isInitialized) {
   return  <Preloader/>
 }
-
     return (
       <div className={"app-wrapper"}>
         {/*Которая обернет страничку*/}

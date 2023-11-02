@@ -97,15 +97,3 @@ export const UsersContainer = compose<React.ComponentType>(
   connect(mapStateToProps, mapDispatchToProps)
 )(UsersAPIComponent);
 
-//________________________________________________________________________________________________________________________
-// 1. Conteiner Component
-
-// const mapStateToProps = (state: AppRootStateType) => {
-//     return {
-//         users: state.usersPage.users,
-//         pagination: state.usersPage.pagination,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-//}
-//(action: ActionTypeUser)

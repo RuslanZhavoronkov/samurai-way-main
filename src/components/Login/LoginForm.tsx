@@ -1,5 +1,5 @@
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { Input } from "../common/FormsControls/FormsControls";
+import { Input, createField } from "../common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../../utils/validators/validators";
 import s from "../common/FormsControls/FormControls.module.css";
 
@@ -11,36 +11,45 @@ export type FormDataType = {
 
 //const maxLength5 = maxLengthCreator(5);
 
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({
+  handleSubmit,
+  error,
+}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
-        <Field
+     {/* {createField("Email", "email", [required], Input)} */}
+
+      <Field
           placeholder={"Email"}
-          component={Input}
           name={"email"}
           validate={[required]}
-        />
+          component={Input}  
+        /> 
       </div>
       <div>
+        {/* {createField("Password", "password", [required], Input, {type: "password"})} */}
+
         <Field
           placeholder={"Password"}
-          component={Input}
           name={"password"}
-          type={"password"}
           validate={[required]}
-        />
-      </div>
-      <div>
-        <Field
-          type={"checkbox"}
           component={Input}
-          name={"rememberMe"}
-          validate={[required]}
+          type={"password"}
+        />
+      </div> 
+      <div>
+      {/* {createField(null, "rememberMe", [], Input, {type: "checkbox"},'rememberMe')} */}
+        <Field
+        name={"rememberMe"}
+        validate={[required]}
+        component={Input}
+        type={"checkbox"}     
         />{" "}
         remember me
       </div>
-      {props.error && <div className={s.formSummaryError}>{props.error}</div>}
+
+      {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
         <button>Login</button>
       </div>
