@@ -10,26 +10,24 @@ export type FormDataType = {
 };
 
 //const maxLength5 = maxLengthCreator(5);
-
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({
   handleSubmit,
   error,
 }) => {
   return (
     <form onSubmit={handleSubmit}>
+      {/* {createField("Email", "email", [required], Input)} */}
+      {/* {createField("Password", "password", [required], Input, {type: "password"})} */}
+      {/* {createField(null, "rememberMe", [], Input, {type: "checkbox"},'rememberMe')} */}
       <div>
-     {/* {createField("Email", "email", [required], Input)} */}
-
-      <Field
+        <Field
           placeholder={"Email"}
           name={"email"}
           validate={[required]}
-          component={Input}  
-        /> 
+          component={Input}
+        />
       </div>
       <div>
-        {/* {createField("Password", "password", [required], Input, {type: "password"})} */}
-
         <Field
           placeholder={"Password"}
           name={"password"}
@@ -37,14 +35,13 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({
           component={Input}
           type={"password"}
         />
-      </div> 
+      </div>
       <div>
-      {/* {createField(null, "rememberMe", [], Input, {type: "checkbox"},'rememberMe')} */}
         <Field
-        name={"rememberMe"}
-        validate={[required]}
-        component={Input}
-        type={"checkbox"}     
+          name={"rememberMe"}
+          validate={[required]}
+          component={Input}
+          type={"checkbox"}
         />{" "}
         remember me
       </div>
