@@ -37,15 +37,17 @@ export class UsersAPIComponent extends React.Component<UsersAPIPropsType> {
   }
 
   componentDidMount(): void {
+    const {pagination} = this.props
     this.props.getUsers(
-      this.props.pagination.currentPage,
-      this.props.pagination.pageSize
+      pagination.currentPage,
+      pagination.pageSize
     );
   }
 
   onPageChanged = (pageNumber: number) => {
+    const{pagination} = this.props
     this.props.changeCurrentPage(pageNumber);
-    this.props.getUsers(pageNumber, this.props.pagination.pageSize);
+    this.props.getUsers(pageNumber, pagination.pageSize);
   };
 
   render() {

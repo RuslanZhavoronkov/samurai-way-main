@@ -38,24 +38,25 @@ export const Users: React.FC<UsersPropsType> = ({
         pagination={pagination}
         onPageChanged={onPageChanged}
       />
-      {users.items.map((el) => {
-        return(
-           <User
-          key={el.id}
-          user={el}
-          followingInProgress={followingInProgress}
-          followUser={followUser}
-          unFollowUser={unFollowUser}
-        />   
-        )
-        
-      })}
+      <div>
+        {users.items.map((el) => {
+          return (
+            <User
+              key={el.id}
+              user={el}
+              followingInProgress={followingInProgress}
+              followUser={followUser}
+              unFollowUser={unFollowUser}
+            />
+          );
+        })}
       </div>
-  )
-    }
-      
+    </div>
+  );
+};
+
 //___________________________________________________________________________________________
-      
+
 //         let changeFollow: string;
 //         let onClickHandler;
 //         !el.followed ? (changeFollow = "Follow") : (changeFollow = "Unfollow");
