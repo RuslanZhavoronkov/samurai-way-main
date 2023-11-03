@@ -3,18 +3,18 @@ import s from "./FormControls.module.css";
 
 const FormControl: React.FC<WrappedFieldProps> = ({
   input,
-  meta,
+  meta: {touched, error},
   children,
   ...props
 }) => {
-  const hasError = meta.touched && meta.error;
+  const hasError = touched && error;
   return (
     <div className={`${s.formControl} ${hasError ? s.error : ""}`}>
       <div>
         {/* <textarea {...input} {...props} /> */}
         {children}
       </div>
-      {hasError && <span>{meta.error}</span>}
+      {hasError && <span>{error}</span>}
     </div>
   );
 };
