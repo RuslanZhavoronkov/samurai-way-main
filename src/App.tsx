@@ -7,11 +7,11 @@ import { NavbarContainer } from "./components/Navbar/NavbarContainer";
 import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
 import { ProfileContainer } from "./components/Profile/ProfileContainer";
-import { Route, withRouter } from "react-router-dom";
+import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import { HeaderContainer } from "./components/Header/HeaderContainer";
 import { LoginContainer } from "./components/Login/Login";
-import { connect } from "react-redux";
-import { AppDispatchType, AppRootStateType } from "./redux/redux-store";
+import { Provider, connect } from "react-redux";
+import { AppDispatchType, AppRootStateType, store } from "./redux/redux-store";
 import { compose } from "redux";
 import { initializeAppTC } from "./redux/appReduser";
 import { Preloader } from "./components/common/Preloader/Preloader";
@@ -74,7 +74,22 @@ type MapStateToPropsType = {
 
 type AppPropsType = MapDispatchToPropsType & MapStateToPropsType;
 
-export default compose<React.ComponentType>(
+const AppContainer =  compose<React.ComponentType>(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps)
 )(App);
+
+export const SamurayJSApp = () => {
+  return (
+    <BrowserRouter>
+    <Provider store={store}>
+    <AppContainer/>
+    </Provider>  
+    </BrowserRouter>
+  )
+}
+//_________________________________________________________________________________________________
+// export default compose<React.ComponentType>(
+//   withRouter,
+//   connect(mapStateToProps, mapDispatchToProps)
+// )(App);

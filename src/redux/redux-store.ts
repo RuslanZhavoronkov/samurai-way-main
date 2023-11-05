@@ -1,5 +1,5 @@
 
-import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from "redux";
+import { AnyAction, applyMiddleware, combineReducers, compose, legacy_createStore } from "redux";
 import { ActionTypeProfile, profileReducer } from "./profileReducer";
 import { ActionTypeDialogs, dialogsReducer } from "./dialogsReducer";
 import { addFrendsSideBarACType, sideBarReduser } from "./sideBarReducer";
@@ -21,6 +21,10 @@ const rootReducer = combineReducers({ //создадим главный Reducer(
 }) 
    
 export type AppRootStateType = ReturnType<typeof rootReducer>
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : Window & typeof globalThis || compose;
+// export const store = legacy_createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+
 
 //Create middle ware
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))//создание объекта store с помощью Redux
