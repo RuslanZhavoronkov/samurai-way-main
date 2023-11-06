@@ -1,12 +1,10 @@
-import React from "react";
+import React, { LazyExoticComponent } from "react";
 import "./App.css";
 import { News } from "./components/News/News";
 import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { NavbarContainer } from "./components/Navbar/NavbarContainer";
-import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
-import { ProfileContainer } from "./components/Profile/ProfileContainer";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import { HeaderContainer } from "./components/Header/HeaderContainer";
 import { LoginContainer } from "./components/Login/Login";
@@ -15,7 +13,15 @@ import { AppDispatchType, AppRootStateType, store } from "./redux/redux-store";
 import { compose } from "redux";
 import { initializeAppTC } from "./redux/appReduser";
 import { Preloader } from "./components/common/Preloader/Preloader";
+import { ProfileContainer } from "./components/Profile/ProfileContainer";
+import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 
+
+//const DialogsContainer = React.lazy(async() =>(import('./components/Dialogs/DialogsContainer')) );
+//const DialogsContainer = React.lazy(async () => ({ default: (await import("./components/Dialogs/DialogsContainer")).DialogsContainer}))
+//const { DialogsContainer } = lazily(() => import('./screens/Products/List'))
+
+//const ProfileContainer = React.lazy(():Promise<any> => import("./components/Profile/ProfileContainer"));
 
 
 class App extends React.Component<AppPropsType> {
@@ -87,6 +93,10 @@ export const SamurayJSApp = () => {
     </Provider>  
     </BrowserRouter>
   )
+}
+
+function lazily(arg0: () => Promise<any>): { DialogsContainer: any; } {
+  throw new Error("Function not implemented.");
 }
 //_________________________________________________________________________________________________
 // export default compose<React.ComponentType>(
