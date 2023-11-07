@@ -85,12 +85,12 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
     }
 }
 
-export const ProfileContainer = compose<React.ComponentType>(
+ const ProfileContainer = compose<React.ComponentType>(
     withAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
 )(ProfileAPIComponent)
-
+export default ProfileContainer
 
 
 

@@ -28,8 +28,10 @@ const mapDispatchToProps = (dispatch: (action: ActionTypeDialogs) => void) => { 
 }
 
 
-export const DialogsContainer = compose<React.ComponentType>(
+const DialogsContainer = compose<React.ComponentType>(
     withAuthRedirect,
     connect(mapStateToProps,mapDispatchToProps)// connect это функция, которая возвращает HOC
 )(Dialogs)
+
+export default DialogsContainer
 

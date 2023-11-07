@@ -1,4 +1,4 @@
-import React, { LazyExoticComponent } from "react";
+import React, { ComponentType, Suspense } from "react";
 import "./App.css";
 import { News } from "./components/News/News";
 import { Music } from "./components/Music/Music";
@@ -13,15 +13,21 @@ import { AppDispatchType, AppRootStateType, store } from "./redux/redux-store";
 import { compose } from "redux";
 import { initializeAppTC } from "./redux/appReduser";
 import { Preloader } from "./components/common/Preloader/Preloader";
-import { ProfileContainer } from "./components/Profile/ProfileContainer";
-import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
+
+
+//import ProfileContainer  from "./components/Profile/ProfileContainer";
+//import { DialogsContainer } from "./components/Dialogs/DialogsContainer";
 
 
 //const DialogsContainer = React.lazy(async() =>(import('./components/Dialogs/DialogsContainer')) );
 //const DialogsContainer = React.lazy(async () => ({ default: (await import("./components/Dialogs/DialogsContainer")).DialogsContainer}))
-//const { DialogsContainer } = lazily(() => import('./screens/Products/List'))
 
-//const ProfileContainer = React.lazy(():Promise<any> => import("./components/Profile/ProfileContainer"));
+
+
+
+
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer")) 
+const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer")) 
 
 
 class App extends React.Component<AppPropsType> {
@@ -42,8 +48,16 @@ if (!this.props.isInitialized) {
         <HeaderContainer />
         <NavbarContainer />
         <div className={"app-wrapper-content"}>
-          <Route path={"/profile/:userId?"} component={ProfileContainer} />
-          <Route path={"/dialogs/"} component={DialogsContainer} />
+          <Route path={"/profile/:userId?"} render={()=> {
+            return <Suspense fallback={<div>Загрузка...</div>}>
+            <ProfileContainer />
+          </Suspense>
+          }} />
+          <Route path={"/dialogs/"} render={()=> {
+            return <Suspense fallback={<div>Загрузка...</div>}>
+            <DialogsContainer />
+          </Suspense>
+          }} />
           <Route path={"/users"} component={UsersContainer} />
           <Route path={"/news"} component={News} />
           <Route path={"/music"} component={Music} />
@@ -95,11 +109,10 @@ export const SamurayJSApp = () => {
   )
 }
 
-function lazily(arg0: () => Promise<any>): { DialogsContainer: any; } {
-  throw new Error("Function not implemented.");
-}
+
 //_________________________________________________________________________________________________
 // export default compose<React.ComponentType>(
 //   withRouter,
 //   connect(mapStateToProps, mapDispatchToProps)
 // )(App);
+
