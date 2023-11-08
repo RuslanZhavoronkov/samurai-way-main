@@ -1,4 +1,4 @@
-import React, { ComponentType, Suspense } from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import { News } from "./components/News/News";
 import { Music } from "./components/Music/Music";
@@ -49,12 +49,12 @@ if (!this.props.isInitialized) {
         <NavbarContainer />
         <div className={"app-wrapper-content"}>
           <Route path={"/profile/:userId?"} render={()=> {
-            return <Suspense fallback={<div>Загрузка...</div>}>
+            return <Suspense fallback={<Preloader/>}>
             <ProfileContainer />
           </Suspense>
           }} />
           <Route path={"/dialogs/"} render={()=> {
-            return <Suspense fallback={<div>Загрузка...</div>}>
+            return <Suspense fallback={<Preloader/>}>
             <DialogsContainer />
           </Suspense>
           }} />
