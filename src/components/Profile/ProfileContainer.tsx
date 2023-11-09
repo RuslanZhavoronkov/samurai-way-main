@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
-import { ProfileServerType, getProfileStatusTC, getUserProfileTC, updateProfileStatusTC } from "../../redux/profileReducer";
+import { ProfileServerType, getProfileStatusTC, getUserProfileTC, updateMyAvatarPhotoTC, updateProfileStatusTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
@@ -27,6 +27,7 @@ type MapDispatchPropsType = {
     getUserProfile: (userId: string | undefined) => void
     getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
+    updateMyAvatarPhoto: (image: File) => void
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
@@ -64,6 +65,7 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         
         return (
             <Profile 
+            updateMyAvatarPhoto = {this.props.updateMyAvatarPhoto}
             isOwner = {!this.props.match.params.userId}
             profileFromServer={this.props.profileFromServer}
             userStatus={this.props.userStatus}
@@ -93,6 +95,9 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
         },
         updateProfileStatus:(status: string) => {
             dispatch(updateProfileStatusTC(status))
+        },
+        updateMyAvatarPhoto: (image: File) => {
+            dispatch(updateMyAvatarPhotoTC(image))
         }
     }
 }

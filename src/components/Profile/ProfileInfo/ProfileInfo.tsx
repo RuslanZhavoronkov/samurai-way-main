@@ -6,10 +6,11 @@ import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user1.png";
 
 type ProfileInfoPropsType = {
-  profileFromServer: ProfileServerType;
-  userStatus: string;
-  updateProfileStatus: (status: string) => void;
-  isOwner: boolean;
+  profileFromServer: ProfileServerType
+  userStatus: string
+  updateProfileStatus: (status: string) => void
+  isOwner: boolean
+  updateMyAvatarPhoto: (image:File) => void
 };
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
@@ -17,6 +18,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   userStatus,
   updateProfileStatus,
   isOwner,
+  updateMyAvatarPhoto
 }) => {
 
   if (!profileFromServer) {
@@ -24,7 +26,10 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   }
 
   const loadingMyAvatar = (event: ChangeEvent<HTMLInputElement>) => {
-
+    if (event.target.files?.length) {
+     updateMyAvatarPhoto(event.target.files[0])
+    }
+    
   }
 
   return (

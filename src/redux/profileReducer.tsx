@@ -67,6 +67,11 @@ export const profileReducer = (
       };
     }
 
+    case "profile/UPDATE-MY-AVATAR-PHOTO": {
+      return {...state, profileFromServer: 
+        {...state.profileFromServer, photos:
+           {...state.profileFromServer.photos, large: action.payload.image}}}
+    }
     default: {
       return state;
     }
@@ -117,7 +122,31 @@ export const deletePostAC = (id: string) => {
   } as const;
 };
 
+export const updateMyAvatarPhotoAC = (image: string) => {
+  return {
+    type: "profile/UPDATE-MY-AVATAR-PHOTO",
+    payload: {
+      image
+    }
+  } as const
+} 
+
 //thunk
+
+export const updateMyAvatarPhotoTC = 
+(image: File) => async(dispatch: Dispatch<AppActionsType>) => {
+  try {
+const response = await profileAPI.updateMyAvatarPhoto(image)
+if (response.data.resultCode === 0) {
+  dispatch(updateMyAvatarPhotoAC(response.data.data.large))
+}
+  }
+  catch (e) {
+alert ('No photo')
+  }
+
+}
+
 export const getUserProfileTC =
   (userId: string | undefined) =>
   async (dispatch: Dispatch<AppActionsType>) => {
@@ -185,6 +214,7 @@ export type ProfilePageType = {
   status: string;
 };
 
+export type UpdateMyAvatarPhotoACType = ReturnType<typeof updateMyAvatarPhotoAC>
 export type AddPostACType = ReturnType<typeof addPostAC>;
 export type SetServerProfileACType = ReturnType<typeof setServerProfileAC>;
 export type GetProfileStatusACType = ReturnType<typeof getProfileStatusAC>;
@@ -197,4 +227,5 @@ export type ActionTypeProfile =
   | SetServerProfileACType
   | GetProfileStatusACType
   | UpdateProfileStatusACType
-  | DeletePostACType;
+  | DeletePostACType
+  | UpdateMyAvatarPhotoACType;

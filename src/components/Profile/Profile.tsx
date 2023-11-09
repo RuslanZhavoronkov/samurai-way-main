@@ -10,11 +10,13 @@ type ProfilePropsType = {
   userStatus: string
   updateProfileStatus:(status: string) => void
   isOwner: boolean
+  updateMyAvatarPhoto: (image: File) => void
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
   return (
     <div>
       <ProfileInfo
+      updateMyAvatarPhoto = {props.updateMyAvatarPhoto}
       isOwner = {props.isOwner}
       profileFromServer={props.profileFromServer} 
       userStatus={props.userStatus}   
