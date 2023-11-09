@@ -75,12 +75,16 @@ export const profileAPI = {
   },
   updateMyAvatarPhoto(image: File) {
     const formData = new FormData();
-    formData.append("image", image)
-    return instance.put<ResponseUpdateMyAvatarPhoto>(`/profile/photo`, formData, {
-      headers: {
-        'Content-Type':'multipart/form-data'
+    formData.append("image", image);
+    return instance.put<ResponseUpdateMyAvatarPhoto>(
+      `/profile/photo`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
-    } );
+    );
   },
 };
 
@@ -100,8 +104,10 @@ export type RequestPayloadLoginInType = {
 
 type ResponseUpdateMyAvatarPhoto = {
   data: {
-    small: string;
-    large: string;
+    photos: {
+      small: string;
+      large: string;
+    };
   };
   resultCode: number;
   messages: number;

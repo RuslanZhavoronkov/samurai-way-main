@@ -68,9 +68,19 @@ export const profileReducer = (
     }
 
     case "profile/UPDATE-MY-AVATAR-PHOTO": {
-      return {...state, profileFromServer: 
-        {...state.profileFromServer, photos:
-           {...state.profileFromServer.photos, large: action.payload.image}}}
+      console.log(action.payload);
+
+      return {
+        ...state,
+        profileFromServer: {
+          ...state.profileFromServer,
+          photos: action.payload.photos,
+        },
+      };
+
+      // return {...state, profileFromServer:
+      //   {...state.profileFromServer, photos:
+      //      {...state.profileFromServer.photos, large: action.payload.image}}}
     }
     default: {
       return state;
@@ -122,30 +132,33 @@ export const deletePostAC = (id: string) => {
   } as const;
 };
 
-export const updateMyAvatarPhotoAC = (image: string) => {
+export const updateMyAvatarPhotoAC = (photos: PhotoType) => {
+  debugger
   return {
     type: "profile/UPDATE-MY-AVATAR-PHOTO",
     payload: {
-      image
-    }
-  } as const
-} 
+      //image
+      photos,
+    },
+  } as const;
+};
 
 //thunk
 
-export const updateMyAvatarPhotoTC = 
-(image: File) => async(dispatch: Dispatch<AppActionsType>) => {
-  try {
-const response = await profileAPI.updateMyAvatarPhoto(image)
-if (response.data.resultCode === 0) {
-  dispatch(updateMyAvatarPhotoAC(response.data.data.large))
-}
-  }
-  catch (e) {
-alert ('No photo')
-  }
+export const updateMyAvatarPhotoTC =
+  (image: File) => async (dispatch: Dispatch<AppActionsType>) => {
+    try {
+      const response = await profileAPI.updateMyAvatarPhoto(image);
+      if (response.data.resultCode === 0) {
+        console.log(response.data.data);
 
-}
+        //dispatch(updateMyAvatarPhotoAC(response.data.data.large))
+        dispatch(updateMyAvatarPhotoAC(response.data.data.photos));
+      }
+    } catch (e) {
+      alert("No photo");
+    }
+  };
 
 export const getUserProfileTC =
   (userId: string | undefined) =>
@@ -188,14 +201,15 @@ export type PostType = {
 };
 
 type ContactsProfileType = {
-  facebook: string | null;
-  website: string | null;
-  vk: string | null;
-  twitter: string | null;
-  instagram: string | null;
-  youtube: string | null;
-  github: string | null;
-  mainLink: string | null;
+  // facebook: string | null
+  // website: string | null
+  // vk: string | null;
+  // twitter: string | null;
+  // instagram: string | null;
+  // youtube: string | null;
+  // github: string | null;
+  // mainLink: string | null;
+  [key: string]:string
 };
 
 export type ProfileServerType = {
@@ -214,7 +228,9 @@ export type ProfilePageType = {
   status: string;
 };
 
-export type UpdateMyAvatarPhotoACType = ReturnType<typeof updateMyAvatarPhotoAC>
+export type UpdateMyAvatarPhotoACType = ReturnType<
+  typeof updateMyAvatarPhotoAC
+>;
 export type AddPostACType = ReturnType<typeof addPostAC>;
 export type SetServerProfileACType = ReturnType<typeof setServerProfileAC>;
 export type GetProfileStatusACType = ReturnType<typeof getProfileStatusAC>;
