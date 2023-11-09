@@ -37,8 +37,8 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
         super(props)
     }
 
-    componentDidMount(): void {
-    
+    //Метод обновления аватарки
+    updateAvatar(){
         let userId = this.props.match.params.userId
 
         if (!userId) {
@@ -47,12 +47,24 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
 
         this.props.getUserProfile(userId)
         this.props.getProfileStatus(userId)
+    }
 
+    componentDidMount(): void {
+        //debugger
+     //Нажали в users еа аватарку -> redirect на profile -> получили userId -> загрузили для данного юзера информацию 
+       this.updateAvatar()
+    }
+     componentDidUpdate(prevProps: Readonly<ProfileAPIComponentPropsType>, prevState: Readonly<{}>, snapshot?: any): void {
+     //  debugger
+        if (this.props.match.params.userId !== prevProps.match.params.userId){
+             this.updateAvatar()
+        }
     }
     render() {
         
         return (
             <Profile 
+            isOwner = {!this.props.match.params.userId}
             profileFromServer={this.props.profileFromServer}
             userStatus={this.props.userStatus}
             updateProfileStatus = { this.props.updateProfileStatus}/>
@@ -96,3 +108,25 @@ export default ProfileContainer
 
 
 
+//____________________________________________________________________________________________________________
+// componentDidMount(): void {
+//     //Нажали в users еа аватарку -> redirect на profile -> получили userId -> загрузили для данного юзера информацию 
+//        let userId = this.props.match.params.userId
+
+//        if (!userId) {
+//           userId = `${this.props.autorizedUserId}`
+//        }
+
+//        this.props.getUserProfile(userId)
+//        this.props.getProfileStatus(userId)
+//    }
+//    componentDidUpdate(prevProps: Readonly<ProfileAPIComponentPropsType>, prevState: Readonly<{}>, snapshot?: any): void {
+//        let userId = this.props.match.params.userId
+
+//        if (!userId) {
+//           userId = `${this.props.autorizedUserId}`
+//        }
+
+//        this.props.getUserProfile(userId)
+//        this.props.getProfileStatus(userId)
+//    }

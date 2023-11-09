@@ -9,13 +9,13 @@ type ProfilePropsType = {
   profileFromServer: ProfileServerType
   userStatus: string
   updateProfileStatus:(status: string) => void
+  isOwner: boolean
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
-
-
   return (
     <div>
-      <ProfileInfo 
+      <ProfileInfo
+      isOwner = {props.isOwner}
       profileFromServer={props.profileFromServer} 
       userStatus={props.userStatus}   
       updateProfileStatus={props.updateProfileStatus}/>

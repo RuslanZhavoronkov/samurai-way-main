@@ -13,6 +13,7 @@ import { AppDispatchType, AppRootStateType, store } from "./redux/redux-store";
 import { compose } from "redux";
 import { initializeAppTC } from "./redux/appReduser";
 import { Preloader } from "./components/common/Preloader/Preloader";
+import { withSuspense } from "./hocs/withSuspense";
 
 
 //import ProfileContainer  from "./components/Profile/ProfileContainer";
@@ -48,16 +49,8 @@ if (!this.props.isInitialized) {
         <HeaderContainer />
         <NavbarContainer />
         <div className={"app-wrapper-content"}>
-          <Route path={"/profile/:userId?"} render={()=> {
-            return <Suspense fallback={<Preloader/>}>
-            <ProfileContainer />
-          </Suspense>
-          }} />
-          <Route path={"/dialogs/"} render={()=> {
-            return <Suspense fallback={<Preloader/>}>
-            <DialogsContainer />
-          </Suspense>
-          }} />
+          <Route path={"/profile/:userId?"} render={withSuspense(ProfileContainer)} />
+          <Route path={"/dialogs/"} render={withSuspense(DialogsContainer)} />
           <Route path={"/users"} component={UsersContainer} />
           <Route path={"/news"} component={News} />
           <Route path={"/music"} component={Music} />
@@ -108,11 +101,3 @@ export const SamurayJSApp = () => {
     </BrowserRouter>
   )
 }
-
-
-//_________________________________________________________________________________________________
-// export default compose<React.ComponentType>(
-//   withRouter,
-//   connect(mapStateToProps, mapDispatchToProps)
-// )(App);
-
