@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { PhotoType } from "./usersReducer";
-import { AppActionsType } from "./redux-store";
+import { AppActionsType, AppRootStateType } from "./redux-store";
 import { profileAPI } from "../api/api";
 import { ProfileDataFormType } from "../components/Profile/ProfileInfo/ProfileDataForm";
 
@@ -167,11 +167,13 @@ export const saveProfileDataAC = (formData: ProfileDataFormType) => {
 //thunk
 
 export const saveProfileDataTC = 
-(formData: ProfileDataFormType) => async (dispatch: Dispatch<AppActionsType> ) => {
+(formData: ProfileDataFormType) => 
+async (dispatch: Dispatch<AppActionsType>,getState:()=>  AppRootStateType) => {
   try {
     const response = await profileAPI.saveProfileData(formData)
     if (response.data.resultCode === 0) {
       dispatch(saveProfileDataAC(formData))
+     // dispatch(getUserProfileTC())
     } else{
       alert('Данные с сервера не пришли')
     }
