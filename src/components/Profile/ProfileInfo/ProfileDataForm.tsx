@@ -2,29 +2,25 @@ import { ProfileServerType } from "../../../redux/profileReducer";
 import { ContactsSocialNetwork } from "./ContactsSocialNetwork";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../../utils/validators/validators";
-import { Input, createField } from "../../common/FormsControls/FormsControls";
+import { Input, Textarea, createField } from "../../common/FormsControls/FormsControls";
 import s from "./ProfileInfo.module.css";
 
-type ProfileDataFormPropsType = {
-    profileFromServer: ProfileServerType
-    activateEditMode:()=> void
-    isOwner: boolean
-}
 
 
 export type ProfileDataFormType = {
-
+  fullName: string
+  lookingForAJob: boolean
+  lookingForAJobDescription: string
+  aboutMe: string
 }
 
 export const ProfileDataForm:
  React.FC<InjectedFormProps<ProfileDataFormType> > =
- () => {
-    const saveFormDataHandler = () => {
-        
-    } 
+ ({handleSubmit}) => {
+    
     return (
-        <form onSubmit={()=> {}}>
-        <div> <button onClick={saveFormDataHandler}>save</button></div> 
+        <form onSubmit={handleSubmit}>
+        <div> <button>save</button></div> 
         <div>
           <b>Full name</b>: <Field
           placeholder={"Full name"}
@@ -34,21 +30,31 @@ export const ProfileDataForm:
         />
         </div>
         <div>
-          <b>Looking for a job</b>:{" "}
-          {/* {profileFromServer.lookingForAJob ? "yes" : "no"}{" "} */}
+          <b>Looking for a job</b>:<Field
+          name={"lookingForAJob"}
+          validate={[]}
+          component={Input}
+          type={"checkbox"}
+        />
         </div>
-        {/* {profileFromServer.lookingForAJob && ( */}
           <div>
-            <b>My professional skills</b>:{" "}
-            {/* {profileFromServer.lookingForAJobDescription} */}
+            <b>My professional skills</b>:<Field
+          placeholder={"My proffessional skills"}
+          name={"lookingForAJobDescription"}
+          validate={[]}
+          component={Textarea}
+           />
           </div>
-        {/* )} */}
         <div>
-          <b>About me</b>:{" "}
-          {/* {profileFromServer.aboutMe ? profileFromServer.aboutMe : ""} */}
+          <b>About me</b>:<Field
+          placeholder={"About me"}
+          name={"aboutMe"}
+          validate={[]}
+          component={Textarea}
+           />
         </div>
         <div>
-          <b>Contacts</b>:{" "}
+          {/* <b>Contacts</b>:{" "} */}
           {/* {Object.keys(profileFromServer.contacts).map((key) => { */}
             {/* return (
               <ContactsSocialNetwork
@@ -65,6 +71,6 @@ export const ProfileDataForm:
 
 
 export const ProfileDataReduxForm = reduxForm<ProfileDataFormType>({
-    form: "login",
+    form: "edit-profile",
   })(ProfileDataForm);
   

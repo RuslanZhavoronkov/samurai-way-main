@@ -2,6 +2,7 @@ import React from "react";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 import { MyPostsConteiner } from "./MyPosts/MyPostsContainer";
 import { ProfileServerType } from "../../redux/profileReducer";
+import { ProfileDataFormType } from "./ProfileInfo/ProfileDataForm";
 
 
 
@@ -11,6 +12,7 @@ type ProfilePropsType = {
   updateProfileStatus:(status: string) => void
   isOwner: boolean
   updateMyAvatarPhoto: (image: File) => void
+  saveProfileData: (formData: ProfileDataFormType) => void
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
   return (
@@ -20,7 +22,10 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
       isOwner = {props.isOwner}
       profileFromServer={props.profileFromServer} 
       userStatus={props.userStatus}   
-      updateProfileStatus={props.updateProfileStatus}/>
+      updateProfileStatus={props.updateProfileStatus}
+      saveProfileData={props.saveProfileData}
+      
+      />
       <MyPostsConteiner />
     </div>
   );

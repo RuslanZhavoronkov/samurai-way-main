@@ -2,6 +2,9 @@ import { Dispatch } from "redux";
 import { PhotoType } from "./usersReducer";
 import { AppActionsType } from "./redux-store";
 import { profileAPI } from "../api/api";
+import { ProfileDataFormType } from "../components/Profile/ProfileInfo/ProfileDataForm";
+
+
 
 //initial state
 const initialState = {
@@ -82,6 +85,15 @@ export const profileReducer = (
       //   {...state.profileFromServer, photos:
       //      {...state.profileFromServer.photos, large: action.payload.image}}}
     }
+    case "SAVE-PROFILE-DATA": {
+      return {...state, profileFromServer: {...state.profileFromServer,
+         fullName: action.payload.formData.fullName,
+        lookingForAJob: action.payload.formData.lookingForAJob,
+        lookingForAJobDescription: action.payload.formData.lookingForAJobDescription,
+        aboutMe: action.payload.formData.aboutMe
+      }}
+    }
+
     default: {
       return state;
     }
@@ -143,7 +155,32 @@ export const updateMyAvatarPhotoAC = (photos: PhotoType) => {
   } as const;
 };
 
+export const saveProfileDataAC = (formData: ProfileDataFormType) => {
+  return {
+    type: 'SAVE-PROFILE-DATA',
+    payload: {
+      formData
+    }
+  } as const
+}
+
 //thunk
+
+export const saveProfileDataTC = 
+(formData: ProfileDataFormType) => async (dispatch: Dispatch<AppActionsType> ) => {
+  try {
+    const response = await profileAPI.saveProfileData(formData)
+    if (response.data.resultCode === 0) {
+      dispatch(saveProfileDataAC(formData))
+    } else{
+      alert('Данные с сервера не пришли')
+    }
+  } catch (e) {
+    alert("No ProfileUserData");
+  }
+}
+
+
 
 export const updateMyAvatarPhotoTC =
   (image: File) => async (dispatch: Dispatch<AppActionsType>) => {
@@ -238,10 +275,12 @@ export type UpdateProfileStatusACType = ReturnType<
   typeof updateProfileStatusAC
 >;
 export type DeletePostACType = ReturnType<typeof deletePostAC>;
+export type SaveProfileDataACType = ReturnType<typeof saveProfileDataAC>
 export type ActionTypeProfile =
   | AddPostACType
   | SetServerProfileACType
   | GetProfileStatusACType
   | UpdateProfileStatusACType
   | DeletePostACType
-  | UpdateMyAvatarPhotoACType;
+  | UpdateMyAvatarPhotoACType
+  | SaveProfileDataACType

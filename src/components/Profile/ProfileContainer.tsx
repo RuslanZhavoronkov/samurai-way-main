@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
-import { ProfileServerType, getProfileStatusTC, getUserProfileTC, updateMyAvatarPhotoTC, updateProfileStatusTC } from "../../redux/profileReducer";
+import { ProfileServerType, getProfileStatusTC, getUserProfileTC, saveProfileDataTC, updateMyAvatarPhotoTC, updateProfileStatusTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../hocs/withAuthRedirect";
+import { ProfileDataFormType } from "./ProfileInfo/ProfileDataForm";
 
 
 
@@ -28,6 +29,7 @@ type MapDispatchPropsType = {
     getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
     updateMyAvatarPhoto: (image: File) => void
+    saveProfileData: (formData: ProfileDataFormType) => void
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
@@ -69,7 +71,10 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
             isOwner = {!this.props.match.params.userId}
             profileFromServer={this.props.profileFromServer}
             userStatus={this.props.userStatus}
-            updateProfileStatus = { this.props.updateProfileStatus}/>
+            updateProfileStatus = { this.props.updateProfileStatus}
+            saveProfileData = {this.props.saveProfileData}
+            />
+            
         );
     }
 }
@@ -98,6 +103,9 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
         },
         updateMyAvatarPhoto: (image: File) => {
             dispatch(updateMyAvatarPhotoTC(image))
+        },
+        saveProfileData:(formData: ProfileDataFormType) => {
+            dispatch(saveProfileDataTC(formData))
         }
     }
 }

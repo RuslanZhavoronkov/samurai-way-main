@@ -5,6 +5,7 @@ import {
 } from "../redux/usersReducer";
 import { ProfileServerType } from "../redux/profileReducer";
 import { ResponseAuthMeServer } from "../redux/authReducer";
+import { ProfileDataFormType } from "../components/Profile/ProfileInfo/ProfileDataForm";
 
 const instance = axios.create({
   withCredentials: true,
@@ -86,6 +87,9 @@ export const profileAPI = {
       }
     );
   },
+  saveProfileData(formData: ProfileDataFormType){
+    return instance.put<ResponseUpdateStatus>(`profile`, formData);
+  }
 };
 
 //type

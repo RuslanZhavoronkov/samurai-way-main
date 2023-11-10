@@ -5,7 +5,7 @@ import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user1.png";
 import { ProfileInfoUserBlock } from "./ProfileInfoUserBlock";
-import { ProfileDataForm, ProfileDataReduxForm } from "./ProfileDataForm";
+import { ProfileDataForm, ProfileDataFormType, ProfileDataReduxForm } from "./ProfileDataForm";
 
 type ProfileInfoPropsType = {
   profileFromServer: ProfileServerType;
@@ -13,6 +13,7 @@ type ProfileInfoPropsType = {
   updateProfileStatus: (status: string) => void;
   isOwner: boolean;
   updateMyAvatarPhoto: (image: File) => void;
+  saveProfileData: (formData: ProfileDataFormType) => void
 };
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
@@ -21,6 +22,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   updateProfileStatus,
   isOwner,
   updateMyAvatarPhoto,
+  saveProfileData
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
 
@@ -37,6 +39,12 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   const activateEditMode = () => {
     setEditMode(true);
   };
+
+const onSubmit = (formData: ProfileDataFormType) => {
+  saveProfileData(formData)
+  setEditMode(false)
+}
+
   return (
     <div>
       <img
@@ -52,7 +60,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
       </div>
       {/* If editing mode is on, then show ProfileDataForm */}
       {editMode ? (
-        <ProfileDataReduxForm/>
+        <ProfileDataReduxForm initialValues={ profileFromServer} onSubmit={onSubmit}/>
       ) : (
         <ProfileInfoUserBlock
           profileFromServer={profileFromServer}
