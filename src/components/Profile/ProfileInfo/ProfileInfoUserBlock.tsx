@@ -5,24 +5,23 @@ import { ContactsSocialNetwork } from "./ContactsSocialNetwork";
 
 
 type ProfileInfoUserBlockPropsType = {
-    userStatus: string;
-    updateProfileStatus: (status: string) => void;
+    isOwner: boolean;
     profileFromServer: ProfileServerType;
+    activateEditMode:()=> void
   };
   
   export const ProfileInfoUserBlock: React.FC<ProfileInfoUserBlockPropsType> = ({
-    userStatus,
-    updateProfileStatus,
+    isOwner,
     profileFromServer,
+    activateEditMode
   }) => {
+
+    const activateEditModeHandler = () => {
+        activateEditMode()
+    } 
     return (
       <div className={s.profileInfo}>
-        <div className={s.descriptionBlock}>
-          <ProfileStatusWithHooks
-            status={userStatus}
-            updateProfileStatus={updateProfileStatus}
-          />
-        </div>
+        <div>{isOwner && <button onClick={activateEditModeHandler}>edit</button>}</div> {/*if we are on your page then show it button*/}
         <div>
           <b>Full name</b>: {profileFromServer.fullName}
         </div>

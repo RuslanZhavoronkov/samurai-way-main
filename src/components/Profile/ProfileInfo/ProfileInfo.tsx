@@ -1,13 +1,11 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useState } from "react";
 import s from "./ProfileInfo.module.css";
 import { ProfileServerType } from "../../../redux/profileReducer";
 import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user1.png";
-import { ContactsSocialNetwork } from "./ContactsSocialNetwork";
 import { ProfileInfoUserBlock } from "./ProfileInfoUserBlock";
-
-
+import { ProfileDataForm, ProfileDataReduxForm } from "./ProfileDataForm";
 
 type ProfileInfoPropsType = {
   profileFromServer: ProfileServerType;
@@ -24,6 +22,8 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   isOwner,
   updateMyAvatarPhoto,
 }) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+
   if (!profileFromServer) {
     return <Preloader />;
   }
@@ -34,6 +34,9 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
     }
   };
 
+  const activateEditMode = () => {
+    setEditMode(true);
+  };
   return (
     <div>
       <img
@@ -41,23 +44,30 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
         className={s.mainPhoto}
       />
       {isOwner && <input type={"file"} onChange={loadingMyAvatar} />}
-      <ProfileInfoUserBlock
-        userStatus={userStatus}
-        updateProfileStatus={updateProfileStatus}
-        profileFromServer={profileFromServer}
-      />
-
-      
-
+      <div className={s.descriptionBlock}>
+        <ProfileStatusWithHooks
+          status={userStatus}
+          updateProfileStatus={updateProfileStatus}
+        />
+      </div>
+      {/* If editing mode is on, then show ProfileDataForm */}
+      {editMode ? (
+        <ProfileDataReduxForm/>
+      ) : (
+        <ProfileInfoUserBlock
+          profileFromServer={profileFromServer}
+          isOwner={isOwner}
+          activateEditMode={activateEditMode}
+        />
+      )}
     </div>
   );
 };
 
-
-
 //___________________________________________________________________________________
 
-{/* <div className={s.profileInfo}>
+{
+  /* <div className={s.profileInfo}>
         <div className={s.descriptionBlock}>
           <ProfileStatusWithHooks
             status={userStatus}
@@ -93,4 +103,13 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
             );
           })}
         </div>
-      </div> */}
+      </div> */
+}
+
+{
+  /* <ProfileInfoUserBlock
+        activateEditMode = {activateEditMode}
+        isOwner={isOwner}
+        profileFromServer={profileFromServer}
+      /> */
+}
