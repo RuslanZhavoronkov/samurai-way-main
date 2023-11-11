@@ -38,6 +38,7 @@ export type AppActionsType = ActionTypeDialogs
 | addFrendsSideBarACType
 | AuthActionType
 | AppActionType
+
 //| FormAction
 
 //Create main type dispatch

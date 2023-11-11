@@ -4,6 +4,7 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { maxLengthCreator, required } from "../../../utils/validators/validators";
 import { Input, Textarea, createField } from "../../common/FormsControls/FormsControls";
 import s from "./ProfileInfo.module.css";
+import { useAppSelector } from "../../../hocs/hocs";
 
 
 
@@ -14,12 +15,13 @@ export type ProfileDataFormType = {
   aboutMe: string
 }
 
+
 export const ProfileDataForm:
- React.FC<InjectedFormProps<ProfileDataFormType> > =
- ({handleSubmit}) => {
-    
+ React.FC<InjectedFormProps<ProfileDataFormType>> =
+ (props) => {
+    const profileFromServer = useAppSelector(state => state.profilePage.profileFromServer)
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={props.handleSubmit}>
         <div> <button>save</button></div> 
         <div>
           <b>Full name</b>: <Field
@@ -54,16 +56,19 @@ export const ProfileDataForm:
            />
         </div>
         <div>
-          {/* <b>Contacts</b>:{" "} */}
-          {/* {Object.keys(profileFromServer.contacts).map((key) => { */}
-            {/* return (
-              <ContactsSocialNetwork
-                key={key}
-                contactTitle={key}
-                contactValue={profileFromServer.contacts[key]}
-              />
+          <b>Contacts</b>:{" "} 
+           {Object.keys(profileFromServer.contacts).map((key) => { 
+             return (
+              <div className={s.contact}>
+                <b>{key}:</b><Field
+          placeholder={key}
+          name={`contacts.${key}`}
+          validate={[]}
+          component={Input}
+        />
+              </div>
             );
-          })} */}
+          })}
         </div>
       </form>
     )

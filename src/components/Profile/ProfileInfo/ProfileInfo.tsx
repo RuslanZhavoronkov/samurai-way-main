@@ -60,7 +60,10 @@ const onSubmit = (formData: ProfileDataFormType) => {
       </div>
       {/* If editing mode is on, then show ProfileDataForm */}
       {editMode ? (
-        <ProfileDataReduxForm initialValues={ profileFromServer} onSubmit={onSubmit}/>
+        <ProfileDataReduxForm 
+        initialValues={ profileFromServer}
+         onSubmit={onSubmit}
+         />
       ) : (
         <ProfileInfoUserBlock
           profileFromServer={profileFromServer}

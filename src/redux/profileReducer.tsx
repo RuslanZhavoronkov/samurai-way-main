@@ -1,8 +1,10 @@
 import { Dispatch } from "redux";
 import { PhotoType } from "./usersReducer";
-import { AppActionsType, AppRootStateType } from "./redux-store";
+import { AppActionsType, AppDispatchType, AppRootStateType, AppThunkType } from "./redux-store";
 import { profileAPI } from "../api/api";
 import { ProfileDataFormType } from "../components/Profile/ProfileInfo/ProfileDataForm";
+import { AxiosError } from "axios";
+import { stopSubmit } from "redux-form";
 
 
 
@@ -165,20 +167,29 @@ export const saveProfileDataAC = (formData: ProfileDataFormType) => {
 }
 
 //thunk
+//(): AppThunkType => (dispatch:AppDispatchType)
+
 
 export const saveProfileDataTC = 
-(formData: ProfileDataFormType) => 
-async (dispatch: Dispatch<AppActionsType>,getState:()=>  AppRootStateType) => {
+(formData: ProfileDataFormType):AppThunkType => 
+async (dispatch: AppDispatchType,getState:()=>  AppRootStateType) => {
   try {
+    const userId = String(getState().auth.AuthInfoForRedux.data.id)
     const response = await profileAPI.saveProfileData(formData)
     if (response.data.resultCode === 0) {
-      dispatch(saveProfileDataAC(formData))
-     // dispatch(getUserProfileTC())
+      //dispatch(saveProfileDataAC(formData))
+     dispatch(getUserProfileTC(userId))
     } else{
-      alert('Данные с сервера не пришли')
+      let message =
+          response.data.messages.length > 0
+            ? response.data.messages[0]
+            : "Some error";
+      dispatch(stopSubmit("edit-profile", { _error: message }))
+      //alert(response.data.messages[0])
     }
   } catch (e) {
-    alert("No ProfileUserData");
+    const err = e as Error | AxiosError<{error:string}>
+    alert(err.message);
   }
 }
 
@@ -190,8 +201,6 @@ export const updateMyAvatarPhotoTC =
       const response = await profileAPI.updateMyAvatarPhoto(image);
       if (response.data.resultCode === 0) {
         console.log(response.data.data);
-
-        //dispatch(updateMyAvatarPhotoAC(response.data.data.large))
         dispatch(updateMyAvatarPhotoAC(response.data.data.photos));
       }
     } catch (e) {
