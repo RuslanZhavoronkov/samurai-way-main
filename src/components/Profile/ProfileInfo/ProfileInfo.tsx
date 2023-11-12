@@ -13,7 +13,7 @@ type ProfileInfoPropsType = {
   updateProfileStatus: (status: string) => void;
   isOwner: boolean;
   updateMyAvatarPhoto: (image: File) => void;
-  saveProfileData: (formData: ProfileDataFormType) => void
+  saveProfileData: (formData: ProfileDataFormType) => Promise<any>
 };
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
@@ -41,8 +41,10 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   };
 
 const onSubmit = (formData: ProfileDataFormType) => {
-  saveProfileData(formData)
+ saveProfileData(formData).then (()=>{
   setEditMode(false)
+ })
+   
 }
 
   return (

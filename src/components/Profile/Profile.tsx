@@ -12,7 +12,7 @@ type ProfilePropsType = {
   updateProfileStatus:(status: string) => void
   isOwner: boolean
   updateMyAvatarPhoto: (image: File) => void
-  saveProfileData: (formData: ProfileDataFormType) => void
+  saveProfileData: (formData: ProfileDataFormType) => Promise<any>
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
   return (

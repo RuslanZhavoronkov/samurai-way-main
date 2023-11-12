@@ -29,7 +29,7 @@ type MapDispatchPropsType = {
     getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
     updateMyAvatarPhoto: (image: File) => void
-    saveProfileData: (formData: ProfileDataFormType) => void
+    saveProfileData: (formData: ProfileDataFormType) => Promise<any>
 }
 
 type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
@@ -104,7 +104,7 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
         updateMyAvatarPhoto: (image: File) => {
             dispatch(updateMyAvatarPhotoTC(image))
         },
-        saveProfileData:(formData: ProfileDataFormType) => {
+        saveProfileData:(formData: ProfileDataFormType):any => {
             dispatch(saveProfileDataTC(formData))
         }
     }

@@ -172,19 +172,21 @@ export const saveProfileDataAC = (formData: ProfileDataFormType) => {
 
 export const saveProfileDataTC = 
 (formData: ProfileDataFormType):AppThunkType => 
-async (dispatch: AppDispatchType,getState:()=>  AppRootStateType) => {
+async (dispatch: AppDispatchType,getState:() => AppRootStateType) => {
   try {
     const userId = String(getState().auth.AuthInfoForRedux.data.id)
     const response = await profileAPI.saveProfileData(formData)
     if (response.data.resultCode === 0) {
       //dispatch(saveProfileDataAC(formData))
      dispatch(getUserProfileTC(userId))
-    } else{
+    } else {
       let message =
           response.data.messages.length > 0
             ? response.data.messages[0]
             : "Some error";
+           // dispatch(stopSubmit("edit-profile", {"contacts": {"facebook": response.data.messages[0]}}))
       dispatch(stopSubmit("edit-profile", { _error: message }))
+     return Promise.reject(response.data.messages[0])
       //alert(response.data.messages[0])
     }
   } catch (e) {

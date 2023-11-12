@@ -1,8 +1,5 @@
-import { ProfileServerType } from "../../../redux/profileReducer";
-import { ContactsSocialNetwork } from "./ContactsSocialNetwork";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { maxLengthCreator, required } from "../../../utils/validators/validators";
-import { Input, Textarea, createField } from "../../common/FormsControls/FormsControls";
+import { Input, Textarea } from "../../common/FormsControls/FormsControls";
 import s from "./ProfileInfo.module.css";
 import { useAppSelector } from "../../../hocs/hocs";
 
@@ -23,6 +20,7 @@ export const ProfileDataForm:
     return (
         <form onSubmit={props.handleSubmit}>
         <div> <button>save</button></div> 
+        {props.error && <div className={s.formSummaryError}>{props.error}</div>}
         <div>
           <b>Full name</b>: <Field
           placeholder={"Full name"}
@@ -59,7 +57,7 @@ export const ProfileDataForm:
           <b>Contacts</b>:{" "} 
            {Object.keys(profileFromServer.contacts).map((key) => { 
              return (
-              <div className={s.contact}>
+              <div key = {key} className={s.contact}>
                 <b>{key}:</b><Field
           placeholder={key}
           name={`contacts.${key}`}
