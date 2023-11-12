@@ -97,8 +97,8 @@ export let store: storeType = {
                 large: ''
                 }
                 },
-            status: ''   
-
+            status: '',
+            isEditMode: false  
         },
 
         dialogsPage: {
@@ -118,8 +118,6 @@ export let store: storeType = {
                 { id: '5', message: 'Yo' },
                 { id: '6', message: 'Yo' },
             ],
-
-           
 
         },
 

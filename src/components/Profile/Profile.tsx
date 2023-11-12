@@ -12,7 +12,9 @@ type ProfilePropsType = {
   updateProfileStatus:(status: string) => void
   isOwner: boolean
   updateMyAvatarPhoto: (image: File) => void
-  saveProfileData: (formData: ProfileDataFormType) => Promise<any>
+  saveProfileData: (formData: ProfileDataFormType) => void
+  isEditMode: boolean
+  changeEditMode: (isEditMode: boolean) => void
 }
 export const Profile: React.FC<ProfilePropsType> = (props) => {
   return (
@@ -24,7 +26,8 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
       userStatus={props.userStatus}   
       updateProfileStatus={props.updateProfileStatus}
       saveProfileData={props.saveProfileData}
-      
+      isEditMode = {props.isEditMode} 
+      changeEditMode = {props.changeEditMode}
       />
       <MyPostsConteiner />
     </div>

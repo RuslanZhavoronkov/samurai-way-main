@@ -5,7 +5,7 @@ import { Preloader } from "../../common/Preloader/Preloader";
 import { ProfileStatusWithHooks } from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user1.png";
 import { ProfileInfoUserBlock } from "./ProfileInfoUserBlock";
-import { ProfileDataForm, ProfileDataFormType, ProfileDataReduxForm } from "./ProfileDataForm";
+import { ProfileDataFormType, ProfileDataReduxForm } from "./ProfileDataForm";
 
 type ProfileInfoPropsType = {
   profileFromServer: ProfileServerType;
@@ -13,7 +13,9 @@ type ProfileInfoPropsType = {
   updateProfileStatus: (status: string) => void;
   isOwner: boolean;
   updateMyAvatarPhoto: (image: File) => void;
-  saveProfileData: (formData: ProfileDataFormType) => Promise<any>
+  saveProfileData: (formData: ProfileDataFormType) => void;
+  isEditMode : boolean
+  changeEditMode:(isEditMode: boolean) => void
 };
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
@@ -22,9 +24,11 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   updateProfileStatus,
   isOwner,
   updateMyAvatarPhoto,
-  saveProfileData
+  saveProfileData,
+  isEditMode,
+  changeEditMode
 }) => {
-  const [editMode, setEditMode] = useState<boolean>(false);
+ // const [editMode, setEditMode] = useState<boolean>(false);
 
   if (!profileFromServer) {
     return <Preloader />;
@@ -37,15 +41,12 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
   };
 
   const activateEditMode = () => {
-    setEditMode(true);
+    changeEditMode(true);
   };
 
-const onSubmit = (formData: ProfileDataFormType) => {
- saveProfileData(formData).then (()=>{
-  setEditMode(false)
- })
-   
-}
+  const onSubmit = (formData: ProfileDataFormType) => {
+    saveProfileData(formData);
+  };
 
   return (
     <div>
@@ -61,11 +62,11 @@ const onSubmit = (formData: ProfileDataFormType) => {
         />
       </div>
       {/* If editing mode is on, then show ProfileDataForm */}
-      {editMode ? (
-        <ProfileDataReduxForm 
-        initialValues={ profileFromServer}
-         onSubmit={onSubmit}
-         />
+      { isEditMode ? (
+        <ProfileDataReduxForm
+          initialValues={profileFromServer}
+          onSubmit={onSubmit}
+        />
       ) : (
         <ProfileInfoUserBlock
           profileFromServer={profileFromServer}

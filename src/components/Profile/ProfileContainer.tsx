@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { AppDispatchType, AppRootStateType } from "../../redux/redux-store";
-import { ProfileServerType, getProfileStatusTC, getUserProfileTC, saveProfileDataTC, updateMyAvatarPhotoTC, updateProfileStatusTC } from "../../redux/profileReducer";
+import { ProfileServerType, changeEditModeAC, getProfileStatusTC, getUserProfileTC, saveProfileDataTC, updateMyAvatarPhotoTC, updateProfileStatusTC } from "../../redux/profileReducer";
 import { Profile } from "./Profile";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../hocs/withAuthRedirect";
 import { ProfileDataFormType } from "./ProfileInfo/ProfileDataForm";
-
-
 
 
 
@@ -22,6 +20,7 @@ type MapStatePropsType = {
     userStatus: string
     autorizedUserId: number | null
     isAuth: boolean
+    isEditMode: boolean
 }
 
 type MapDispatchPropsType = {
@@ -29,11 +28,13 @@ type MapDispatchPropsType = {
     getProfileStatus: (userId: string | undefined) => void
     updateProfileStatus:(status: string) => void
     updateMyAvatarPhoto: (image: File) => void
-    saveProfileData: (formData: ProfileDataFormType) => Promise<any>
+    saveProfileData: (formData: ProfileDataFormType) => void
+    changeEditMode: (isEditMode: boolean) => void
 }
 
-type ProfileAPIComponentPropsType = MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>
-
+type ProfileAPIComponentPropsType = MapStatePropsType
+& MapDispatchPropsType
+& RouteComponentProps<PathParamsType>
 
 export class ProfileAPIComponent extends React.Component<ProfileAPIComponentPropsType> {
     constructor(props: ProfileAPIComponentPropsType) {
@@ -73,6 +74,8 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
             userStatus={this.props.userStatus}
             updateProfileStatus = { this.props.updateProfileStatus}
             saveProfileData = {this.props.saveProfileData}
+            isEditMode = {this.props.isEditMode}
+            changeEditMode = {this.props.changeEditMode}
             />
             
         );
@@ -80,13 +83,13 @@ export class ProfileAPIComponent extends React.Component<ProfileAPIComponentProp
 }
 
 
-
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
         profileFromServer: state.profilePage.profileFromServer,
         userStatus: state.profilePage.status,
         autorizedUserId: state.auth.AuthInfoForRedux.data.id,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        isEditMode: state.profilePage.isEditMode
     }
 }
 
@@ -104,8 +107,11 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchPropsType => 
         updateMyAvatarPhoto: (image: File) => {
             dispatch(updateMyAvatarPhotoTC(image))
         },
-        saveProfileData:(formData: ProfileDataFormType):any => {
+        saveProfileData:(formData: ProfileDataFormType) => {
             dispatch(saveProfileDataTC(formData))
+        },
+        changeEditMode: (isEditMode: boolean) => {
+            dispatch(changeEditModeAC(isEditMode))
         }
     }
 }

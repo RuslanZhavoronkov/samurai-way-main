@@ -29,7 +29,8 @@ import { ProfilePageType, addPostAC, deletePostAC, profileReducer } from "./prof
             large: ''
             }
             },
-            status: ''   
+            status: '',
+            isEditMode: false  
     }
     
 

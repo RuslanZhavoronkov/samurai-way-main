@@ -36,6 +36,7 @@ const initialState = {
     },
   },
   status: "",
+  isEditMode: false
 };
 
 //reducer
@@ -95,7 +96,9 @@ export const profileReducer = (
         aboutMe: action.payload.formData.aboutMe
       }}
     }
-
+case "profile/CHANGE-EDIT-MODE": {
+  return {...state, isEditMode: action.payload.isEditMode}
+}
     default: {
       return state;
     }
@@ -103,6 +106,15 @@ export const profileReducer = (
 };
 
 //action-creator
+export const changeEditModeAC = (isEditMode: boolean) => {
+return {
+  type: 'profile/CHANGE-EDIT-MODE',
+  payload: {
+    isEditMode: isEditMode
+  }
+} as const
+}
+
 export const addPostAC = (newPostText: string) => {
   return {
     type: "profile/ADD-POST",
@@ -179,6 +191,7 @@ async (dispatch: AppDispatchType,getState:() => AppRootStateType) => {
     if (response.data.resultCode === 0) {
       //dispatch(saveProfileDataAC(formData))
      dispatch(getUserProfileTC(userId))
+     dispatch(changeEditModeAC(false))
     } else {
       let message =
           response.data.messages.length > 0
@@ -186,7 +199,7 @@ async (dispatch: AppDispatchType,getState:() => AppRootStateType) => {
             : "Some error";
            // dispatch(stopSubmit("edit-profile", {"contacts": {"facebook": response.data.messages[0]}}))
       dispatch(stopSubmit("edit-profile", { _error: message }))
-     return Promise.reject(response.data.messages[0])
+     //return Promise.reject(response.data.messages[0])
       //alert(response.data.messages[0])
     }
   } catch (e) {
@@ -275,7 +288,8 @@ export type ProfileServerType = {
 export type ProfilePageType = {
   posts: PostType[];
   profileFromServer: ProfileServerType;
-  status: string;
+  status: string
+  isEditMode: boolean
 };
 
 export type UpdateMyAvatarPhotoACType = ReturnType<
@@ -289,6 +303,7 @@ export type UpdateProfileStatusACType = ReturnType<
 >;
 export type DeletePostACType = ReturnType<typeof deletePostAC>;
 export type SaveProfileDataACType = ReturnType<typeof saveProfileDataAC>
+export type ChangeEditModeACType = ReturnType<typeof changeEditModeAC>
 export type ActionTypeProfile =
   | AddPostACType
   | SetServerProfileACType
@@ -297,3 +312,4 @@ export type ActionTypeProfile =
   | DeletePostACType
   | UpdateMyAvatarPhotoACType
   | SaveProfileDataACType
+  | ChangeEditModeACType
