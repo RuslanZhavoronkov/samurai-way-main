@@ -5,7 +5,7 @@ import { Music } from "./components/Music/Music";
 import { Settings } from "./components/Settings/Settings";
 import { NavbarContainer } from "./components/Navbar/NavbarContainer";
 import { UsersContainer } from "./components/Users/UsersContainer";
-import { BrowserRouter, Route, withRouter } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch, withRouter } from "react-router-dom";
 import { HeaderContainer } from "./components/Header/HeaderContainer";
 import { LoginContainer } from "./components/Login/Login";
 import { Provider, connect } from "react-redux";
@@ -49,6 +49,8 @@ if (!this.props.isInitialized) {
         <HeaderContainer />
         <NavbarContainer />
         <div className={"app-wrapper-content"}>
+          <Switch>
+          <Route exact path={"/"} render={() => <Redirect to ={'/profile'}/>} />
           <Route path={"/profile/:userId?"} render={withSuspense(ProfileContainer)} />
           <Route path={"/dialogs/"} render={withSuspense(DialogsContainer)} />
           <Route path={"/users"} component={UsersContainer} />
@@ -56,6 +58,7 @@ if (!this.props.isInitialized) {
           <Route path={"/music"} component={Music} />
           <Route path={"/settings"} component={Settings} />
           <Route path={"/login"} component={LoginContainer} />
+          </Switch>
         </div>
       </div>
     );
