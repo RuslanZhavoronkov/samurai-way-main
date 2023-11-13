@@ -31,11 +31,13 @@ type MapDispatchPropsType = {
 
 type MapStatePropsType = {
   isAuth: boolean;
+  captchaUrl: null|string
 };
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
   return {
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    captchaUrl: state.auth.captchaUrl
   };
 };
 

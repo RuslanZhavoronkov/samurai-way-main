@@ -92,7 +92,20 @@ export const profileAPI = {
   }
 };
 
+export const securityAPI = {
+  getCaptchaUrl(){
+    return instance.get<ResponsesecurityAPIType>(`security/get-captcha-url`)
+  }
+}
+
+
+
 //type
+type ResponsesecurityAPIType = {
+  url: string
+}
+
+
 type ResponseUpdateStatus = {
   resultCode: number;
   messages: string[];
@@ -103,7 +116,7 @@ export type RequestPayloadLoginInType = {
   email: string;
   password: string;
   rememberMe: boolean;
-  captcha?: boolean;
+  captcha?: string;
 };
 
 type ResponseUpdateMyAvatarPhoto = {

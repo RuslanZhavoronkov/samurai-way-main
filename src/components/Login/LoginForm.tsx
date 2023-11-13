@@ -2,6 +2,7 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { Input, createField } from "../common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../../utils/validators/validators";
 import s from "../common/FormsControls/FormControls.module.css";
+import { useAppSelector } from "../../hocs/hocs";
 
 export type FormDataType = {
   email: string;
@@ -14,6 +15,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({
   handleSubmit,
   error,
 }) => {
+  const captchaUrl = useAppSelector(state => state.auth.captchaUrl)
   return (
     <form onSubmit={handleSubmit}>
       {/* {createField("Email", "email", [required], Input)} */}
@@ -45,6 +47,16 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({
         />{" "}
         remember me
       </div>
+
+      {captchaUrl && <img src = {captchaUrl}/>}
+      {captchaUrl &&  <div>
+        <Field
+          placeholder={"Symbols from image"}
+          name={"captcha"}
+          validate={[required]}
+          component={Input}                                                    
+        />
+      </div>}
 
       {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
